@@ -7,6 +7,7 @@ import vn.fis.training.store.InMemoryCustomerStore;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.UUID;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -33,10 +34,11 @@ public class SimpleCustomerService implements CustomerService {
     @Override
     public Customer createCustomer(Customer customer) throws Exception {
         List<Customer> customers = customerStore.findAll();
+        UUID uuid = UUID.randomUUID();
         Customer customer1 = new Customer();
         String phone = "^[0]( *[\\d] *){9}$";
         String name = "^[a-zA-Z ]{5,50}$";
-        customer1.setId(customer.getId());
+        customer1.setId(uuid.toString());
         customer1.setStatus(customer.getStatus());
         customer1.setCreateDateTime(customer.getCreateDateTime());
         if (customer.getBirthDay().getYear() < 2013) {
