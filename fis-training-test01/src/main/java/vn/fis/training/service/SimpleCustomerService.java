@@ -32,6 +32,7 @@ public class SimpleCustomerService implements CustomerService {
 
     @Override
     public Customer createCustomer(Customer customer) throws Exception {
+        List<Customer> customers = customerStore.findAll();
         Customer customer1 = new Customer();
         String phone = "^[0]( *[\\d] *){9}$";
         String name = "^[a-zA-Z ]{5,50}$";
@@ -49,7 +50,14 @@ public class SimpleCustomerService implements CustomerService {
             throw new Exception("ten khong kha dung");
         }
         if (Pattern.matches(phone, customer.getMobile())) {
-            customer1.setMobile(customer.getMobile());
+            for (Customer customer2 : customers) {
+                if (customer.getMobile().equals(customer2.getMobile())) {
+                    throw new Exception("sdt da ton tai");
+                } else {
+                    customer1.setMobile(customer.getMobile());
+                    break;
+                }
+            }
         } else {
             throw new Exception("so dien thoai khong kha dung");
         }
