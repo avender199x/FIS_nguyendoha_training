@@ -1,122 +1,127 @@
-package vn.fis.training.domain;
+package vn.fis.training.service;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import vn.fis.training.domain.Customer;
+import vn.fis.training.exception.CustomerNotFoundException;
+import vn.fis.training.store.InMemoryCustomerStore;
 
-public class Customer {
-    /**
-     * ID cua Customer la duy nhat trong toan bo he thong
-     * Su dung @java.util.UUID de tao id gan cho tung customer
-     */
-    private String id;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.UUID;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
-    /**
-     * Constraints:
-     * 1. Khong duoc trong (NOT NULL OR BLANK)
-     * 2. Do dai tu tu 5 den 50 ky tu, chi bao gom ky tu a->z, A->Z va khong trang (Blank).
-     * 3. Truoc khi cap nhat vao he thong truong ten phai duoc chuan hoa.
-     * Qui tac chuan hoa:
-     * . Bo cac ky tu trang o dau va cuoi
-     * . Upper case chu cai dau tien truoc cac tu
-     * VD: nGuyen van    BinH      -> Nguyen Van Binh
-     **/
-    private String name;
-    /**
-     * Constraints:
-     * 1. Khong duoc trong
-     * 2. Tinh toan de khong cho phep nhap Customer nho hon 10 tuoi so voi thoi diem hien tai
-     **/
-    private LocalDate birthDay;
-    /**
-     * Constraints:
-     * 1. Do dai 10 ky tu bat dau bang ky tu 0, chi bao gom cac so tu 0->9
-     * 2. So dien thoai la duy nhat trong toan bo he thong. Duoc su dung de kiem tra duplicate khach hang
-     * 3. Chuan hoa lai truong so dien thoai truoc khi cap nhat vao he thong. Bo cac ky tu trang o dau, giua va cuoi
-     * Vidu: 0921 000 008 --> 0921000008
-     */
-    private String mobile;
+public class SimpleCustomerService implements CustomerService {
 
-    /**
-     * Constraints:
-     * NOT NULL
-     */
+    private InMemoryCustomerStore customerStore;
 
-    private CustomerStatus status;
-
-    /**
-     * Thoi gian tao doi tuong. mac dinh la thoi diem hien tai
-     */
-
-    private LocalDateTime createDateTime;
-
-    public Customer(String id, String name, LocalDate birthDay, String mobile, CustomerStatus status, LocalDateTime createDateTime) {
-        this.id = id;
-        this.name = name.trim();
-        this.birthDay = birthDay;
-        this.mobile = mobile.replaceAll(" ", "");
-        this.status = status;
-        this.createDateTime = createDateTime;
-    }
-
-    public Customer() {
-
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name.trim();
-    }
-
-    public LocalDate getBirthDay() {
-        return birthDay;
-    }
-
-    public void setBirthDay(LocalDate birthDay) {
-        this.birthDay = birthDay;
-    }
-
-    public String getMobile() {
-        return mobile;
-    }
-
-    public void setMobile(String mobile) {
-        this.mobile = mobile.replaceAll(" ", "");
-    }
-
-    public CustomerStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(CustomerStatus status) {
-        this.status = status;
-    }
-
-    public LocalDateTime getCreateDateTime() {
-        return createDateTime;
-    }
-
-    public void setCreateDateTime(LocalDateTime createDateTime) {
-        this.createDateTime = createDateTime;
+    @Override
+    public Customer findById(String id) throws Exception {
+        List<Customer> customers = customerStore.findAll();
+        Customer customer = null;
+        for (Customer customer1 : customers) {
+            if (customer1.getId().equals(id.trim())) {
+                customer = customer1;
+            }
+        }
+        if (customer != null) {
+            return customer;
+        } else {
+            throw new Exception("Id khong ton tai");
+        }
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Customer customer = (Customer) o;
-        return id.equals(customer.id) && name.equals(customer.name) && birthDay.equals(customer.birthDay) && mobile.equals(customer.mobile) && status == customer.status && createDateTime.equals(customer.createDateTime);
+    public Customer createCustomer(Customer customer) throws Exception {
+        if (customer.getName() == null || customer.getStatus() == null || customer.getMobile() == null || customer.getBirthDay() == null) {
+            throw new Exception("loi co phan tu rong ton tai");
+        }
+        List<Customer> customers = customerStore.findAll();
+        UUID uuid = UUID.randomUUID();
+        Customer customer1 = new Customer();
+        String phone = "^[0]( *[\\d] *){9}$";
+        String name = "^[a-zA-Z ]{5,50}$";
+        customer1.setId(uuid.toString());
+        customer1.setStatus(customer.getStatus());
+        customer1.setCreateDateTime(customer.getCreateDateTime());
+        if (customer.getBirthDay().getYear() < 2013) {
+            customer1.setBirthDay(customer.getBirthDay());
+        } else {
+            throw new Exception("tuoi ko kha dung");
+        }
+        if (Pattern.matches(name, customer.getName())) {
+            customer1.setName(customer.getName());
+        } else {
+            throw new Exception("ten khong kha dung");
+        }
+        if (Pattern.matches(phone, customer.getMobile())) {
+            for (Customer customer2 : customers) {
+                if (customer.getMobile().equals(customer2.getMobile())) {
+                    throw new Exception("sdt da ton tai");
+                } else {
+                    customer1.setMobile(customer.getMobile());
+                    break;
+                }
+            }
+        } else {
+            throw new Exception("so dien thoai khong kha dung");
+        }
+        return customerStore.insertOrUpdate(customer1);
     }
 
-    // TODO: Implement Getters, Setters, Constructors, Equals
+    @Override
+    public Customer updateCustomer(Customer customer) throws Exception {
+        List<Customer> customers = customerStore.findAll();
+        List<Customer> checkuser = customers.stream().filter(customer1 -> customer1.getId().equals(customer.getId())).collect(Collectors.toList());
+        if (checkuser != null) {
+            customerStore.insertOrUpdate(customer);
+        } else {
+            throw new Exception("Id khong ton tai");
+        }
+        return customer;
+    }
+
+    @Override
+    public void deleteCustomerById(String id) throws Exception {
+        List<Customer> customers = customerStore.findAll();
+        List<Customer> checkuser = customers.stream().filter(customer -> customer.getId().equals(id)).collect(Collectors.toList());
+        if (checkuser != null) {
+            customerStore.deleteById(id);
+        } else {
+            throw new Exception("Id khong ton tai");
+        }
+    }
+
+    @Override
+    public List<Customer> findAllOrderByNameAsc() {
+        List<Customer> customers = customerStore.findAll();
+        List<Customer> findallasc = customers.stream().sorted(Comparator.comparing(Customer::getName)).collect(Collectors.toList());
+        return findallasc;
+    }
+
+    @Override
+    public List<Customer> findAllOrderByNameLimit(int limit) {
+        List<Customer> customers = customerStore.findAll();
+        List<Customer> FindAllByNameLimit = customers.stream().sorted(Comparator.comparing(Customer::getName)).limit(limit).collect(Collectors.toList());
+        return FindAllByNameLimit;
+    }
+
+    @Override
+    public List<Customer> findAllCustomerByNameLikeOrderByNameAsc(String custName, int limit) {
+        List<Customer> customers = customerStore.findAll();
+        List<Customer> danhsachten = customers.stream().filter(customer -> customer.getName().equals(custName)).collect(Collectors.toList());
+        List<Customer> danhsachkhac = customers.stream().filter(customer -> customer.getName() != custName).sorted(Comparator.comparing(Customer::getName)).collect(Collectors.toList());
+        for (Customer customer : danhsachkhac) {
+            danhsachten.add(customer);
+        }
+        danhsachten = danhsachten.stream().limit(limit).collect(Collectors.toList());
+        return danhsachten;
+    }
+
+    @Override
+    public List<SummaryCustomerByAgeDTO> summaryCustomerByAgeOrderByAgeDesc() {
+
+        return null;
+    }
+
 }
