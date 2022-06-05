@@ -50,7 +50,7 @@ public class Customer {
     private LocalDateTime createDateTime;
 
     public Customer(String id, String name, LocalDate birthDay, String mobile, CustomerStatus status, LocalDateTime createDateTime) {
-        this.id = id;
+        this.id = id.replaceAll(" ", "");
         this.name = name.trim();
         this.birthDay = birthDay;
         this.mobile = mobile.replaceAll(" ", "");
@@ -67,7 +67,7 @@ public class Customer {
     }
 
     public void setId(String id) {
-        this.id = id;
+        this.id = id.replaceAll(" ","");
     }
 
     public String getName() {
