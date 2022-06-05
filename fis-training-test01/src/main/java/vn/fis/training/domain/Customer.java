@@ -34,7 +34,7 @@ public class SimpleCustomerService implements CustomerService {
     @Override
     public Customer createCustomer(Customer customer) throws Exception {
         if (customer.getName() == null || customer.getStatus() == null || customer.getMobile() == null || customer.getBirthDay() == null) {
-            throw new Exception("loi co phan tu rong ton tai");
+            throw new Exception("Error !!!  muc khong duoc de trong");
         }
         List<Customer> customers = customerStore.findAll();
         UUID uuid = UUID.randomUUID();
