@@ -53,7 +53,7 @@ public class Customer {
         this.id = id;
         this.name = name;
         this.birthDay = birthDay;
-        this.mobile = mobile.trim();
+        this.mobile = mobile.replaceAll(" ", "");
         this.status = status;
         this.createDateTime = createDateTime;
     }
@@ -91,7 +91,7 @@ public class Customer {
     }
 
     public void setMobile(String mobile) {
-        this.mobile = mobile.trim();
+        this.mobile = mobile.replaceAll(" ", "");
     }
 
     public CustomerStatus getStatus() {
