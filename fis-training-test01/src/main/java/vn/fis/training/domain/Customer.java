@@ -51,7 +51,7 @@ public class Customer {
 
     public Customer(String id, String name, LocalDate birthDay, String mobile, CustomerStatus status, LocalDateTime createDateTime) {
         this.id = id;
-        this.name = name;
+        this.name = name.trim();
         this.birthDay = birthDay;
         this.mobile = mobile.replaceAll(" ", "");
         this.status = status;
@@ -75,7 +75,7 @@ public class Customer {
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = name.trim();
     }
 
     public LocalDate getBirthDay() {
