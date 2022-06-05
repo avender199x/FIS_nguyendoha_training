@@ -106,12 +106,12 @@ public class SimpleCustomerService implements CustomerService {
     @Override
     public List<Customer> findAllCustomerByNameLikeOrderByNameAsc(String custName, int limit) {
         List<Customer> customers = customerStore.findAll();
-        List<Customer> danhsachten = customers.stream().filter(customer -> customer.getName().equals(custName)).limit(limit).collect(Collectors.toList());
-        for (Customer customer : customers) {
-            if (customer.getName() != custName) {
-                danhsachten.add(customer);
-            }
+        List<Customer> danhsachten = customers.stream().filter(customer -> customer.getName().equals(custName)).collect(Collectors.toList());
+        List<Customer> danhsachkhac = customers.stream().filter(customer -> customer.getName() != custName).sorted(Comparator.comparing(Customer::getName)).collect(Collectors.toList());
+        for (Customer customer : danhsachkhac) {
+            danhsachten.add(customer);
         }
+        danhsachten = danhsachten.stream().limit(limit).collect(Collectors.toList());
         return danhsachten;
     }
 
