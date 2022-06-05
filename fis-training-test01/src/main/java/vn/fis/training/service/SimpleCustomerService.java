@@ -92,14 +92,14 @@ public class SimpleCustomerService implements CustomerService {
     @Override
     public List<Customer> findAllOrderByNameAsc() {
         List<Customer> customers = customerStore.findAll();
-        List<Customer> findallasc = customers.stream().sorted(Comparator.comparing(Customer::getId)).collect(Collectors.toList());
+        List<Customer> findallasc = customers.stream().sorted(Comparator.comparing(Customer::getName)).collect(Collectors.toList());
         return findallasc;
     }
 
     @Override
     public List<Customer> findAllOrderByNameLimit(int limit) {
         List<Customer> customers = customerStore.findAll();
-        List<Customer> FindAllByNameLimit = customers.stream().sorted(Comparator.comparing(Customer::getId)).limit(limit).collect(Collectors.toList());
+        List<Customer> FindAllByNameLimit = customers.stream().sorted(Comparator.comparing(Customer::getName)).limit(limit).collect(Collectors.toList());
         return FindAllByNameLimit;
     }
 
