@@ -9,8 +9,10 @@ import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -18,7 +20,7 @@ import static java.time.LocalDateTime.*;
 
 public class JDBCCriminalCaseDAO implements ICriminalCaseDAO {
     private final static Logger logger = LoggerFactory.getLogger(JDBCCriminalCaseDAO.class);
-
+    private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     @Override
     public void save(CriminalCase criminalCase) {
@@ -29,10 +31,10 @@ public class JDBCCriminalCaseDAO implements ICriminalCaseDAO {
                             "INSERT INTO criminal_case" +
                                     "(created_at,detail_description,modified_at,notes,number,short_description,status,type,lead_investigator_one)" +
                                     "VALUES (?,?,?,?,?,?,?,?,?)");
-            preparedStatement.setString(1, String.valueOf(criminalCase.getCreatedAt()));
+            preparedStatement.setTimestamp(1, Timestamp.valueOf(criminalCase.getCreatedAt().format(dateTimeFormatter)));
             preparedStatement.setString(2, criminalCase.getDetailedDescription());
-            preparedStatement.setString(3, String.valueOf(criminalCase.getModifiedAt()));
-            preparedStatement.setString(4, criminalCase.getNotes());
+            preparedStatement.setTimestamp(3, Timestamp.valueOf(criminalCase.getModifiedAt().format(dateTimeFormatter)));
+            preparedStatement.setString(4, criminalCase.getNotes().toLowerCase(Locale.ROOT));
             preparedStatement.setString(5, criminalCase.getNumber());
             preparedStatement.setString(6, criminalCase.getShortDescription());
             preparedStatement.setString(7, String.valueOf(criminalCase.getStatus()));
@@ -40,18 +42,16 @@ public class JDBCCriminalCaseDAO implements ICriminalCaseDAO {
             preparedStatement.setObject(9, criminalCase.getLeadInvestigator());
             int check = preparedStatement.executeUpdate();
             if (check == 0) {
-                throw new RuntimeException("loi tao database !!!");
+                logger.info("Loi tao db");
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e.toString());
         }
     }
 
     @Override
     public Optional<CriminalCase> get(long id) {
-        Optional<CriminalCase> findbyid =
-                getAll().stream().filter(criminalCase -> criminalCase.getId() == id).findFirst();
-        return findbyid;
+        return getAll().stream().filter(criminalCase -> criminalCase.getId() == id).findFirst();
     }
 
     @Override
@@ -94,10 +94,10 @@ public class JDBCCriminalCaseDAO implements ICriminalCaseDAO {
             preparedStatement1.setInt(10, (int) criminalCase.getId());
             int check = preparedStatement1.executeUpdate();
             if (check == 0) {
-                throw new RuntimeException("loi update database !!!");
+                logger.info("loi update database !!!");
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e.toString());
         }
     }
 
@@ -109,10 +109,7 @@ public class JDBCCriminalCaseDAO implements ICriminalCaseDAO {
                     connection.prepareStatement(
                             "DELETE criminal_case WHERE id=?");
             preparedStatement3.setInt(1, (int) criminalCase.getId());
-            int check = preparedStatement3.executeUpdate();
-            if (check == 0) {
-                throw new RuntimeException("loi xoa database !!!");
-            }
+            preparedStatement3.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -127,9 +124,6 @@ public class JDBCCriminalCaseDAO implements ICriminalCaseDAO {
                             "DELETE criminal_case WHERE id=?");
             preparedStatement3.setInt(1, (int) id);
             int check = preparedStatement3.executeUpdate();
-            if (check == 0) {
-                throw new RuntimeException("loi xoa database !!!");
-            }
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -6,21 +6,19 @@ import fis.criminal.model.Detective;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 public class JDBCDetectiveDAO implements IDetectiveDAO {
     private final static Logger logger = LoggerFactory.getLogger(JDBCDetectiveDAO.class);
+    private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     @Override
     public void save(Detective detective) {
-        try {
-            Connection connection = DatabaseUtility.getConnection();
+        try (Connection connection = DatabaseUtility.getConnection()) {
             PreparedStatement preparedStatement =
                     connection.prepareStatement(
                             "INSERT INTO detective" +
@@ -28,17 +26,17 @@ public class JDBCDetectiveDAO implements IDetectiveDAO {
                                     "VALUES (?,?,?,?,?,?,?)");
             preparedStatement.setBoolean(1, detective.getArmed());
             preparedStatement.setString(2, detective.getBadgeNumber());
-            preparedStatement.setString(3, String.valueOf(detective.getCreatedAt()));
-            preparedStatement.setString(4, String.valueOf(detective.getModifiedAt()));
+            preparedStatement.setTimestamp(3, Timestamp.valueOf(detective.getCreatedAt().format(dateTimeFormatter)));
+            preparedStatement.setTimestamp(4, Timestamp.valueOf(detective.getModifiedAt().format(dateTimeFormatter)));
             preparedStatement.setString(5, detective.getRank());
             preparedStatement.setString(6, detective.getStatus());
             preparedStatement.setObject(7, detective.getPerson());
             int check = preparedStatement.executeUpdate();
             if (check == 0) {
-                throw new RuntimeException("loi tao database !!!");
+                logger.info("loi tao database !!!");
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e.toString());
         }
     }
 
@@ -67,8 +65,7 @@ public class JDBCDetectiveDAO implements IDetectiveDAO {
 
     @Override
     public void update(Detective detective) {
-        try {
-            Connection connection = DatabaseUtility.getConnection();
+        try (Connection connection = DatabaseUtility.getConnection()) {
             PreparedStatement preparedStatement =
                     connection.prepareStatement(
                             "UPDATE detective SET armed=?,badgetnumber=?,created_at=?,modified_at=?,rank=?,status=?,person_one=? WHERE id=?");
@@ -82,27 +79,23 @@ public class JDBCDetectiveDAO implements IDetectiveDAO {
             preparedStatement.setInt(8, (int) detective.getId());
             int check = preparedStatement.executeUpdate();
             if (check == 0) {
-                throw new RuntimeException("loi update database !!!");
+                logger.info("update database ko thay doi!!!");
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e.toString());
         }
     }
 
     @Override
     public void delete(Detective detective) {
-        try {
-            Connection connection = DatabaseUtility.getConnection();
+        try (Connection connection = DatabaseUtility.getConnection()) {
             PreparedStatement preparedStatement =
                     connection.prepareStatement(
                             "DELETE detective WHERE id=?");
             preparedStatement.setInt(1, (int) detective.getId());
-            int check = preparedStatement.executeUpdate();
-            if (check == 0) {
-                throw new RuntimeException("loi xoa database !!!");
-            }
+            preparedStatement.executeUpdate();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e.toString());
         }
     }
 }
