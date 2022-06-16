@@ -1,7 +1,6 @@
 package fis.criminal.dao.jdbc;
 
 import fis.criminal.dao.IDetectiveDAO;
-import fis.criminal.model.CriminalCase;
 import fis.criminal.model.Detective;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,10 +29,12 @@ public class JDBCDetectiveDAO implements IDetectiveDAO {
             preparedStatement.setTimestamp(4, Timestamp.valueOf(detective.getModifiedAt().format(dateTimeFormatter)));
             preparedStatement.setString(5, detective.getRank());
             preparedStatement.setString(6, detective.getStatus());
-            preparedStatement.setObject(7, detective.getPerson());
+            preparedStatement.setLong(7, detective.getPerson().getId());
             int check = preparedStatement.executeUpdate();
             if (check == 0) {
                 logger.info("loi tao database !!!");
+            } else {
+                logger.info("tao thanh cong");
             }
         } catch (Exception e) {
             logger.error(e.toString());
@@ -56,10 +57,10 @@ public class JDBCDetectiveDAO implements IDetectiveDAO {
             while (rs.next()) {
                 Detective detective = DatabaseMapper.getDetective(rs);
                 if (detective != null) detectives.add(detective);
-            } // end of while
+            }
         } catch (Exception e) {
             logger.error(e.toString());
-        } // end of try-with-resources
+        }
         return detectives;
     }
 
@@ -75,11 +76,13 @@ public class JDBCDetectiveDAO implements IDetectiveDAO {
             preparedStatement.setString(4, String.valueOf(detective.getModifiedAt()));
             preparedStatement.setString(5, detective.getRank());
             preparedStatement.setString(6, detective.getStatus());
-            preparedStatement.setObject(7, detective.getPerson());
-            preparedStatement.setInt(8, (int) detective.getId());
+            preparedStatement.setLong(7, detective.getPerson().getId());
+            preparedStatement.setLong(8, detective.getId());
             int check = preparedStatement.executeUpdate();
             if (check == 0) {
-                logger.info("update database ko thay doi!!!");
+                logger.info("db ko thay doi");
+            } else {
+                logger.info("cap nhat thanh cong");
             }
         } catch (Exception e) {
             logger.error(e.toString());
@@ -92,7 +95,7 @@ public class JDBCDetectiveDAO implements IDetectiveDAO {
             PreparedStatement preparedStatement =
                     connection.prepareStatement(
                             "DELETE detective WHERE id=?");
-            preparedStatement.setInt(1, (int) detective.getId());
+            preparedStatement.setLong(1, detective.getId());
             preparedStatement.executeUpdate();
         } catch (Exception e) {
             logger.error(e.toString());

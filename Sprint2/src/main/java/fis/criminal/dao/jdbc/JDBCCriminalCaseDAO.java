@@ -39,7 +39,7 @@ public class JDBCCriminalCaseDAO implements ICriminalCaseDAO {
             preparedStatement.setString(6, criminalCase.getShortDescription());
             preparedStatement.setString(7, String.valueOf(criminalCase.getStatus()));
             preparedStatement.setString(8, String.valueOf(criminalCase.getType()));
-            preparedStatement.setObject(9, criminalCase.getLeadInvestigator());
+            preparedStatement.setLong(9, criminalCase.getLeadInvestigator().getId());
             int check = preparedStatement.executeUpdate();
             if (check == 0) {
                 logger.info("Loi tao db");
@@ -90,11 +90,13 @@ public class JDBCCriminalCaseDAO implements ICriminalCaseDAO {
             preparedStatement1.setString(6, criminalCase.getShortDescription());
             preparedStatement1.setString(7, String.valueOf(criminalCase.getStatus()));
             preparedStatement1.setString(8, String.valueOf(criminalCase.getType()));
-            preparedStatement1.setObject(9, criminalCase.getLeadInvestigator());
-            preparedStatement1.setInt(10, (int) criminalCase.getId());
+            preparedStatement1.setLong(9, criminalCase.getLeadInvestigator().getId());
+            preparedStatement1.setLong(10, criminalCase.getId());
             int check = preparedStatement1.executeUpdate();
             if (check == 0) {
-                logger.info("loi update database !!!");
+                logger.info("db ko thay doi");
+            } else {
+                logger.info("cap nhat thanh cong");
             }
         } catch (Exception e) {
             logger.error(e.toString());
@@ -108,7 +110,7 @@ public class JDBCCriminalCaseDAO implements ICriminalCaseDAO {
             PreparedStatement preparedStatement3 =
                     connection.prepareStatement(
                             "DELETE criminal_case WHERE id=?");
-            preparedStatement3.setInt(1, (int) criminalCase.getId());
+            preparedStatement3.setLong(1, criminalCase.getId());
             preparedStatement3.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -122,7 +124,7 @@ public class JDBCCriminalCaseDAO implements ICriminalCaseDAO {
             PreparedStatement preparedStatement3 =
                     connection.prepareStatement(
                             "DELETE criminal_case WHERE id=?");
-            preparedStatement3.setInt(1, (int) id);
+            preparedStatement3.setLong(1, id);
             int check = preparedStatement3.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();

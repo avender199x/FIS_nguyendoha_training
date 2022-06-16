@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="phuocnt-print2-prj" />
         <module name="sprint2" />
+        <module name="Sprint2" />
       </profile>
     </annotationProcessing>
   </component>
