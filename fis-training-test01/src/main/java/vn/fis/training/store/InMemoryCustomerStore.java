@@ -25,8 +25,7 @@ public final class InMemoryCustomerStore {
      * @return : tra ve toan bo danh sach customer trong he thong
      */
     public List<Customer> findAll() {
-        List<Customer> customers = mapCustomer.values().stream().collect(Collectors.toList());
-        return customers;
+        return mapCustomer.values().stream().collect(Collectors.toList());
     }
 
     /**

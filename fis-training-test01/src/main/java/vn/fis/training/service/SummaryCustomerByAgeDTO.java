@@ -9,6 +9,9 @@ public class SummaryCustomerByAgeDTO {
         this.count = count;
     }
 
+    public SummaryCustomerByAgeDTO() {
+    }
+
     public int getAge() {
         return age;
     }
@@ -24,5 +27,4 @@ public class SummaryCustomerByAgeDTO {
     public void setCount(int count) {
         this.count = count;
     }
-    //TODO: Setters, Getter, Constructors
 }
