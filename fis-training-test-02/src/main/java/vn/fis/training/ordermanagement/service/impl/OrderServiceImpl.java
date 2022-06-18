@@ -29,8 +29,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order addOrderItem(Long orderId, OrderItem orderItem) {
-        if (orderRepository.getReferenceById(orderId) != null &&
-                orderRepository.getReferenceById(orderId).equals(orderItem.getOrder().getId())) {
+        if (orderRepository.getReferenceById(orderId).getId() != null && orderId.equals(orderItem.getId())) {
             orderItemRepository.save(orderItem);
             return orderRepository.getReferenceById(orderId);
         } else {
@@ -46,7 +45,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order updateOrderStatus(Order order, OrderStatus orderStatus) {
-        if (orderRepository.getReferenceById(order.getId()) != null) {
+        if (orderRepository.getReferenceById(order.getId()).getId() != null) {
             Order update = orderRepository.getReferenceById(order.getId());
             update.setStatus(orderStatus);
             return orderRepository.save(update);

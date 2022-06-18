@@ -21,7 +21,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Customer updateCustomer(Customer customer) {
-        if (customerRepository.getReferenceById(customer.getId()) != null) {
+        if (customerRepository.getReferenceById(customer.getId()).getId() != null) {
             Customer update = customerRepository.getReferenceById(customer.getId());
             update.setName(customer.getName());
             update.setMobile(customer.getMobile());
