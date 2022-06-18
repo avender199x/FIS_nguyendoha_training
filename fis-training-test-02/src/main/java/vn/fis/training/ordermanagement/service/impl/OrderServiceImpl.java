@@ -29,10 +29,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order addOrderItem(Long orderId, OrderItem orderItem) {
-        if (orderRepository.getReferenceById(orderId) != null) {
-            OrderItem item = orderItem;
-            item.setOrder(orderRepository.getReferenceById(orderId));
-            orderItemRepository.save(item);
+        if (orderRepository.getReferenceById(orderId) != null &&
+                orderRepository.getReferenceById(orderId).equals(orderItem.getOrder().getId())) {
+            orderItemRepository.save(orderItem);
             return orderRepository.getReferenceById(orderId);
         } else {
             throw new RuntimeException("order khong ton tai");
