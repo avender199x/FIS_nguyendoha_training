@@ -4,37 +4,31 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import vn.fis.training.ordermanagement.domain.*;
-import vn.fis.training.ordermanagement.repository.OrderRepository;
-import vn.fis.training.ordermanagement.service.CustomerService;
 import vn.fis.training.ordermanagement.service.OrderService;
 import vn.fis.training.ordermanagement.service.ProductService;
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class OrderServiceImplTest {
     @Autowired
     private OrderService orderService;
+    @Autowired
+    private ProductService productService;
 
     @Test
     void createOrder() {
-
+        Order order = new Order();
+        order.setTotalAmount(123123d);
+        order.setStatus(OrderStatus.APPROVED);
+        orderService.createOrder(order);
     }
 
     @Test
     void addOrderItem() {
-        Customer customer = new Customer(1L, "Thao", "0125416879", "nam dinh");
-        Order order = new Order(1L, LocalDateTime.now(),
-                customer, 100000.0, OrderStatus.PAID);
-        Product product = new Product(5L, "quay", 40000D);
-        OrderItem orderItem = new OrderItem(7L, order, product, 10, 50.0);
-
-        orderService.addOrderItem(1L, orderItem);
-
+        OrderItem item = new OrderItem();
+        item.setAmount(123123d);
+        item.setProduct(productService.findById(1l).get());
+        item.setQuantity(1231);
+        orderService.addOrderItem(1l, item);
     }
 
     @Test
