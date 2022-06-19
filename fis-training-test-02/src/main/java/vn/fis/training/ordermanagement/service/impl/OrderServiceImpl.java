@@ -6,12 +6,10 @@ import vn.fis.training.ordermanagement.domain.Customer;
 import vn.fis.training.ordermanagement.domain.Order;
 import vn.fis.training.ordermanagement.domain.OrderItem;
 import vn.fis.training.ordermanagement.domain.OrderStatus;
-import vn.fis.training.ordermanagement.repository.OrderItemRepository;
 import vn.fis.training.ordermanagement.repository.OrderRepository;
 import vn.fis.training.ordermanagement.service.OrderService;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.List;
 
 
@@ -19,8 +17,7 @@ import java.util.List;
 public class OrderServiceImpl implements OrderService {
     @Autowired
     private OrderRepository orderRepository;
-    @Autowired
-    private OrderItemRepository orderItemRepository;
+
 
     @Override
     public Order createOrder(Order order) {
@@ -32,7 +29,6 @@ public class OrderServiceImpl implements OrderService {
         Order order = orderRepository.getReferenceById(orderId);
         order.getOrderItems().add(orderItem);
         order.setTotalAmount(order.getTotalAmount() + (orderItem.getAmount() * orderItem.getQuantity()));
-        orderItemRepository.save(orderItem);
         return orderRepository.save(order);
     }
 
@@ -40,11 +36,8 @@ public class OrderServiceImpl implements OrderService {
     public Order removeOrderItem(Long orderId, OrderItem orderItem) {
         if (orderRepository.getReferenceById(orderId).getId() != null) {
             Order order = orderRepository.getReferenceById(orderId);
-            order.setTotalAmount(order.getTotalAmount() + (orderItem.getAmount() * orderItem.getQuantity()));
+            order.setTotalAmount(order.getTotalAmount() - (orderItem.getAmount() * orderItem.getQuantity()));
             order.getOrderItems().remove(orderItem);
-            if (orderItemRepository.getReferenceById(orderItem.getId()).getId() != null) {
-                orderItemRepository.delete(orderItem);
-            }
             orderRepository.save(order);
         }
         return orderRepository.getReferenceById(orderId);
