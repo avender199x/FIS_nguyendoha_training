@@ -3,25 +3,25 @@ package vn.fis.training.ordermanagement.domain;
 import javax.persistence.*;
 
 @Entity
-@Table(name="tbl_order_item")
+@Table(name = "tbl_order_item")
 public class OrderItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
+    @Column(name = "id")
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name="order_id", nullable = false)
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
-    @ManyToOne
-    @JoinColumn(name="product_id")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "product_id")
     private Product product;
 
-    @Column(name="quantity")
+    @Column(name = "quantity")
     private Integer quantity;
 
-    @Column(name="amount")
+    @Column(name = "amount")
     private Double amount;
 
     public OrderItem(Long id, Order order, Product product, Integer quantity, Double amount) {

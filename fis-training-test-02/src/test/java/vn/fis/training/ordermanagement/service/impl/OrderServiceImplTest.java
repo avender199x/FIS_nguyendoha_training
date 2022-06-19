@@ -17,6 +17,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class OrderServiceImplTest {
+    @Autowired
+    private OrderService orderService;
 
     @Test
     void createOrder() {
@@ -25,6 +27,13 @@ class OrderServiceImplTest {
 
     @Test
     void addOrderItem() {
+        Customer customer = new Customer(1L, "Thao", "0125416879", "nam dinh");
+        Order order = new Order(1L, LocalDateTime.now(),
+                customer, 100000.0, OrderStatus.PAID);
+        Product product = new Product(5L, "quay", 40000D);
+        OrderItem orderItem = new OrderItem(7L, order, product, 10, 50.0);
+
+        orderService.addOrderItem(1L, orderItem);
 
     }
 
