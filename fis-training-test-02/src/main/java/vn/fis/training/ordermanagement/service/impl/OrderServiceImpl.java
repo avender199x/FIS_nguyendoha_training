@@ -32,13 +32,18 @@ public class OrderServiceImpl implements OrderService {
         Order order = orderRepository.getReferenceById(orderId);
         order.getOrderItems().add(orderItem);
         order.setTotalAmount(order.getTotalAmount() + (orderItem.getAmount() * orderItem.getQuantity()));
-        orderItemRepository.save(orderItem);
+        if (orderItemRepository.findById(orderItem.getId()).get().getOrder().getId().equals(orderId)) {
+            orderItemRepository.save(orderItem);
+        } else {
+            throw new RuntimeException("orderItem co dia chi order id khong phai cua ban");
+        }
         return orderRepository.save(order);
     }
 
     @Override
     public Order removeOrderItem(Long orderId, OrderItem orderItem) {
-        if (orderRepository.findById(orderId).isPresent()) {
+        if (orderRepository.findById(orderId).isPresent() &&
+                orderItemRepository.findById(orderItem.getId()).get().getOrder().getId().equals(orderId)) {
             Order order = orderRepository.getReferenceById(orderId);
             order.setTotalAmount(order.getTotalAmount() - (orderItem.getAmount() * orderItem.getQuantity()));
             order.getOrderItems().remove(orderItem);
@@ -47,7 +52,7 @@ public class OrderServiceImpl implements OrderService {
             }
             orderRepository.save(order);
         } else {
-            throw new RuntimeException("order khong ton tai");
+            throw new RuntimeException("order khong ton tai hoac orderItem cua khach hang khac");
         }
         return orderRepository.getReferenceById(orderId);
     }
