@@ -40,9 +40,7 @@ public class OrderServiceImpl implements OrderService {
         if (orderRepository.getReferenceById(orderId).getId() != null) {
             Order order = orderRepository.getReferenceById(orderId);
             order.getOrderItems().remove(orderItem);
-            if (orderItemRepository.findAll().stream()
-                    .filter(orderItem1 -> orderItem1.getId()
-                            .equals(orderItem.getId())).findFirst().get().getId() != null) {
+            if (orderItemRepository.getReferenceById(orderItem.getId()).getId() != null) {
                 orderItemRepository.delete(orderItem);
             }
             orderRepository.save(order);
