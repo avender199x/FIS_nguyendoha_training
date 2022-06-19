@@ -25,9 +25,10 @@ class OrderServiceImplTest {
     @Test
     void addOrderItem() {
         OrderItem item = new OrderItem();
-        item.setAmount(123123d);
+        item.setQuantity(123);
+        item.setOrder(orderService.findById(1l).get());
+        item.setAmount(1231231d);
         item.setProduct(productService.findById(1l).get());
-        item.setQuantity(1231);
         orderService.addOrderItem(1l, item);
     }
 
