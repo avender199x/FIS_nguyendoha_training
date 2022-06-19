@@ -35,7 +35,7 @@ public class OrderServiceImpl implements OrderService {
         if (orderItemRepository.findById(orderItem.getId()).get().getOrder().getId().equals(orderId)) {
             orderItemRepository.save(orderItem);
         } else {
-            throw new RuntimeException("orderItem co dia chi order id khong trung");
+            throw new RuntimeException("orderItem co dia chi id order khac");
         }
         return orderRepository.save(order);
     }
@@ -47,9 +47,7 @@ public class OrderServiceImpl implements OrderService {
             Order order = orderRepository.getReferenceById(orderId);
             order.setTotalAmount(order.getTotalAmount() - (orderItem.getAmount() * orderItem.getQuantity()));
             order.getOrderItems().remove(orderItem);
-            if (orderItemRepository.findById(orderItem.getId()).isPresent()) {
-                orderItemRepository.delete(orderItem);
-            }
+            orderItemRepository.delete(orderItem);
             orderRepository.save(order);
         } else {
             throw new RuntimeException("order khong ton tai hoac orderItem khong phai cua order");
