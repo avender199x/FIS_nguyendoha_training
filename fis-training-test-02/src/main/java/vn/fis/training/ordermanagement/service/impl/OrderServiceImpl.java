@@ -34,7 +34,7 @@ public class OrderServiceImpl implements OrderService {
         order.setTotalAmount(order.getTotalAmount() + (orderItem.getAmount() * orderItem.getQuantity()));
         if (orderItemRepository.findById(orderItem.getId()).get().getOrder().getId().equals(orderId)) {
             orderItemRepository.save(orderItem);
-        } else {
+        } else { 
             throw new RuntimeException("orderItem co dia chi order id khong trung");
         }
         return orderRepository.save(order);
