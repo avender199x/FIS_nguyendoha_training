@@ -35,7 +35,7 @@ public class OrderServiceImpl implements OrderService {
         if (orderItemRepository.findById(orderItem.getId()).get().getOrder().getId().equals(orderId)) {
             orderItemRepository.save(orderItem);
         } else {
-            throw new RuntimeException("orderItem co dia chi order id khong phai cua ban");
+            throw new RuntimeException("orderItem co dia chi order id khong trung");
         }
         return orderRepository.save(order);
     }
@@ -52,7 +52,7 @@ public class OrderServiceImpl implements OrderService {
             }
             orderRepository.save(order);
         } else {
-            throw new RuntimeException("order khong ton tai hoac orderItem cua khach hang khac");
+            throw new RuntimeException("order khong ton tai hoac orderItem khong phai cua order");
         }
         return orderRepository.getReferenceById(orderId);
     }
