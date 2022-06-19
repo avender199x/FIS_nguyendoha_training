@@ -29,17 +29,23 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order addOrderItem(Long orderId, OrderItem orderItem) {
-        if (orderRepository.getReferenceById(orderId).getId() != null && orderId.equals(orderItem.getId())) {
-            orderItemRepository.save(orderItem);
-            return orderRepository.getReferenceById(orderId);
-        } else {
-            throw new RuntimeException("order khong ton tai");
-        }
+        Order order = orderRepository.getReferenceById(orderId);
+        order.getOrderItems().add(orderItem);
+        orderItemRepository.save(orderItem);
+        return orderRepository.save(order);
     }
 
     @Override
     public Order removeOrderItem(Long orderId, OrderItem orderItem) {
-        orderItemRepository.delete(orderItem);
+        if (orderRepository.getReferenceById(orderId).getId() != null) {
+            Order order = orderRepository.getReferenceById(orderId);
+            if (orderItemRepository.findAll().stream()
+                    .filter(orderItem1 -> orderItem1.getId()
+                            .equals(orderItem.getId())).findFirst().get().getId() != null) {
+                orderItemRepository.delete(orderItem);
+            }
+            orderRepository.save(order);
+        }
         return orderRepository.getReferenceById(orderId);
     }
 
