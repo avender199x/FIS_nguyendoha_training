@@ -31,14 +31,16 @@ public class OrderServiceImpl implements OrderService {
     public Order addOrderItem(Long orderId, OrderItem orderItem) {
         Order order = orderRepository.getReferenceById(orderId);
         order.getOrderItems().add(orderItem);
+        order.setTotalAmount(order.getTotalAmount() + (orderItem.getAmount() * orderItem.getQuantity()));
         orderItemRepository.save(orderItem);
         return orderRepository.save(order);
     }
- 
+
     @Override
     public Order removeOrderItem(Long orderId, OrderItem orderItem) {
         if (orderRepository.getReferenceById(orderId).getId() != null) {
             Order order = orderRepository.getReferenceById(orderId);
+            order.setTotalAmount(order.getTotalAmount() + (orderItem.getAmount() * orderItem.getQuantity()));
             order.getOrderItems().remove(orderItem);
             if (orderItemRepository.getReferenceById(orderItem.getId()).getId() != null) {
                 orderItemRepository.delete(orderItem);
