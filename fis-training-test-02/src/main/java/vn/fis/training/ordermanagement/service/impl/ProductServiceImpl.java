@@ -34,10 +34,10 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product updateProduct(Long id, Product product) {
         if (productRepository.findById(id).isPresent()) {
-            Product update = productRepository.getReferenceById(id);
-            update.setName(product.getName());
-            update.setPrice(product.getPrice());
-            return productRepository.save(update);
+            Optional<Product> update = productRepository.findById(id);
+            update.get().setName(product.getName());
+            update.get().setPrice(product.getPrice());
+            return productRepository.save(update.get());
         } else {
             throw new RuntimeException("product khong ton tai");
         }

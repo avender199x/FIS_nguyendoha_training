@@ -30,40 +30,40 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order addOrderItem(Long orderId, OrderItem orderItem) {
-        Order order = orderRepository.getReferenceById(orderId);
-        order.getOrderItems().add(orderItem);
-        order.setTotalAmount(order.getTotalAmount() + (orderItem.getAmount() * orderItem.getQuantity()));
+        Optional<Order> order = orderRepository.findById(orderId);
+        order.get().getOrderItems().add(orderItem);
+        order.get().setTotalAmount(order.get().getTotalAmount() + (orderItem.getAmount() * orderItem.getQuantity()));
         if (orderItemRepository.findById(orderItem.getId()).get().getOrder().getId().equals(orderId)) {
             orderItemRepository.save(orderItem);
         } else {
             throw new RuntimeException("orderItem co dia chi id order khac");
         }
-        return orderRepository.save(order);
+        return orderRepository.save(order.get());
     }
 
     @Override
     public Order removeOrderItem(Long orderId, OrderItem orderItem) {
         if (orderRepository.findById(orderId).isPresent() &&
                 orderItemRepository.findById(orderItem.getId()).get().getOrder().getId().equals(orderId)) {
-            Order order = orderRepository.getReferenceById(orderId);
-            order.setTotalAmount(order.getTotalAmount() - (orderItem.getAmount() * orderItem.getQuantity()));
-            order.getOrderItems().remove(orderItem);
+            Optional<Order> order = orderRepository.findById(orderId);
+            order.get().setTotalAmount(order.get().getTotalAmount() - (orderItem.getAmount() * orderItem.getQuantity()));
+            order.get().getOrderItems().remove(orderItem);
             if (orderItemRepository.findById(orderItem.getId()).isPresent()) {
                 orderItemRepository.delete(orderItem);
             }
-            orderRepository.save(order);
+            orderRepository.save(order.get());
         } else {
             throw new RuntimeException("order khong ton tai hoac orderItem khong phai cua order");
         }
-        return orderRepository.getReferenceById(orderId);
+        return orderRepository.findById(orderId).get();
     }
 
     @Override
     public Order updateOrderStatus(Order order, OrderStatus orderStatus) {
         if (orderRepository.findById(order.getId()).isPresent()) {
-            Order update = orderRepository.getReferenceById(order.getId());
-            update.setStatus(orderStatus);
-            return orderRepository.save(update);
+            Optional<Order> update = orderRepository.findById(order.getId());
+            update.get().setStatus(orderStatus);
+            return orderRepository.save(update.get());
         } else {
             throw new RuntimeException("order khong ton tai");
         }

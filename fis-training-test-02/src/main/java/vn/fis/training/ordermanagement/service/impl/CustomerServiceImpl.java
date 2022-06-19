@@ -7,6 +7,7 @@ import vn.fis.training.ordermanagement.repository.CustomerRepository;
 import vn.fis.training.ordermanagement.service.CustomerService;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
@@ -22,11 +23,11 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public Customer updateCustomer(Customer customer) {
         if (customerRepository.findById(customer.getId()).isPresent()) {
-            Customer update = customerRepository.getReferenceById(customer.getId());
-            update.setName(customer.getName());
-            update.setMobile(customer.getMobile());
-            update.setAddress(customer.getAddress());
-            return customerRepository.save(update);
+            Optional<Customer> update = customerRepository.findById(customer.getId());
+            update.get().setName(customer.getName());
+            update.get().setMobile(customer.getMobile());
+            update.get().setAddress(customer.getAddress());
+            return customerRepository.save(update.get());
         } else {
             throw new RuntimeException("customer khong ton tai");
         }

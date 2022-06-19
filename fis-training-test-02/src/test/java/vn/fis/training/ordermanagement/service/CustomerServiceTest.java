@@ -22,6 +22,8 @@ class CustomerServiceTest {
 
     @Test
     void updateCustomer() {
+        Customer customer = new Customer(1l, "Nguyen Do ha update", "036990606", "Ha Noi");
+        service.updateCustomer(customer);
     }
 
     @Test
@@ -36,5 +38,6 @@ class CustomerServiceTest {
 
     @Test
     void findByMobileNumber() {
+        service.findByMobileNumber("036990606");
     }
 }
