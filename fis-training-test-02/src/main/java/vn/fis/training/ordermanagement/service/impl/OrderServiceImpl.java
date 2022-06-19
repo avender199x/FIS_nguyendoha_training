@@ -34,18 +34,20 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order removeOrderItem(Long orderId, OrderItem orderItem) {
-        if (orderRepository.getReferenceById(orderId).getId() != null) {
+        if (orderRepository.findById(orderId).isPresent()) {
             Order order = orderRepository.getReferenceById(orderId);
             order.setTotalAmount(order.getTotalAmount() - (orderItem.getAmount() * orderItem.getQuantity()));
             order.getOrderItems().remove(orderItem);
             orderRepository.save(order);
+        } else {
+            throw new RuntimeException("order khong ton tai");
         }
         return orderRepository.getReferenceById(orderId);
     }
 
     @Override
     public Order updateOrderStatus(Order order, OrderStatus orderStatus) {
-        if (orderRepository.getReferenceById(order.getId()).getId() != null) {
+        if (orderRepository.findById(order.getId()).isPresent()) {
             Order update = orderRepository.getReferenceById(order.getId());
             update.setStatus(orderStatus);
             return orderRepository.save(update);
