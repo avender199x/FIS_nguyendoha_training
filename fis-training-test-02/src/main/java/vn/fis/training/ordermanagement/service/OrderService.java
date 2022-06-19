@@ -7,6 +7,7 @@ import vn.fis.training.ordermanagement.domain.OrderStatus;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 public interface OrderService {
 
@@ -19,6 +20,8 @@ public interface OrderService {
     Order updateOrderStatus(Order order, OrderStatus orderStatus);
 
     List<Order> findAll();
+
+    Optional<Order> findById(Long id);
 
     List<Order> findOrdersBetween(LocalDateTime fromDateTime, LocalDateTime toDateTime);
 
