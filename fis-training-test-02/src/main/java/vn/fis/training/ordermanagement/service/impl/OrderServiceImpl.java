@@ -69,6 +69,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public List<Order> findAll() {
+        return orderRepository.findAll();
+    }
+
+    @Override
     public List<Order> findOrdersBetween(LocalDateTime fromDateTime, LocalDateTime toDateTime) {
 
         return orderRepository.findByOrderDateTimeBetween(fromDateTime, toDateTime);
