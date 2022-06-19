@@ -47,7 +47,9 @@ public class OrderServiceImpl implements OrderService {
             Order order = orderRepository.getReferenceById(orderId);
             order.setTotalAmount(order.getTotalAmount() - (orderItem.getAmount() * orderItem.getQuantity()));
             order.getOrderItems().remove(orderItem);
-            orderItemRepository.delete(orderItem);
+            if (orderItemRepository.findById(orderItem.getId()).isPresent()) {
+                orderItemRepository.delete(orderItem);
+            }
             orderRepository.save(order);
         } else {
             throw new RuntimeException("order khong ton tai hoac orderItem khong phai cua order");
