@@ -8,9 +8,14 @@ import com.fresher.model.Detective;
 import java.util.Optional;
 import java.util.Set;
 
-public interface CriminalCaseRepo extends  AbstractRepo<CriminalCase>  {
+public interface CriminalCaseRepo extends AbstractRepo<CriminalCase> {
     Set<CriminalCase> findByLeadInvestigator(Detective detective);
+
     Optional<CriminalCase> findByNumber(String caseNumber);
+
+    CriminalCase updateCriminalCase(CriminalCase cc);
+
     Set<CriminalCase> findByStatus(CaseStatus status);
+
     Set<CriminalCase> findByType(CaseType type);
 }

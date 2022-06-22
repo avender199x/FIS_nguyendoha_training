@@ -11,14 +11,19 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
 @Repository
-public class JdbcCriminalCaseRepo  extends JdbcAbstractRepo<CriminalCase>
+public class JdbcCriminalCaseRepo extends JdbcAbstractRepo<CriminalCase>
         implements CriminalCaseRepo {
     private RowMapper<CriminalCase> rowMapper = new CriminalCaseRowMapper();
+    private EntityManager entityManager;
 
     public JdbcCriminalCaseRepo(JdbcTemplate jdbcTemplate) {
         super(jdbcTemplate);
@@ -26,43 +31,57 @@ public class JdbcCriminalCaseRepo  extends JdbcAbstractRepo<CriminalCase>
 
     @Override
     public Optional<CriminalCase> findById(Long id) {
-        String sql = "select ID, CASE_NUMBER, CASE_TYPE, STATUS, SHORT_DESCRIPTION from CRIMINAL_CASE where ID= ?";
-        return Optional.of(jdbcTemplate.queryForObject(sql, rowMapper, id));
+        return Optional.of(entityManager.find(CriminalCase.class, id));
     }
 
     @Override
     public Set<CriminalCase> findByLeadInvestigator(Detective detective) {
-        String sql =  "select ID, CASE_NUMBER, CASE_TYPE, STATUS, SHORT_DESCRIPTION from CRIMINAL_CASE c, DETECTIVE d where c.LEAD_INVESTIGATOR=d.ID and d.ID= ?";
+        String sql = "select ID, CASE_NUMBER, CASE_TYPE, STATUS, SHORT_DESCRIPTION from CRIMINAL_CASE c, DETECTIVE d where c.LEAD_INVESTIGATOR=d.ID and d.ID= ?";
         return new HashSet<>(jdbcTemplate.query(sql, new Object[]{detective.getId()}, rowMapper));
     }
 
     @Override
     public Optional<CriminalCase> findByNumber(String caseNumber) {
-        String sql = "select ID, CASE_NUMBER, CASE_TYPE, STATUS, SHORT_DESCRIPTION from CRIMINAL_CASE where CASE_NUMBER= ?";
-        CriminalCase result = jdbcTemplate.queryForObject(sql, rowMapper, caseNumber);
-        return result == null ? Optional.empty() :  Optional.of(result);
+        CriminalCase criminalCase =
+                entityManager.createQuery("select c from CriminalCase c where c.number =:casenumber", CriminalCase.class)
+                        .setParameter("casenumber", caseNumber).getSingleResult();
+        return criminalCase != null ? Optional.of(criminalCase) : Optional.empty();
     }
 
+    @Transactional
+    @Override
+    public CriminalCase updateCriminalCase(CriminalCase cc) {
+        CriminalCase check = entityManager.find(CriminalCase.class, cc.getId());
+        if (check != null) {
+            return entityManager.merge(cc);
+        } else {
+            throw new RuntimeException("criminal case null");
+        }
+    }
+
+    @Transactional
     @Override
     public void save(CriminalCase cc) {
-        jdbcTemplate.update(
-                "insert into CRIMINAL_CASE(ID, CASE_NUMBER, CASE_TYPE, STATUS, SHORT_DESCRIPTION, LEAD_INVESTIGATOR ) values(?,?,?,?,?,?,?)",
-                cc.getId(), cc.getNumber(), cc.getType(), cc.getStatus(), cc.getShortDescription(), cc.getLeadInvestigator().getId()
-        );
+        entityManager.persist(cc);
     }
 
+    @Transactional
     @Override
     public void delete(CriminalCase entity) {
-        jdbcTemplate.update("delete from CRIMINAL_CASE where ID =? ", entity.getId());
+        entityManager.remove(entity);
     }
 
+    @Transactional
     @Override
     public int deleteById(Long entityId) {
-        return jdbcTemplate.update("delete from CRIMINAL_CASE where ID =? ", entityId);
+        CriminalCase criminalCase = entityManager.find(CriminalCase.class, entityId);
+        entityManager.remove(criminalCase);
+        return entityId.intValue();
     }
 
     @Override
     public Set<CriminalCase> findByStatus(CaseStatus status) {
+
         throw new NotImplementedException("Not needed for this implementation.");
     }
 
