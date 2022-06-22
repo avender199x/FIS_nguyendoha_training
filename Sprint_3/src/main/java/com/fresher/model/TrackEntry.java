@@ -9,10 +9,10 @@ import java.time.LocalDateTime;
 @Table(name = "TrackEntry")
 public class TrackEntry extends AbstractEntity {
     protected LocalDateTime date;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "evidence_id")
     private Evidence evidence;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "detective_id")
     private Detective detective;
     @Enumerated(EnumType.STRING)

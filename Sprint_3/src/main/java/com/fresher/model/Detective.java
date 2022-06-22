@@ -23,8 +23,7 @@ public class Detective extends AbstractEntity {
     private EmploymentStatus status = EmploymentStatus.ACTIVE;
     @ManyToMany(mappedBy = "assigned", cascade = CascadeType.ALL)
     private Set<CriminalCase> criminalCases = new HashSet<>();
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "Track_Entry_id")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "detective")
     private Set<TrackEntry> trackEntries;
 
     public Detective() {

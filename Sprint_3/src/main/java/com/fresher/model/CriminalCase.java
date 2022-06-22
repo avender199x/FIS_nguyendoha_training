@@ -20,10 +20,9 @@ public class CriminalCase extends AbstractEntity {
     //very big text
     @Lob
     private String notes;
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "Evidence_id")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "criminalCase")
     private Set<Evidence> evidenceSet = new HashSet<>();
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "Detective_id")
     private Detective leadInvestigator;
     @ManyToMany(cascade = CascadeType.ALL)

@@ -8,10 +8,10 @@ import java.util.Set;
 @Entity
 @Table(name = "Evidence")
 public class Evidence extends AbstractEntity {
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "criminal_Case_id")
     private CriminalCase criminalCase;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "storage_id")
     private Storage storage;
     private String number;
@@ -20,8 +20,7 @@ public class Evidence extends AbstractEntity {
     @Lob
     private String notes;
     private Boolean archived = false;
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "Track_Entry_id")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "evidence")
     private Set<TrackEntry> trackEntries = new HashSet<>();
 
     public CriminalCase getCriminalCase() {

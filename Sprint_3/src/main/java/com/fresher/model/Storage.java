@@ -37,8 +37,7 @@ public class Storage extends AbstractEntity {
     private String name;
 
     private String location;
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "Evidence_id")
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "storage")
     private Set<Evidence> evidenceSet = new HashSet<>();
 
     public Storage() {
