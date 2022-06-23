@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class PersonServiceImpTest {
+    // JPA test
     @Autowired
     private PersonService service;
 
