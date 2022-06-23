@@ -5,7 +5,7 @@ import java.util.Optional;
 import java.util.Set;
 
 public interface MethodBasic<T, TypeKeyId> {
-    public Set<T> findAll();
+    public List<T> findAll();
 
     public Optional<T> findById(TypeKeyId id);
 
