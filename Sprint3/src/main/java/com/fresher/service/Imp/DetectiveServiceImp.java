@@ -1,7 +1,8 @@
-package com.fresher.service.Detective;
+package com.fresher.service.Imp;
 
 import com.fresher.model.Detective;
 import com.fresher.repository.jdbctemplate.JdbcDetectiveRepo;
+import com.fresher.service.DetectiveService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;

@@ -1,7 +1,8 @@
-package com.fresher.service.CriminalCase;
+package com.fresher.service.Imp;
 
 import com.fresher.model.CriminalCase;
 import com.fresher.repository.Jpa.JPACriminalCaseRepo;
+import com.fresher.service.CriminalCaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;

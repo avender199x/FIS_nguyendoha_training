@@ -1,4 +1,4 @@
-package com.fresher.service.Detective;
+package com.fresher.service;
 
 import com.fresher.model.Detective;
 import com.fresher.service.MethodBasic;
