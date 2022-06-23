@@ -6,16 +6,18 @@ import com.fresher.service.DetectiveService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class DetectiveServiceImp implements DetectiveService {
     @Autowired
     private DetectiveRepo repo;
 
     @Override
-    public Set<Detective> findAll() {
-        return repo.findAll();
+    public List<Detective> findAll() {
+        return (List<Detective>) repo.findAll();
     }
 
     @Override

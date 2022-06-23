@@ -49,12 +49,7 @@ public class JPACriminalCaseRepo extends AbstractRepo<CriminalCase>
     @Transactional
     @Override
     public CriminalCase updateCriminalCase(CriminalCase cc) {
-        CriminalCase check = entityManager.find(CriminalCase.class, cc.getId());
-        if (check != null) {
-            return entityManager.merge(cc);
-        } else {
-            throw new RuntimeException("CriminalCase null");
-        }
+        return entityManager.merge(cc);
     }
 
     @Transactional

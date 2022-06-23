@@ -6,6 +6,7 @@ import com.fresher.service.CriminalCaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -14,8 +15,8 @@ public class CriminalCaseServiceImp implements CriminalCaseService {
     private JPACriminalCaseRepo repo;
 
     @Override
-    public Set<CriminalCase> findAll() {
-        return repo.findAll();
+    public List<CriminalCase> findAll() {
+        return (List<CriminalCase>) repo.findAll();
     }
 
     @Override
