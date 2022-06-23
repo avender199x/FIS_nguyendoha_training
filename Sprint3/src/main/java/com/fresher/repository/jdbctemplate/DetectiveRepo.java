@@ -2,7 +2,6 @@ package com.fresher.repository.jdbctemplate;
 
 import com.fresher.core.Rank;
 import com.fresher.model.Detective;
-import com.fresher.repository.DetectiveRepo;
 import com.fresher.repository.jdbctemplate.mapper.DetectiveRowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -14,10 +13,9 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
-//@Transactional
 @Repository
-public class JdbcDetectiveRepo extends JdbcAbstractRepo<Detective>
-        implements DetectiveRepo {
+public class DetectiveRepo extends AbstractRepo<Detective>
+        implements com.fresher.repository.DetectiveRepo {
 
     private RowMapper<Detective> rowMapper = new DetectiveRowMapper();
 

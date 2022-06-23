@@ -2,14 +2,10 @@ package com.fresher.repository.jdbctemplate;
 
 import com.fresher.core.NotImplementedException;
 import com.fresher.model.AbstractEntity;
-import com.fresher.repository.AbstractRepo;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-public class JdbcAbstractRepo<T extends AbstractEntity> implements AbstractRepo<T> {
+public class AbstractRepo<T extends AbstractEntity> implements com.fresher.repository.AbstractRepo<T> {
 
     @Override
     public void save(T entity) {

@@ -4,7 +4,7 @@ import com.fresher.core.EmploymentStatus;
 import com.fresher.core.Rank;
 import com.fresher.model.Detective;
 import com.fresher.model.Person;
-import com.fresher.repository.jdbctemplate.JdbcDetectiveRepo;
+import com.fresher.repository.jdbctemplate.DetectiveRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
@@ -15,7 +15,7 @@ import java.sql.SQLException;
 import java.util.Optional;
 
 @Repository
-public class ExtraJdbcDetectiveRepo extends JdbcDetectiveRepo {
+public class ExtraDetectiveRepo extends DetectiveRepo {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;

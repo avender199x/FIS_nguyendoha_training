@@ -5,7 +5,7 @@ import com.fresher.core.CaseType;
 import com.fresher.model.CriminalCase;
 import com.fresher.model.Detective;
 import com.fresher.repository.CriminalCaseRepo;
-import com.fresher.repository.jdbctemplate.JdbcAbstractRepo;
+import com.fresher.repository.jdbctemplate.AbstractRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -16,7 +16,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @Repository
-public class JPACriminalCaseRepo extends JdbcAbstractRepo<CriminalCase>
+public class JPACriminalCaseRepo extends AbstractRepo<CriminalCase>
         implements CriminalCaseRepo {
     @Autowired
     private EntityManager entityManager;

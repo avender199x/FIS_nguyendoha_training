@@ -1,7 +1,7 @@
 package com.fresher.service.Imp;
 
 import com.fresher.model.Detective;
-import com.fresher.repository.jdbctemplate.JdbcDetectiveRepo;
+import com.fresher.repository.jdbctemplate.DetectiveRepo;
 import com.fresher.service.DetectiveService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -11,7 +11,7 @@ import java.util.Set;
 
 public class DetectiveServiceImp implements DetectiveService {
     @Autowired
-    private JdbcDetectiveRepo repo;
+    private DetectiveRepo repo;
 
     @Override
     public Set<Detective> findAll() {
