@@ -12,6 +12,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import java.util.Optional;
 import java.util.Set;
@@ -32,8 +33,8 @@ public class JPACriminalCaseRepo extends JdbcAbstractRepo<CriminalCase>
 
     @Override
     public Set<CriminalCase> findAll() {
-        return (Set<CriminalCase>)
-                entityManager.createQuery("select c from CriminalCase c").getResultList();
+        TypedQuery<CriminalCase> query = entityManager.createQuery("select c from CriminalCase c", CriminalCase.class);
+        return (Set<CriminalCase>) query.getResultList();
     }
 
     @Override
@@ -86,7 +87,7 @@ public class JPACriminalCaseRepo extends JdbcAbstractRepo<CriminalCase>
         return (Set<CriminalCase>)
                 entityManager.
                         createQuery("select c from CriminalCase c where c.status =:status").
-                        setParameter("status", CriminalCase.class).getResultList();
+                        setParameter("status", status).getResultList();
     }
 
     @Override
@@ -94,6 +95,6 @@ public class JPACriminalCaseRepo extends JdbcAbstractRepo<CriminalCase>
         return (Set<CriminalCase>)
                 entityManager.
                         createQuery("select c from CriminalCase c where c.type =:type").
-                        setParameter("type", CriminalCase.class).getResultList();
+                        setParameter("type", type).getResultList();
     }
 }
