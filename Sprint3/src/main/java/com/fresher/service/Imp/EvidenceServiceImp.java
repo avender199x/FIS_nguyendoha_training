@@ -1,6 +1,7 @@
 package com.fresher.service.Imp;
 
 import com.fresher.model.Evidence;
+import com.fresher.repository.EvidenceRepo;
 import com.fresher.repository.Jpa.JPAEvidenceRepo;
 import com.fresher.service.EvidenceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,7 @@ import java.util.Optional;
 @Service
 public class EvidenceServiceImp implements EvidenceService {
     @Autowired
-    private JPAEvidenceRepo repo;
+    private EvidenceRepo repo;
 
     @Override
     public List<Evidence> findAll() {

@@ -1,6 +1,7 @@
 package com.fresher.service.Imp;
 
 import com.fresher.model.CriminalCase;
+import com.fresher.repository.CriminalCaseRepo;
 import com.fresher.repository.Jpa.JPACriminalCaseRepo;
 import com.fresher.service.CriminalCaseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,7 @@ import java.util.Set;
 
 public class CriminalCaseServiceImp implements CriminalCaseService {
     @Autowired
-    private JPACriminalCaseRepo repo;
+    private CriminalCaseRepo repo;
 
     @Override
     public List<CriminalCase> findAll() {

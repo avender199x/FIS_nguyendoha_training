@@ -1,7 +1,7 @@
 package com.fresher.service.Imp;
 
 import com.fresher.model.Detective;
-import com.fresher.repository.jdbctemplate.DetectiveRepo;
+import com.fresher.repository.DetectiveRepo;
 import com.fresher.service.DetectiveService;
 import org.springframework.beans.factory.annotation.Autowired;
 
