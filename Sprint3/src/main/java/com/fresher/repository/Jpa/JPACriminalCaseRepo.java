@@ -19,7 +19,6 @@ import java.util.Set;
 @Repository
 public class JPACriminalCaseRepo extends JdbcAbstractRepo<CriminalCase>
         implements CriminalCaseRepo {
-    private RowMapper<CriminalCase> rowMapper = new CriminalCaseRowMapper();
     private EntityManager entityManager;
 
     public JPACriminalCaseRepo(JdbcTemplate jdbcTemplate) {
