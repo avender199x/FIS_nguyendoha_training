@@ -6,9 +6,7 @@ import com.fresher.model.CriminalCase;
 import com.fresher.model.Detective;
 import com.fresher.repository.CriminalCaseRepo;
 import com.fresher.repository.jdbctemplate.JdbcAbstractRepo;
-import com.fresher.repository.jdbctemplate.mapper.CriminalCaseRowMapper;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -20,11 +18,8 @@ import java.util.Set;
 @Repository
 public class JPACriminalCaseRepo extends JdbcAbstractRepo<CriminalCase>
         implements CriminalCaseRepo {
+    @Autowired
     private EntityManager entityManager;
-
-    public JPACriminalCaseRepo(JdbcTemplate jdbcTemplate) {
-        super(jdbcTemplate);
-    }
 
     @Override
     public Optional<CriminalCase> findById(Long id) {

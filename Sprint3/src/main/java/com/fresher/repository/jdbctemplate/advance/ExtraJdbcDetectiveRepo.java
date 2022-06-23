@@ -5,6 +5,7 @@ import com.fresher.core.Rank;
 import com.fresher.model.Detective;
 import com.fresher.model.Person;
 import com.fresher.repository.jdbctemplate.JdbcDetectiveRepo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.stereotype.Repository;
@@ -16,9 +17,8 @@ import java.util.Optional;
 @Repository
 public class ExtraJdbcDetectiveRepo extends JdbcDetectiveRepo {
 
-    public ExtraJdbcDetectiveRepo(JdbcTemplate jdbcTemplate) {
-        super(jdbcTemplate);
-    }
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
     @Override
     public Optional<Detective> findByIdWithPersonDetails(Long id) {

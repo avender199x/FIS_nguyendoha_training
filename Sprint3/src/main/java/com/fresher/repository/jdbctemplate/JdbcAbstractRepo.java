@@ -11,13 +11,6 @@ import java.util.Optional;
 
 public class JdbcAbstractRepo<T extends AbstractEntity> implements AbstractRepo<T> {
 
-    @Autowired
-    protected JdbcTemplate jdbcTemplate;
-
-    public JdbcAbstractRepo(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
-
     @Override
     public void save(T entity) {
         throw new NotImplementedException("Not needed for this implementation.");

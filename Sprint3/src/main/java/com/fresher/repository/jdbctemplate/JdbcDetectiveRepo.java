@@ -4,6 +4,7 @@ import com.fresher.core.Rank;
 import com.fresher.model.Detective;
 import com.fresher.repository.DetectiveRepo;
 import com.fresher.repository.jdbctemplate.mapper.DetectiveRowMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -20,9 +21,8 @@ public class JdbcDetectiveRepo extends JdbcAbstractRepo<Detective>
 
     private RowMapper<Detective> rowMapper = new DetectiveRowMapper();
 
-    public JdbcDetectiveRepo(JdbcTemplate jdbcTemplate) {
-        super(jdbcTemplate);
-    }
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
     @Transactional
     @Override
