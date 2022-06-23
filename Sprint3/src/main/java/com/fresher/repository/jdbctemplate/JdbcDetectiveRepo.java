@@ -24,13 +24,22 @@ public class JdbcDetectiveRepo extends JdbcAbstractRepo<Detective>
         super(jdbcTemplate);
     }
 
+    @Transactional
+    @Override
+    public Detective update(Detective entity) {
+        String sql = "UPDATE DETECTIVE SET BADGE_NUMBER=?, RANK=?, ARMED=?, STATUS=?,PERSON_ID=? WHERE id =?";
+        jdbcTemplate.update(sql, entity.getBadgeNumber(), entity.getRank(), entity.getArmed(), entity.getStatus(), entity.getPerson());
+        return entity;
+    }
+
     @Override
     public Optional<Detective> findById(Long id) {
         String sql = "select d.ID, d.BADGE_NUMBER, d.RANK, d.ARMED, d.STATUS,d.PERSON_ID, " +
-                "p.USERNAME, p.FIRSTNAME, p.LASTNAME, p.HIRINGDATE "+
+                "p.USERNAME, p.FIRSTNAME, p.LASTNAME, p.HIRINGDATE " +
                 "from DETECTIVE d, PERSON p where d.ID= ? and d.PERSON_ID=p.ID";
         return Optional.of(jdbcTemplate.queryForObject(sql, rowMapper, id));
     }
+
 
     @Override
     public Optional<Detective> findByBadgeNumber(String badgeNumber) {
@@ -39,12 +48,13 @@ public class JdbcDetectiveRepo extends JdbcAbstractRepo<Detective>
         return detective == null ? Optional.empty() : Optional.of(detective);
     }
 
+    @Transactional
     @Override
     public void save(Detective detective) {
         jdbcTemplate.update(
                 "insert into DETECTIVE(ID, BADGE_NUMBER, RANK, ARMED, STATUS,PERSON_ID) values(?,?,?,?,?,?)",
                 detective.getId(), detective.getBadgeNumber(), detective.getRank(),
-                                    detective.getStatus(), detective.getPerson().getId()
+                detective.getStatus(), detective.getPerson().getId()
         );
     }
 
@@ -60,11 +70,13 @@ public class JdbcDetectiveRepo extends JdbcAbstractRepo<Detective>
         return new HashSet<>(jdbcTemplate.query(sql, rowMapper, rank));
     }
 
+    @Transactional
     @Override
     public void delete(Detective entity) {
         jdbcTemplate.update("delete from DETECTIVE where ID =? ", entity.getId());
     }
 
+    @Transactional
     @Override
     public int deleteById(Long id) {
         return jdbcTemplate.update("delete from DETECTIVE where ID =? ", id);

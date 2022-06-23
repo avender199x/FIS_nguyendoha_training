@@ -9,6 +9,8 @@ import java.util.Optional;
 import java.util.Set;
 
 public interface CriminalCaseRepo extends AbstractRepo<CriminalCase> {
+    Set<CriminalCase> findAll();
+
     Set<CriminalCase> findByLeadInvestigator(Detective detective);
 
     Optional<CriminalCase> findByNumber(String caseNumber);
