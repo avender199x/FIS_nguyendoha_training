@@ -1,6 +1,6 @@
 package com.fis.Sprint_4.service.imp;
 
-import com.fis.Sprint_4.entity.Storage;
+import com.fis.Sprint_4.model.Storage;
 import com.fis.Sprint_4.repository.StorageRepository;
 import com.fis.Sprint_4.service.StorageService;
 import lombok.extern.slf4j.Slf4j;

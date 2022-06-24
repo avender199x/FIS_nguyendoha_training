@@ -1,6 +1,6 @@
 package com.fis.Sprint_4.service.imp;
 
-import com.fis.Sprint_4.entity.Detective;
+import com.fis.Sprint_4.model.Detective;
 import com.fis.Sprint_4.repository.DetectiveRepository;
 import com.fis.Sprint_4.service.DetectiveService;
 import lombok.extern.slf4j.Slf4j;

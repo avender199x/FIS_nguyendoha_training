@@ -1,6 +1,6 @@
 package com.fis.Sprint_4.service.imp;
 
-import com.fis.Sprint_4.entity.Evidence;
+import com.fis.Sprint_4.model.Evidence;
 import com.fis.Sprint_4.repository.EvidenceRepository;
 import com.fis.Sprint_4.service.EvidenceService;
 import lombok.extern.slf4j.Slf4j;

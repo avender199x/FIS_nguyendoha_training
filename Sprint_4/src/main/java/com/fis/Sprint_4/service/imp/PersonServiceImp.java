@@ -1,6 +1,6 @@
 package com.fis.Sprint_4.service.imp;
 
-import com.fis.Sprint_4.entity.Person;
+import com.fis.Sprint_4.model.Person;
 import com.fis.Sprint_4.repository.PersonRepository;
 import com.fis.Sprint_4.service.PersonService;
 import lombok.extern.slf4j.Slf4j;

@@ -1,4 +1,4 @@
-package com.fis.Sprint_4.entity;
+package com.fis.Sprint_4.model;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

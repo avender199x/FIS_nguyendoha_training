@@ -1,6 +1,6 @@
 package com.fis.Sprint_4.service.imp;
 
-import com.fis.Sprint_4.entity.CriminalCase;
+import com.fis.Sprint_4.model.CriminalCase;
 import com.fis.Sprint_4.repository.CriminalCaseRepository;
 import com.fis.Sprint_4.service.CriminalCaseService;
 import lombok.extern.slf4j.Slf4j;

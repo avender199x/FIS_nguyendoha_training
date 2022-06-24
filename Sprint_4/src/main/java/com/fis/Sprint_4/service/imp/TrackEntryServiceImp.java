@@ -1,6 +1,6 @@
 package com.fis.Sprint_4.service.imp;
 
-import com.fis.Sprint_4.entity.TrackEntry;
+import com.fis.Sprint_4.model.TrackEntry;
 import com.fis.Sprint_4.repository.TrackEntryRepository;
 import com.fis.Sprint_4.service.TrackEntryService;
 import lombok.extern.slf4j.Slf4j;
