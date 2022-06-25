@@ -3,6 +3,8 @@ package com.fis.Sprint_4.model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -12,10 +14,10 @@ import java.util.Set;
 @Data
 @Table(name = "Evidence")
 public class Evidence extends AbstractEntity {
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "criminal_Case_id")
     private CriminalCase criminalCase;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "storage_id")
     private Storage storage;
     private String number;
@@ -23,7 +25,7 @@ public class Evidence extends AbstractEntity {
     @Lob
     private String notes;
     private Boolean archived = false;
-    @OneToMany(mappedBy = "evidence")
+    @OneToMany(mappedBy = "evidence", fetch = FetchType.EAGER)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Set<TrackEntry> trackEntries = new HashSet<>();

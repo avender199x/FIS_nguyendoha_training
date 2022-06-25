@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
+
 class DetectiveServiceImpTest {
     @Autowired
     private EvidenceService evidenceService;
@@ -77,6 +78,7 @@ class DetectiveServiceImpTest {
 
     @Test
     void findById() {
+        System.out.println(evidenceService.findAll());
     }
 
     @Test
