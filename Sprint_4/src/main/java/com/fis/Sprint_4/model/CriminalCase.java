@@ -23,7 +23,7 @@ public class CriminalCase extends AbstractEntity {
     private CaseStatus status;
     @Lob
     private String notes;
-    @OneToMany(mappedBy = "criminalCase", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "criminalCase")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Set<Evidence> evidenceSet = new HashSet<>();

@@ -17,7 +17,7 @@ import java.util.Set;
 public class Storage extends AbstractEntity {
     private String name;
     private String location;
-    @OneToMany(mappedBy = "storage", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "storage")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Set<Evidence> evidenceSet = new HashSet<>();
