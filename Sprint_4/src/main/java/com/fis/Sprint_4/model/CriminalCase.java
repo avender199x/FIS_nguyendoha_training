@@ -33,10 +33,10 @@ public class CriminalCase extends AbstractEntity {
     @ManyToOne
     @JoinColumn(name = "Detective_id")
     private Detective leadInvestigator;
-    @ManyToMany(cascade = CascadeType.MERGE)
+    @ManyToMany(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH})
     @JsonManagedReference
     @JoinTable(name = "working_detective_case",
             joinColumns = @JoinColumn(name = "criminal_Case_id"),
             inverseJoinColumns = @JoinColumn(name = "detective_id"))
-    private Set<Detective> assigned = new HashSet<>();
+    private Set<Detective> assigned;
 }

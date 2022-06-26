@@ -24,9 +24,9 @@ public class Detective extends AbstractEntity {
     private Boolean armed = false;
     @Enumerated(EnumType.STRING)
     private EmploymentStatus status = EmploymentStatus.ACTIVE;
-    @ManyToMany(mappedBy = "assigned", cascade = CascadeType.MERGE)
+    @ManyToMany(mappedBy = "assigned", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
     @JsonBackReference
-    private Set<CriminalCase> criminalCases = new HashSet<>();
+    private Set<CriminalCase> criminalCases;
     @OneToMany(mappedBy = "detective")
     @JsonBackReference
     @EqualsAndHashCode.Exclude

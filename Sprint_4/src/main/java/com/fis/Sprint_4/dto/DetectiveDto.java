@@ -2,9 +2,11 @@ package com.fis.Sprint_4.dto;
 
 import com.fis.Sprint_4.core.EmploymentStatus;
 import com.fis.Sprint_4.core.Rank;
+import com.fis.Sprint_4.model.CriminalCase;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Data
 public class DetectiveDto extends AbstractEntityDto {
@@ -16,4 +18,5 @@ public class DetectiveDto extends AbstractEntityDto {
     private Boolean armed = false;
     @Enumerated(EnumType.STRING)
     private EmploymentStatus status = EmploymentStatus.ACTIVE;
+    private Long criminalCases;
 }

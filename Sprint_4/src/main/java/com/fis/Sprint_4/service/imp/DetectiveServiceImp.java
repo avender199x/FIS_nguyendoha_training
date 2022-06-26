@@ -3,13 +3,17 @@ package com.fis.Sprint_4.service.imp;
 import com.fis.Sprint_4.dto.DetectiveDto;
 import com.fis.Sprint_4.model.Detective;
 import com.fis.Sprint_4.model.Person;
+import com.fis.Sprint_4.repository.CriminalCaseRepository;
 import com.fis.Sprint_4.repository.DetectiveRepository;
 import com.fis.Sprint_4.repository.PersonRepository;
 import com.fis.Sprint_4.service.DetectiveService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -21,6 +25,10 @@ public class DetectiveServiceImp implements DetectiveService {
     private DetectiveRepository detectiveRepository;
     @Autowired
     private PersonRepository personRepository;
+    @Autowired
+    private CriminalCaseRepository criminalCaseRepository;
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
     @Override
     public Detective Save(DetectiveDto detectiveDto) {
@@ -34,7 +42,16 @@ public class DetectiveServiceImp implements DetectiveService {
             save.setStatus(detectiveDto.getStatus());
             save.setBadgeNumber(detectiveDto.getBadgeNumber());
             save.setArmed(detectiveDto.getArmed());
-            return detectiveRepository.save(save);
+            detectiveRepository.save(save);
+            if (criminalCaseRepository.findById(detectiveDto.getCriminalCases()).isPresent()) {
+                jdbcTemplate
+                        .update("INSERT into working_detective_case (criminal_case_id,detective_id) VALUES (?,?)"
+                                , detectiveDto.getCriminalCases()
+                                , detectiveRepository
+                                        .findDetectiveByPerson(personRepository
+                                                .findById(detectiveDto.getPerson()).get()).getId().intValue());
+            }
+            return save;
         } else {
             log.error("Save false :\n" + "Time : " + LocalDateTime.now() + "\n DetectiveDto : " + detectiveDto);
             throw new RuntimeException("Person does not exist");

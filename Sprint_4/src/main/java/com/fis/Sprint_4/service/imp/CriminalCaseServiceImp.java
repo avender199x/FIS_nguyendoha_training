@@ -36,6 +36,9 @@ public class CriminalCaseServiceImp implements CriminalCaseService {
             save.setLeadInvestigator(detective.get());
             save.setShortDescription(criminalCaseDto.getShortDescription());
             save.setDetailedDescription(criminalCaseDto.getDetailedDescription());
+            if (detectiveRepository.findById(criminalCaseDto.getAssigned()).isPresent()) {
+                save.getAssigned().add(detectiveRepository.findById(criminalCaseDto.getAssigned()).get());
+            }
             save.setVersion(criminalCaseDto.getVersion());
             return criminalCaseRepository.save(save);
         } else {
@@ -58,6 +61,9 @@ public class CriminalCaseServiceImp implements CriminalCaseService {
             update.get().setShortDescription(criminalCaseDto.getShortDescription());
             update.get().setDetailedDescription(criminalCaseDto.getDetailedDescription());
             update.get().setVersion(criminalCaseDto.getVersion());
+            if (detectiveRepository.findById(criminalCaseDto.getAssigned()).isPresent()) {
+                update.get().getAssigned().add(detectiveRepository.findById(criminalCaseDto.getAssigned()).get());
+            }
             return criminalCaseRepository.save(update.get());
         } else {
             log.error("update false : \n" + "Time : " + LocalDateTime.now()
