@@ -1,5 +1,7 @@
 package com.fis.Sprint_4.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fis.Sprint_4.core.CaseStatus;
 import com.fis.Sprint_4.core.CaseType;
 import lombok.Data;
@@ -24,6 +26,7 @@ public class CriminalCase extends AbstractEntity {
     @Lob
     private String notes;
     @OneToMany(mappedBy = "criminalCase")
+    @JsonBackReference
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Set<Evidence> evidenceSet = new HashSet<>();
@@ -31,6 +34,7 @@ public class CriminalCase extends AbstractEntity {
     @JoinColumn(name = "Detective_id")
     private Detective leadInvestigator;
     @ManyToMany
+    @JsonManagedReference
     @JoinTable(name = "working_detective_case",
             joinColumns = @JoinColumn(name = "criminal_Case_id"),
             inverseJoinColumns = @JoinColumn(name = "detective_id"))
