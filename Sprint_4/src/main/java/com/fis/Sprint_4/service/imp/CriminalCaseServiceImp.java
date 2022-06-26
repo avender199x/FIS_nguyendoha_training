@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Slf4j
 @Service
@@ -66,7 +67,6 @@ public class CriminalCaseServiceImp implements CriminalCaseService {
             update.get().setShortDescription(criminalCaseDto.getShortDescription());
             update.get().setDetailedDescription(criminalCaseDto.getDetailedDescription());
             update.get().setVersion(criminalCaseDto.getVersion());
-            update.get().setAssigned(new HashSet<>());
             for (Long c : criminalCaseDto.getAssigned()) {
                 update.get().getAssigned().add(detectiveRepository.findById(c).get());
             }

@@ -11,7 +11,6 @@ import java.util.Set;
 
 @Data
 public class DetectiveDto extends AbstractEntityDto {
-
     private Long person;
     private String badgeNumber;
     @Enumerated(EnumType.STRING)
@@ -19,5 +18,4 @@ public class DetectiveDto extends AbstractEntityDto {
     private Boolean armed = false;
     @Enumerated(EnumType.STRING)
     private EmploymentStatus status = EmploymentStatus.ACTIVE;
-    private Set<Long> criminalCases;
 }

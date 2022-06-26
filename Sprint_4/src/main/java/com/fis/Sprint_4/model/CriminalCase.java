@@ -37,7 +37,7 @@ public class CriminalCase extends AbstractEntity {
     @JoinColumn(name = "Detective_id")
     private Detective leadInvestigator;
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH,CascadeType.PERSIST})
+    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
     @JsonBackReference
     @JoinTable(name = "working_detective_case",
             joinColumns = @JoinColumn(name = "criminal_Case_id"),

@@ -5,6 +5,7 @@ import com.fis.Sprint_4.core.CaseType;
 import com.fis.Sprint_4.core.EmploymentStatus;
 import com.fis.Sprint_4.core.Rank;
 import com.fis.Sprint_4.model.*;
+import com.fis.Sprint_4.repository.*;
 import com.fis.Sprint_4.service.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,15 +19,15 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class DetectiveServiceImpTest {
     @Autowired
-    private EvidenceService evidenceService;
+    private EvidenceRepository evidenceService;
     @Autowired
-    private PersonService personService;
+    private PersonRepository personService;
     @Autowired
-    private CriminalCaseService criminalCaseService;
+    private CriminalCaseRepository criminalCaseService;
     @Autowired
-    private DetectiveService detectiveService;
+    private DetectiveRepository detectiveService;
     @Autowired
-    private StorageService storageService;
+    private StorageRepository storageService;
 
 
     @Test
@@ -39,14 +40,14 @@ class DetectiveServiceImpTest {
         person.setUsername("nguyen do ha");
         person.setPassword("123");
         person.setNewPassword("123");
-        personService.Save(person);
+        personService.save(person);
         Detective detective = new Detective();
         detective.setArmed(true);
         detective.setBadgeNumber("dsad");
         detective.setRank(Rank.INSPECTOR);
         detective.setStatus(EmploymentStatus.ACTIVE);
         detective.setPerson(personService.findById(1l).get());
-        detectiveService.Save(detective);
+        detectiveService.save(detective);
         CriminalCase criminalCase = new CriminalCase();
         criminalCase.setStatus(CaseStatus.SUBMITTED);
         criminalCase.setVersion(4);
@@ -56,11 +57,11 @@ class DetectiveServiceImpTest {
         criminalCase.setNotes("dads");
         criminalCase.setNumber("12");
         criminalCase.setType(CaseType.FELONY);
-        criminalCaseService.Save(criminalCase);
+        criminalCaseService.save(criminalCase);
         Storage storage = new Storage();
         storage.setLocation("123");
         storage.setName("test storage");
-        storageService.Save(storage);
+        storageService.save(storage);
 
     }
 
@@ -73,7 +74,7 @@ class DetectiveServiceImpTest {
       evidence.setItemName("test evidence");
       evidence.setNumber("12");
       evidence.setNotes("test");
-      evidenceService.Save(evidence);
+      evidenceService.save(evidence);
     }
 
     @Test
