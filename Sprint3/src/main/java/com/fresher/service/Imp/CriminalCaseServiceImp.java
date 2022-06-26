@@ -22,6 +22,7 @@ public class CriminalCaseServiceImp implements CriminalCaseService {
 
     @Override
     public Optional<CriminalCase> findById(Long aLong) {
+
         return repo.findById(aLong);
     }
 
