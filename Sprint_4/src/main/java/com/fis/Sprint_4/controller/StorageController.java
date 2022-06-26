@@ -1,5 +1,6 @@
 package com.fis.Sprint_4.controller;
 
+import com.fis.Sprint_4.dto.StorageDto;
 import com.fis.Sprint_4.model.Storage;
 import com.fis.Sprint_4.service.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,12 +26,12 @@ public class StorageController {
     }
 
     @PostMapping("/add")
-    public Storage addStorage(@RequestBody Storage storage) {
+    public Storage addStorage(@RequestBody StorageDto storage) {
         return service.Save(storage);
     }
 
     @PutMapping("/update/{id}")
-    public Storage updateStorage(@PathVariable(name = "id") Long id, @RequestBody Storage storage) {
+    public Storage updateStorage(@PathVariable(name = "id") Long id, @RequestBody StorageDto storage) {
         return service.update(id, storage);
     }
 

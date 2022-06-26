@@ -1,5 +1,6 @@
 package com.fis.Sprint_4.controller;
 
+import com.fis.Sprint_4.dto.EvidenceDto;
 import com.fis.Sprint_4.model.Evidence;
 import com.fis.Sprint_4.service.EvidenceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,12 +26,12 @@ public class EvidenceController {
     }
 
     @PostMapping("/add")
-    public Evidence addPerson(@RequestBody Evidence evidence) {
+    public Evidence addPerson(@RequestBody EvidenceDto evidence) {
         return service.Save(evidence);
     }
 
     @PutMapping("/update/{id}")
-    public Evidence updatePerson(@PathVariable(name = "id") Long id, @RequestBody Evidence evidence) {
+    public Evidence updatePerson(@PathVariable(name = "id") Long id, @RequestBody EvidenceDto evidence) {
         return service.update(id, evidence);
     }
 

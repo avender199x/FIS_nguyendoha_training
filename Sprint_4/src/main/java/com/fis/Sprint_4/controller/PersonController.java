@@ -1,5 +1,6 @@
 package com.fis.Sprint_4.controller;
 
+import com.fis.Sprint_4.dto.PersonDto;
 import com.fis.Sprint_4.model.Person;
 import com.fis.Sprint_4.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,12 +26,12 @@ public class PersonController {
     }
 
     @PostMapping("/add")
-    public Person addPerson(@RequestBody Person person) {
+    public Person addPerson(@RequestBody PersonDto person) {
         return service.Save(person);
     }
 
     @PutMapping("/update/{id}")
-    public Person updatePerson(@PathVariable(name = "id") Long id, @RequestBody Person person) {
+    public Person updatePerson(@PathVariable(name = "id") Long id, @RequestBody PersonDto person) {
         return service.update(id, person);
     }
 

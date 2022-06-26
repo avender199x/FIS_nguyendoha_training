@@ -1,5 +1,6 @@
 package com.fis.Sprint_4.controller;
 
+import com.fis.Sprint_4.dto.DetectiveDto;
 import com.fis.Sprint_4.model.Detective;
 import com.fis.Sprint_4.service.DetectiveService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,12 +26,12 @@ public class DetectiveController {
     }
 
     @PostMapping("/add")
-    public Detective addPerson(@RequestBody Detective detective) {
+    public Detective addPerson(@RequestBody DetectiveDto detective) {
         return service.Save(detective);
     }
 
     @PutMapping("/update/{id}")
-    public Detective updatePerson(@PathVariable(name = "id") Long id, @RequestBody Detective detective) {
+    public Detective updatePerson(@PathVariable(name = "id") Long id, @RequestBody DetectiveDto detective) {
         return service.update(id, detective);
     }
 

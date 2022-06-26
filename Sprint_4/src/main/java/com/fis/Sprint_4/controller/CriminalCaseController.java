@@ -1,5 +1,6 @@
 package com.fis.Sprint_4.controller;
 
+import com.fis.Sprint_4.dto.CriminalCaseDto;
 import com.fis.Sprint_4.model.CriminalCase;
 import com.fis.Sprint_4.service.CriminalCaseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,13 +26,13 @@ public class CriminalCaseController {
     }
 
     @PostMapping("/add")
-    public CriminalCase addPerson(@RequestBody CriminalCase criminalCase) {
-        return service.Save(criminalCase);
+    public CriminalCase addPerson(@RequestBody CriminalCaseDto criminalCaseDto) {
+        return service.Save(criminalCaseDto);
     }
 
     @PutMapping("/update/{id}")
-    public CriminalCase updatePerson(@PathVariable(name = "id") Long id, @RequestBody CriminalCase criminalCase) {
-        return service.update(id, criminalCase);
+    public CriminalCase updatePerson(@PathVariable(name = "id") Long id, @RequestBody CriminalCaseDto criminalCaseDto) {
+        return service.update(id, criminalCaseDto);
     }
 
     @DeleteMapping("/delete/{id}")
