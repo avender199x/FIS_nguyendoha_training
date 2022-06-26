@@ -1,5 +1,6 @@
 package com.fis.Sprint_4.controller;
 
+import com.fis.Sprint_4.dto.TrackEntryDto;
 import com.fis.Sprint_4.model.TrackEntry;
 import com.fis.Sprint_4.service.TrackEntryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,13 +27,14 @@ public class TrackEntryController {
     }
 
     @PostMapping("/add")
-    public TrackEntry addStorage(@RequestBody TrackEntry trackEntry) {
-        return service.Save(trackEntry);
+    public TrackEntry addStorage(@RequestBody TrackEntryDto trackEntryDto) {
+
+        return service.Save(trackEntryDto);
     }
 
     @PutMapping("/update/{id}")
-    public TrackEntry updateStorage(@PathVariable(name = "id") Long id, @RequestBody TrackEntry trackEntry) {
-        return service.update(id, trackEntry);
+    public TrackEntry updateStorage(@PathVariable(name = "id") Long id, @RequestBody TrackEntryDto trackEntryDto) {
+        return service.update(id, trackEntryDto);
     }
 
     @DeleteMapping("/delete/{id}")

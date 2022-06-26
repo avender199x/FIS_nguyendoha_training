@@ -1,11 +1,13 @@
 package com.fis.Sprint_4.service.imp;
 
+import com.fis.Sprint_4.dto.PersonDto;
 import com.fis.Sprint_4.model.Person;
 import com.fis.Sprint_4.repository.PersonRepository;
 import com.fis.Sprint_4.service.PersonService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -14,34 +16,40 @@ import java.util.Optional;
 @Slf4j
 @Service
 public class PersonServiceImp implements PersonService {
+    @Autowired
     private PersonRepository repository;
 
-    @Autowired
-    public PersonServiceImp(PersonRepository repository) {
-        this.repository = repository;
+    @Transactional
+    @Override
+    public Person Save(PersonDto personDto) {
+        Person save = new Person();
+        save.setVersion(personDto.getVersion());
+        save.setCreatedAt(LocalDateTime.now());
+        save.setModifiedAt(LocalDateTime.now());
+        save.setPassword(personDto.getPassword());
+        save.setUsername(personDto.getUsername());
+        save.setLastName(personDto.getLastName());
+        save.setHiringDate(personDto.getHiringDate());
+        save.setFirstName(personDto.getFirstName());
+        return repository.save(save);
     }
 
+    @Transactional
     @Override
-    public Person Save(Person person) {
-        person.setCreatedAt(LocalDateTime.now());
-        person.setModifiedAt(LocalDateTime.now());
-        return repository.save(person);
-    }
-
-    @Override
-    public Person update(Long aLong, Person person) {
+    public Person update(Long aLong, PersonDto personDto) {
         if (repository.findById(aLong).isPresent()) {
             Person update = repository.findById(aLong).get();
+            update.setVersion(personDto.getVersion());
+            update.setCreatedAt(LocalDateTime.now());
             update.setModifiedAt(LocalDateTime.now());
-            update.setFirstName(person.getFirstName());
-            update.setHiringDate(person.getHiringDate());
-            update.setLastName(person.getLastName());
-            update.setNewPassword(person.getNewPassword());
-            update.setPassword(person.getPassword());
-            update.setUsername(person.getUsername());
+            update.setNewPassword(update.getNewPassword());
+            update.setUsername(personDto.getUsername());
+            update.setLastName(personDto.getLastName());
+            update.setHiringDate(personDto.getHiringDate());
+            update.setFirstName(personDto.getFirstName());
             return repository.save(update);
         } else {
-            log.error("person does not exist");
+            log.error("update false :\n" + "Time : " + LocalDateTime.now() + "\nPersonId : " + aLong);
             throw new RuntimeException("person does not exist");
         }
     }
@@ -56,6 +64,7 @@ public class PersonServiceImp implements PersonService {
         return repository.findAll();
     }
 
+    @Transactional
     @Override
     public void delete(Long aLong) {
         repository.deleteById(aLong);

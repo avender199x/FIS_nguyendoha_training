@@ -33,7 +33,7 @@ public class CriminalCase extends AbstractEntity {
     @ManyToOne
     @JoinColumn(name = "Detective_id")
     private Detective leadInvestigator;
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.MERGE)
     @JsonManagedReference
     @JoinTable(name = "working_detective_case",
             joinColumns = @JoinColumn(name = "criminal_Case_id"),
