@@ -1,11 +1,15 @@
 package com.fis.Sprint_4.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fis.Sprint_4.core.EmploymentStatus;
 import com.fis.Sprint_4.core.Rank;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -24,7 +28,8 @@ public class Detective extends AbstractEntity {
     private Boolean armed = false;
     @Enumerated(EnumType.STRING)
     private EmploymentStatus status = EmploymentStatus.ACTIVE;
-    @ManyToMany(mappedBy = "assigned", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @ManyToMany(mappedBy = "assigned")
     @JsonBackReference
     private Set<CriminalCase> criminalCases;
     @OneToMany(mappedBy = "detective")

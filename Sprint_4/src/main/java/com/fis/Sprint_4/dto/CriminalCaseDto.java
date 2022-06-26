@@ -7,6 +7,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
@@ -21,5 +22,5 @@ public class CriminalCaseDto extends AbstractEntityDto {
     private CaseStatus status;
     private String notes;
     private Long leadInvestigator;
-    private Long assigned;
+    private Set<Long> assigned;
 }

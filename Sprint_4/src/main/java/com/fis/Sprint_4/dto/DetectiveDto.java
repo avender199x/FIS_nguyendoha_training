@@ -6,6 +6,7 @@ import com.fis.Sprint_4.model.CriminalCase;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -18,5 +19,5 @@ public class DetectiveDto extends AbstractEntityDto {
     private Boolean armed = false;
     @Enumerated(EnumType.STRING)
     private EmploymentStatus status = EmploymentStatus.ACTIVE;
-    private Long criminalCases;
+    private Set<Long> criminalCases;
 }

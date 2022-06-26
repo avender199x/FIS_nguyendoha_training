@@ -9,8 +9,10 @@ import com.fis.Sprint_4.service.CriminalCaseService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,6 +24,7 @@ public class CriminalCaseServiceImp implements CriminalCaseService {
     @Autowired
     private DetectiveRepository detectiveRepository;
 
+    @Transactional
     @Override
     public CriminalCase Save(CriminalCaseDto criminalCaseDto) {
         Optional<Detective> detective = detectiveRepository.findById(criminalCaseDto.getLeadInvestigator());
@@ -36,8 +39,9 @@ public class CriminalCaseServiceImp implements CriminalCaseService {
             save.setLeadInvestigator(detective.get());
             save.setShortDescription(criminalCaseDto.getShortDescription());
             save.setDetailedDescription(criminalCaseDto.getDetailedDescription());
-            if (detectiveRepository.findById(criminalCaseDto.getAssigned()).isPresent()) {
-                save.getAssigned().add(detectiveRepository.findById(criminalCaseDto.getAssigned()).get());
+            save.setAssigned(new HashSet<>());
+            for (Long c : criminalCaseDto.getAssigned()) {
+                save.getAssigned().add(detectiveRepository.findById(c).get());
             }
             save.setVersion(criminalCaseDto.getVersion());
             return criminalCaseRepository.save(save);
@@ -47,6 +51,7 @@ public class CriminalCaseServiceImp implements CriminalCaseService {
         }
     }
 
+    @Transactional
     @Override
     public CriminalCase update(Long aLong, CriminalCaseDto criminalCaseDto) {
         Optional<CriminalCase> update = criminalCaseRepository.findById(aLong);
@@ -61,8 +66,9 @@ public class CriminalCaseServiceImp implements CriminalCaseService {
             update.get().setShortDescription(criminalCaseDto.getShortDescription());
             update.get().setDetailedDescription(criminalCaseDto.getDetailedDescription());
             update.get().setVersion(criminalCaseDto.getVersion());
-            if (detectiveRepository.findById(criminalCaseDto.getAssigned()).isPresent()) {
-                update.get().getAssigned().add(detectiveRepository.findById(criminalCaseDto.getAssigned()).get());
+            update.get().setAssigned(new HashSet<>());
+            for (Long c : criminalCaseDto.getAssigned()) {
+                update.get().getAssigned().add(detectiveRepository.findById(c).get());
             }
             return criminalCaseRepository.save(update.get());
         } else {
@@ -82,6 +88,7 @@ public class CriminalCaseServiceImp implements CriminalCaseService {
         return criminalCaseRepository.findAll();
     }
 
+    @Transactional
     @Override
     public void delete(Long aLong) {
         criminalCaseRepository.deleteById(aLong);

@@ -1,6 +1,7 @@
 package com.fis.Sprint_4.service.imp;
 
 import com.fis.Sprint_4.dto.DetectiveDto;
+import com.fis.Sprint_4.model.CriminalCase;
 import com.fis.Sprint_4.model.Detective;
 import com.fis.Sprint_4.model.Person;
 import com.fis.Sprint_4.repository.CriminalCaseRepository;
@@ -11,12 +12,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -25,11 +26,8 @@ public class DetectiveServiceImp implements DetectiveService {
     private DetectiveRepository detectiveRepository;
     @Autowired
     private PersonRepository personRepository;
-    @Autowired
-    private CriminalCaseRepository criminalCaseRepository;
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
 
+    @Transactional
     @Override
     public Detective Save(DetectiveDto detectiveDto) {
         Optional<Person> person = personRepository.findById(detectiveDto.getPerson());
@@ -43,14 +41,6 @@ public class DetectiveServiceImp implements DetectiveService {
             save.setBadgeNumber(detectiveDto.getBadgeNumber());
             save.setArmed(detectiveDto.getArmed());
             detectiveRepository.save(save);
-            if (criminalCaseRepository.findById(detectiveDto.getCriminalCases()).isPresent()) {
-                jdbcTemplate
-                        .update("INSERT into working_detective_case (criminal_case_id,detective_id) VALUES (?,?)"
-                                , detectiveDto.getCriminalCases()
-                                , detectiveRepository
-                                        .findDetectiveByPerson(personRepository
-                                                .findById(detectiveDto.getPerson()).get()).getId().intValue());
-            }
             return save;
         } else {
             log.error("Save false :\n" + "Time : " + LocalDateTime.now() + "\n DetectiveDto : " + detectiveDto);
@@ -58,6 +48,7 @@ public class DetectiveServiceImp implements DetectiveService {
         }
     }
 
+    @Transactional
     @Override
     public Detective update(Long aLong, DetectiveDto detectiveDto) {
         Optional<Detective> update = detectiveRepository.findById(aLong);
@@ -87,6 +78,7 @@ public class DetectiveServiceImp implements DetectiveService {
         return detectiveRepository.findAll();
     }
 
+    @Transactional
     @Override
     public void delete(Long aLong) {
         detectiveRepository.deleteById(aLong);
