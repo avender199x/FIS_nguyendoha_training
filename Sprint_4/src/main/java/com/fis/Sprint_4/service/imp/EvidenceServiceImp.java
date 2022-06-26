@@ -25,6 +25,7 @@ public class EvidenceServiceImp implements EvidenceService {
     @Override
     public Evidence Save(Evidence evidence) {
         evidence.setCreatedAt(LocalDateTime.now());
+        evidence.setModifiedAt(LocalDateTime.now());
         return repository.save(evidence);
     }
 

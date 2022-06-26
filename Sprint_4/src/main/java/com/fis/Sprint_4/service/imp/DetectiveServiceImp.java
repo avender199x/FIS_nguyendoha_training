@@ -25,6 +25,7 @@ public class DetectiveServiceImp implements DetectiveService {
     @Override
     public Detective Save(Detective detective) {
         detective.setCreatedAt(LocalDateTime.now());
+        detective.setModifiedAt(LocalDateTime.now());
         return repository.save(detective);
     }
 

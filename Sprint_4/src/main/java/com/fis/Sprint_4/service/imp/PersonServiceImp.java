@@ -24,6 +24,7 @@ public class PersonServiceImp implements PersonService {
     @Override
     public Person Save(Person person) {
         person.setCreatedAt(LocalDateTime.now());
+        person.setModifiedAt(LocalDateTime.now());
         return repository.save(person);
     }
 

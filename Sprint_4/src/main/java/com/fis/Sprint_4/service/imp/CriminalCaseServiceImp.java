@@ -24,6 +24,7 @@ public class CriminalCaseServiceImp implements CriminalCaseService {
     @Override
     public CriminalCase Save(CriminalCase criminalCase) {
         criminalCase.setCreatedAt(LocalDateTime.now());
+        criminalCase.setModifiedAt(LocalDateTime.now());
         return repository.save(criminalCase);
     }
 

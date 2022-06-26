@@ -24,6 +24,7 @@ public class StorageServiceImp implements StorageService {
     @Override
     public Storage Save(Storage storage) {
         storage.setCreatedAt(LocalDateTime.now());
+        storage.setModifiedAt(LocalDateTime.now());
         return repository.save(storage);
     }
 

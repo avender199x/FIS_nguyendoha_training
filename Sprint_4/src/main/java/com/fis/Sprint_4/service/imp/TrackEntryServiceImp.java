@@ -24,6 +24,7 @@ public class TrackEntryServiceImp implements TrackEntryService {
     @Override
     public TrackEntry Save(TrackEntry trackEntry) {
         trackEntry.setCreatedAt(LocalDateTime.now());
+        trackEntry.setModifiedAt(LocalDateTime.now());
         return repository.save(trackEntry);
     }
 
