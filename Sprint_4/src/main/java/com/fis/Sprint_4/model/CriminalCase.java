@@ -1,6 +1,7 @@
 package com.fis.Sprint_4.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fis.Sprint_4.core.CaseStatus;
 import com.fis.Sprint_4.core.CaseType;
@@ -35,10 +36,7 @@ public class CriminalCase extends AbstractEntity {
     @JoinColumn(name = "Detective_id")
     private Detective leadInvestigator;
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @ManyToMany(mappedBy = "criminalCases", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JsonBackReference
-    @JoinTable(name = "working_detective_case",
-            joinColumns = @JoinColumn(name = "criminal_Case_id"),
-            inverseJoinColumns = @JoinColumn(name = "detective_id"))
     private Set<Detective> assigned;
 }

@@ -1,6 +1,7 @@
 package com.fis.Sprint_4.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fis.Sprint_4.core.EmploymentStatus;
@@ -29,7 +30,10 @@ public class Detective extends AbstractEntity {
     @Enumerated(EnumType.STRING)
     private EmploymentStatus status = EmploymentStatus.ACTIVE;
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @ManyToMany(mappedBy = "assigned")
+    @ManyToMany
+    @JoinTable(name = "working_detective_case",
+            joinColumns = @JoinColumn(name = "Detective_id")
+            ,inverseJoinColumns =@JoinColumn(name = "criminal_Case_id"))
     @JsonBackReference
     private Set<CriminalCase> criminalCases;
     @OneToMany(mappedBy = "detective")

@@ -61,6 +61,7 @@ public class CriminalCaseServiceImp implements CriminalCaseService {
         Optional<Detective> detective = detectiveRepository.findById(criminalCaseDto.getLeadInvestigator());
         if (update.isPresent() && detective.isPresent()) {
             update.get().setModifiedAt(LocalDateTime.now());
+            update.get().setCreatedAt(LocalDateTime.now());
             update.get().setType(criminalCaseDto.getType());
             update.get().setNumber(criminalCaseDto.getNumber());
             update.get().setStatus(criminalCaseDto.getStatus());
@@ -68,12 +69,10 @@ public class CriminalCaseServiceImp implements CriminalCaseService {
             update.get().setLeadInvestigator(detective.get());
             update.get().setShortDescription(criminalCaseDto.getShortDescription());
             update.get().setDetailedDescription(criminalCaseDto.getDetailedDescription());
-            update.get().setVersion(criminalCaseDto.getVersion());
             Set<Detective> detectives = criminalCaseDto
-                    .getAssigned().stream()
-                    .map(detectiveRepository::findById)
-                    .map(Optional::get)
-                    .collect(Collectors.toSet());
+                    .getAssigned()
+                    .stream().map(detectiveRepository::findById)
+                    .map(Optional::get).collect(Collectors.toSet());
             update.get().setAssigned(detectives);
             return criminalCaseRepository.save(update.get());
         } else {
