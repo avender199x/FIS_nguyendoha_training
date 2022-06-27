@@ -16,7 +16,6 @@ import java.time.LocalDateTime;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-
 class DetectiveServiceImpTest {
     @Autowired
     private EvidenceRepository evidenceService;
@@ -67,19 +66,19 @@ class DetectiveServiceImpTest {
 
     @Test
     void update() {
-      Evidence evidence = new Evidence();
-      evidence.setVersion(1);
-      evidence.setStorage(storageService.findById(1l).get());
-      evidence.setCriminalCase(criminalCaseService.findById(1l).get());
-      evidence.setItemName("test evidence");
-      evidence.setNumber("12");
-      evidence.setNotes("test");
-      evidenceService.save(evidence);
+        Evidence evidence = new Evidence();
+        evidence.setVersion(1);
+        evidence.setStorage(storageService.findById(1l).get());
+        evidence.setCriminalCase(criminalCaseService.findById(1l).get());
+        evidence.setItemName("test evidence");
+        evidence.setNumber("12");
+        evidence.setNotes("test");
+        evidenceService.save(evidence);
     }
 
     @Test
     void findById() {
-        System.out.println(evidenceService.findAll());
+
     }
 
     @Test

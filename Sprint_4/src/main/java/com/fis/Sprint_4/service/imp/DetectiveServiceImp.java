@@ -26,6 +26,8 @@ public class DetectiveServiceImp implements DetectiveService {
     private DetectiveRepository detectiveRepository;
     @Autowired
     private PersonRepository personRepository;
+    @Autowired
+    private CriminalCaseRepository criminalCaseRepository;
 
     @Transactional
     @Override
