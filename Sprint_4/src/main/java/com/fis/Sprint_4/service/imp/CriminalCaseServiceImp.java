@@ -16,6 +16,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -40,10 +41,11 @@ public class CriminalCaseServiceImp implements CriminalCaseService {
             save.setLeadInvestigator(detective.get());
             save.setShortDescription(criminalCaseDto.getShortDescription());
             save.setDetailedDescription(criminalCaseDto.getDetailedDescription());
-            save.setAssigned(new HashSet<>());
-            for (Long c : criminalCaseDto.getAssigned()) {
-                save.getAssigned().add(detectiveRepository.findById(c).get());
-            }
+            Set<Detective> detectives = criminalCaseDto
+                    .getAssigned()
+                    .stream().map(detectiveRepository::findById)
+                    .map(Optional::get).collect(Collectors.toSet());
+            save.setAssigned(detectives);
             save.setVersion(criminalCaseDto.getVersion());
             return criminalCaseRepository.save(save);
         } else {
@@ -67,9 +69,12 @@ public class CriminalCaseServiceImp implements CriminalCaseService {
             update.get().setShortDescription(criminalCaseDto.getShortDescription());
             update.get().setDetailedDescription(criminalCaseDto.getDetailedDescription());
             update.get().setVersion(criminalCaseDto.getVersion());
-            for (Long c : criminalCaseDto.getAssigned()) {
-                update.get().getAssigned().add(detectiveRepository.findById(c).get());
-            }
+            Set<Detective> detectives = criminalCaseDto
+                    .getAssigned().stream()
+                    .map(detectiveRepository::findById)
+                    .map(Optional::get)
+                    .collect(Collectors.toSet());
+            update.get().setAssigned(detectives);
             return criminalCaseRepository.save(update.get());
         } else {
             log.error("update false : \n" + "Time : " + LocalDateTime.now()
