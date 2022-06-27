@@ -29,8 +29,6 @@ public class CriminalCase extends AbstractEntity {
     private String notes;
     @OneToMany(mappedBy = "criminalCase")
     @JsonBackReference
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
     private Set<Evidence> evidenceSet = new HashSet<>();
     @ManyToOne
     @JsonManagedReference

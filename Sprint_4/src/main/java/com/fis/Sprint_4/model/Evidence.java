@@ -29,7 +29,5 @@ public class Evidence extends AbstractEntity {
     private Boolean archived = false;
     @OneToMany(mappedBy = "evidence")
     @JsonBackReference
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
     private Set<TrackEntry> trackEntries = new HashSet<>();
 }

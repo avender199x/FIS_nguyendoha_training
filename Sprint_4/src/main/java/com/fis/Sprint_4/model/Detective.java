@@ -34,7 +34,5 @@ public class Detective extends AbstractEntity {
     private Set<CriminalCase> criminalCases;
     @OneToMany(mappedBy = "detective")
     @JsonBackReference
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
     private Set<TrackEntry> trackEntries;
 }

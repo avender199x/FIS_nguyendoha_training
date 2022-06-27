@@ -17,7 +17,5 @@ public class Storage extends AbstractEntity {
     private String location;
     @OneToMany(mappedBy = "storage")
     @JsonBackReference
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
     private Set<Evidence> evidenceSet = new HashSet<>();
 }
