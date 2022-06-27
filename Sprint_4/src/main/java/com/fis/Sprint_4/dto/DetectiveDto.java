@@ -19,5 +19,5 @@ public class DetectiveDto extends AbstractEntityDto {
     private Boolean armed = false;
     @Enumerated(EnumType.STRING)
     private EmploymentStatus status = EmploymentStatus.ACTIVE;
-    private Set<CriminalCase> criminalCases;
+    private Set<Long> criminalCases;
 }
