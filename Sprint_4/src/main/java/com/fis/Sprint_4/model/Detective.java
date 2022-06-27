@@ -30,7 +30,7 @@ public class Detective extends AbstractEntity {
     @Enumerated(EnumType.STRING)
     private EmploymentStatus status = EmploymentStatus.ACTIVE;
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @ManyToMany(cascade = {CascadeType.MERGE,CascadeType.PERSIST})
+    @ManyToMany(cascade = {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.DETACH,CascadeType.REFRESH})
     @JoinTable(name = "working_detective_case",
             joinColumns = @JoinColumn(name = "Detective_id")
             ,inverseJoinColumns =@JoinColumn(name = "criminal_Case_id"))

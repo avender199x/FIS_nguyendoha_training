@@ -36,7 +36,7 @@ public class CriminalCase extends AbstractEntity {
     @JoinColumn(name = "Detective_id")
     private Detective leadInvestigator;
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @ManyToMany(mappedBy = "criminalCases", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @ManyToMany(mappedBy = "criminalCases", cascade = {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.DETACH,CascadeType.REFRESH})
     @JsonBackReference
     private Set<Detective> assigned;
 }
