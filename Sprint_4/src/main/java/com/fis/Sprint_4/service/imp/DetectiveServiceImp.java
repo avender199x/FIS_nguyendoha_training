@@ -18,6 +18,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -42,6 +43,11 @@ public class DetectiveServiceImp implements DetectiveService {
             save.setStatus(detectiveDto.getStatus());
             save.setBadgeNumber(detectiveDto.getBadgeNumber());
             save.setArmed(detectiveDto.getArmed());
+            Set<CriminalCase> criminalCases =
+                    detectiveDto.getCriminalCases()
+                            .stream().map(criminalCaseRepository::findById).map(Optional::get)
+                            .collect(Collectors.toSet());
+            save.setCriminalCases(criminalCases);
             detectiveRepository.save(save);
             return save;
         } else {
@@ -62,6 +68,11 @@ public class DetectiveServiceImp implements DetectiveService {
             update.get().setStatus(detectiveDto.getStatus());
             update.get().setBadgeNumber(detectiveDto.getBadgeNumber());
             update.get().setArmed(detectiveDto.getArmed());
+            Set<CriminalCase> criminalCases =
+                    detectiveDto.getCriminalCases()
+                            .stream().map(criminalCaseRepository::findById).map(Optional::get)
+                            .collect(Collectors.toSet());
+            update.get().setCriminalCases(criminalCases);
             return detectiveRepository.save(update.get());
         } else {
             log.error("update false :\n" + "Time : " + LocalDateTime.now()
