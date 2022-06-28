@@ -54,6 +54,10 @@ public class OrderServiceImp implements OrderService {
                 orders.setTotalAmount(order.getTotalAmount() + (o.getAmount() * o.getQuantity()));
                 orderItems.add(item);
                 Product product = productRepository.findById(o.getProduct()).get();
+                if (product.getAvailable() == 0 || product.getAvailable() < o.getQuantity()) {
+                    log.info("\n product it out of stock " + "\n Time : " + LocalDateTime.now());
+                    throw new RuntimeException("The product is out of stock");
+                }
                 product.setAvailable(product.getAvailable() - o.getQuantity());
                 productRepository.save(product);
             }
@@ -100,6 +104,10 @@ public class OrderServiceImp implements OrderService {
         Optional<Product> product = productRepository.findById(orderItemDto.getProduct());
         if (order.isPresent() && product.isPresent() && order.get().getStatus().equals(OrderStatus.CREATED)) {
             Product updateAvailable = productRepository.findById(orderItemDto.getProduct()).get();
+            if (updateAvailable.getAvailable() == 0 || updateAvailable.getAvailable() < orderItemDto.getQuantity()) {
+                log.info("\n product it out of stock " + "\n Time : " + LocalDateTime.now());
+                throw new RuntimeException("The product is out of stock");
+            }
             updateAvailable.setAvailable(updateAvailable.getAvailable() - orderItemDto.getQuantity());
             productRepository.save(updateAvailable);
             OrderItem orderItem = new OrderItem();
