@@ -26,16 +26,17 @@ class OrderServiceImpTest {
 
     @Test
     void create() {
-        OrderDto orderDto = new OrderDto();
-        orderDto.setCustomer(1l);
-        orderDto.setTotalAmount(122131d);
-        orderDto.setOrderDateTime(LocalDateTime.now());
-        orderDto.setStatus(OrderStatus.CREATED);
+        OrderDto orderDto = OrderDto.builder()
+                .customer(1l)
+                .totalAmount(123123d)
+                .orderDateTime(LocalDateTime.now())
+                .status(OrderStatus.CREATED)
+                .build();
         List<OrderItemDto> orderItemDtos = new ArrayList<>();
-        OrderItemDto itemDto = new OrderItemDto();
-        itemDto.setAmount(12d);
-        itemDto.setProduct(1l);
-        itemDto.setQuantity(12);
+        OrderItemDto itemDto = OrderItemDto.builder()
+                .product(1l)
+                .quantity(12)
+                .build();
         orderItemDtos.add(itemDto);
         orderDto.setOrderItems(orderItemDtos);
         service.Create(orderDto);
@@ -58,22 +59,20 @@ class OrderServiceImpTest {
 
     @Test
     void addOrderItem() {
-        OrderItemDto orderItemDto = new OrderItemDto();
-        orderItemDto.setOrder(3l);
-        orderItemDto.setAmount(12d);
-        orderItemDto.setProduct(1l);
-        orderItemDto.setQuantity(12);
+        OrderItemDto orderItemDto = OrderItemDto.builder()
+                .order(3l)
+                .product(1l)
+                .quantity(1)
+                .build();
         service.addOrderItem(orderItemDto);
     }
 
     @Test
     void removeOrderItem() {
-        OrderItemDto orderItemDto = new OrderItemDto();
-        orderItemDto.setId(1l);
-        orderItemDto.setOrder(3l);
-        orderItemDto.setAmount(12d);
-        orderItemDto.setProduct(1l);
-        orderItemDto.setQuantity(12);
+        OrderItemDto orderItemDto = OrderItemDto.builder()
+                .id(9l)
+                .order(3l)
+                .build();
         service.removeOrderItem(orderItemDto);
     }
 
