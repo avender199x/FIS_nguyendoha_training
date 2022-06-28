@@ -135,6 +135,7 @@ public class OrderServiceImp implements OrderService {
         Optional<Product> product = productRepository.findById(orderItem.get().getProduct().getId());
         if (order.get().getStatus().equals(OrderStatus.CREATED)) {
             orderItemRepository.deleteById(orderItemDto.getId());
+            // khách hàng không muốn mua món hàng , họ đổi sản phẩm khác , số lượng sản phẩm dc trả lại !!!
             order.get().setTotalAmount(order.get().getTotalAmount() -
                     (product.get().getPrice() * orderItem.get().getQuantity()));
             product.get().setAvailable(orderItem.get().getQuantity() + product.get().getAvailable());
