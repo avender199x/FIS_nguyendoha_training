@@ -130,8 +130,8 @@ public class OrderServiceImp implements OrderService {
     @Transactional
     @Override
     public Order removeOrderItem(OrderItemDto orderItemDto) {
-        Optional<Order> order = orderRepository.findById(orderItemDto.getOrder());
         Optional<OrderItem> orderItem = orderItemRepository.findById(orderItemDto.getId());
+        Optional<Order> order = orderRepository.findById(orderItem.get().getOrder().getId());
         Optional<Product> product = productRepository.findById(orderItem.get().getProduct().getId());
         if (order.get().getStatus().equals(OrderStatus.CREATED)) {
             orderItemRepository.deleteById(orderItemDto.getId());

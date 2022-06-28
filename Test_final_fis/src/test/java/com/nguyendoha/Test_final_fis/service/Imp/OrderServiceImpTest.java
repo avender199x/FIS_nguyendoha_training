@@ -71,9 +71,6 @@ class OrderServiceImpTest {
     void removeOrderItem() {
         OrderItemDto orderItemDto = OrderItemDto.builder()
                 .id(10l)
-                .order(8l)
-                .quantity(12)
-                .
                 .build();
         service.removeOrderItem(orderItemDto);
     }
