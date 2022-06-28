@@ -38,20 +38,22 @@ public class OrderServiceImp implements OrderService {
     public Order Create(OrderDto orderDto) {
         Optional<Customer> customer = customerRepository.findById(orderDto.getCustomer());
         if (customer.isPresent()) {
-            Order order = new Order();
-            order.setTotalAmount(0d);
-            order.setStatus(orderDto.getStatus());
-            order.setCustomer(customer.get());
-            order.setOrderDateTime(LocalDateTime.now());
+            Order order = Order.builder()
+                    .totalAmount(0d)
+                    .status(orderDto.getStatus())
+                    .customer(customer.get())
+                    .orderDateTime(LocalDateTime.now())
+                    .build();
             Order orders = orderRepository.save(order);
             List<OrderItem> orderItems = new ArrayList<>();
             for (OrderItemDto o : orderDto.getOrderItems()) {
-                OrderItem item = new OrderItem();
-                item.setOrder(orderRepository.findById(orders.getId()).get());
-                item.setAmount(o.getAmount());
-                item.setProduct(productRepository.findById(o.getProduct()).get());
-                item.setQuantity(o.getQuantity());
-                orders.setTotalAmount(order.getTotalAmount() + (o.getAmount() * o.getQuantity()));
+                OrderItem item = OrderItem.builder()
+                        .order(orderRepository.findById(orders.getId()).get())
+                        .amount(productRepository.findById(o.getProduct()).get().getPrice() * o.getQuantity())
+                        .product(productRepository.findById(o.getProduct()).get())
+                        .quantity(o.getQuantity())
+                        .build();
+                orders.setTotalAmount(order.getTotalAmount() + item.getAmount());
                 orderItems.add(item);
                 Product product = productRepository.findById(o.getProduct()).get();
                 if (product.getAvailable() == 0 || product.getAvailable() < o.getQuantity()) {

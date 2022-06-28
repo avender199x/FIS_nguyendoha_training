@@ -9,6 +9,9 @@ import java.util.List;
 
 @Entity
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name="tbl_order")
 public class Order {
     @Id
