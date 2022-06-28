@@ -85,7 +85,7 @@ public class OrderServiceImp implements OrderService {
     public Optional<Order> findById(Long id) {
         return Optional.ofNullable(orderRepository.findById(id).orElseThrow(
                 () -> {
-                    throw new IllegalArgumentException(String.format("Not found Customer with id %s", id));
+                    throw new CustomerNotFoundException(String.format("Not found Customer with id %s", id));
                 }));
     }
 

@@ -48,7 +48,7 @@ public class CustomerServiceImp implements CustomerService {
     public Optional<Customer> findById(Long id) {
         return Optional.ofNullable(customerRepository.findById(id).orElseThrow(
                 () -> {
-                    throw new IllegalArgumentException(String.format("Not found Customer with id %s", id));
+                    throw new CustomerNotFoundException(String.format("Not found Customer with id %s", id));
                 }));
     }
 
