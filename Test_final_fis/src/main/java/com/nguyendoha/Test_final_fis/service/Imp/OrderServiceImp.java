@@ -111,14 +111,15 @@ public class OrderServiceImp implements OrderService {
             }
             product.get().setAvailable(product.get().getAvailable() - orderItemDto.getQuantity());
             productRepository.save(product.get());
-            OrderItem orderItem = new OrderItem();
-            orderItem.setOrder(order.get());
-            orderItem.setQuantity(orderItemDto.getQuantity());
-            orderItem.setAmount(orderItemDto.getAmount());
-            orderItem.setProduct(product.get());
+            OrderItem orderItem = OrderItem.builder()
+                    .quantity(orderItemDto.getQuantity())
+                    .order(order.get())
+                    .product(product.get())
+                    .amount(product.get().getPrice() * orderItemDto.getQuantity())
+                    .build();
             order.get().getOrderItems().add(orderItem);
             order.get().setTotalAmount(order.get().getTotalAmount()
-                    + (orderItemDto.getAmount() * orderItemDto.getQuantity()));
+                    + orderItem.getAmount());
             return orderRepository.save(order.get());
         } else {
             log.error("\n add OrderItem false" + "\n Time : " + LocalDate.now() + "\n Customer : " + orderItemDto);
