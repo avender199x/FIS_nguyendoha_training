@@ -70,7 +70,7 @@ class OrderServiceImpTest {
     @Test
     void removeOrderItem() {
         OrderItemDto orderItemDto = OrderItemDto.builder()
-                .id(10l)
+                .id(7l)
                 .build();
         service.removeOrderItem(orderItemDto);
     }
