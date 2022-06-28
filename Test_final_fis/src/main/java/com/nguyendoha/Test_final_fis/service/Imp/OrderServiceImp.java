@@ -132,10 +132,11 @@ public class OrderServiceImp implements OrderService {
     public Order removeOrderItem(OrderItemDto orderItemDto) {
         Optional<Order> order = orderRepository.findById(orderItemDto.getOrder());
         Optional<OrderItem> orderItem = orderItemRepository.findById(orderItemDto.getId());
-        if (order.isPresent() && order.get().getStatus().equals(OrderStatus.CREATED)) {
+        Optional<Product> product = productRepository.findById(orderItem.get().getProduct().getId());
+        if (order.get().getStatus().equals(OrderStatus.CREATED)) {
             orderItemRepository.deleteById(orderItemDto.getId());
-            order.get().setTotalAmount(order.get().getTotalAmount()
-                    - (productRepository.findById(orderItemDto.getOrder()).get().getPrice() * orderItem.get().getQuantity()));
+            order.get().setTotalAmount(order.get().getTotalAmount() -
+                    (product.get().getPrice() * orderItem.get().getQuantity()));
             return orderRepository.save(order.get());
         } else {
             log.error("\n remove OrderItem false" + "\n Time : " + LocalDate.now() + "\n Customer : " + orderItemDto);
