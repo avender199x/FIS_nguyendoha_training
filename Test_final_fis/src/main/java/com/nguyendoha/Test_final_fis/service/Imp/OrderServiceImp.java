@@ -103,13 +103,12 @@ public class OrderServiceImp implements OrderService {
         Optional<Order> order = orderRepository.findById(orderItemDto.getOrder());
         Optional<Product> product = productRepository.findById(orderItemDto.getProduct());
         if (order.isPresent() && product.isPresent() && order.get().getStatus().equals(OrderStatus.CREATED)) {
-            Product updateAvailable = productRepository.findById(orderItemDto.getProduct()).get();
-            if (updateAvailable.getAvailable() == 0 || updateAvailable.getAvailable() < orderItemDto.getQuantity()) {
+            if (product.get().getAvailable() == 0 || product.get().getAvailable() < orderItemDto.getQuantity()) {
                 log.info("\n product it out of stock " + "\n Time : " + LocalDateTime.now());
                 throw new RuntimeException("The product is out of stock");
             }
-            updateAvailable.setAvailable(updateAvailable.getAvailable() - orderItemDto.getQuantity());
-            productRepository.save(updateAvailable);
+            product.get().setAvailable(product.get().getAvailable() - orderItemDto.getQuantity());
+            productRepository.save(product.get());
             OrderItem orderItem = new OrderItem();
             orderItem.setOrder(order.get());
             orderItem.setQuantity(orderItemDto.getQuantity());
