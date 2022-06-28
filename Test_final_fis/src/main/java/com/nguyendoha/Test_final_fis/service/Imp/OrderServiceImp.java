@@ -1,5 +1,8 @@
 package com.nguyendoha.Test_final_fis.service.Imp;
 
+import com.nguyendoha.Test_final_fis.controller.ExceptionHandler.CustomerNotFoundException;
+import com.nguyendoha.Test_final_fis.controller.ExceptionHandler.OrderExceptionNotSupport;
+import com.nguyendoha.Test_final_fis.controller.ExceptionHandler.ProductOutStockException;
 import com.nguyendoha.Test_final_fis.dto.OrderDto;
 import com.nguyendoha.Test_final_fis.dto.OrderItemDto;
 import com.nguyendoha.Test_final_fis.model.*;
@@ -58,7 +61,7 @@ public class OrderServiceImp implements OrderService {
                 Product product = productRepository.findById(o.getProduct()).get();
                 if (product.getAvailable() == 0 || product.getAvailable() < o.getQuantity()) {
                     log.info("\n product it out of stock " + "\n Time : " + LocalDateTime.now());
-                    throw new RuntimeException("The product is out of stock");
+                    throw new ProductOutStockException("The product is out of stock");
                 }
                 product.setAvailable(product.getAvailable() - o.getQuantity());
                 productRepository.save(product);
@@ -67,7 +70,7 @@ public class OrderServiceImp implements OrderService {
             return orderRepository.save(orders);
         } else {
             log.error("\n save false" + "\n Time : " + LocalDate.now() + "\n Customer : " + orderDto);
-            throw new RuntimeException("Error create Order");
+            throw new CustomerNotFoundException("Customer does not exist");
         }
     }
 
@@ -95,7 +98,7 @@ public class OrderServiceImp implements OrderService {
             orderRepository.deleteById(id);
         } else {
             log.error("\n delete false" + "\n Time : " + LocalDate.now() + "\n orderId : " + id);
-            throw new RuntimeException("order not CREATED ,CANCELLED ");
+            throw new OrderExceptionNotSupport("order not CREATED ,CANCELLED ");
         }
     }
 
@@ -107,7 +110,7 @@ public class OrderServiceImp implements OrderService {
         if (order.isPresent() && product.isPresent() && order.get().getStatus().equals(OrderStatus.CREATED)) {
             if (product.get().getAvailable() == 0 || product.get().getAvailable() < orderItemDto.getQuantity()) {
                 log.info("\n product it out of stock " + "\n Time : " + LocalDateTime.now());
-                throw new RuntimeException("The product is out of stock");
+                throw new ProductOutStockException("The product is out of stock");
             }
             product.get().setAvailable(product.get().getAvailable() - orderItemDto.getQuantity());
             productRepository.save(product.get());
@@ -123,7 +126,7 @@ public class OrderServiceImp implements OrderService {
             return orderRepository.save(order.get());
         } else {
             log.error("\n add OrderItem false" + "\n Time : " + LocalDate.now() + "\n Customer : " + orderItemDto);
-            throw new RuntimeException("order or product does not exist or order not CREATED");
+            throw new OrderExceptionNotSupport("order or product does not exist or order not CREATED");
         }
     }
 
@@ -143,7 +146,7 @@ public class OrderServiceImp implements OrderService {
             return orderRepository.save(order.get());
         } else {
             log.error("\n remove OrderItem false" + "\n Time : " + LocalDate.now() + "\n Customer : " + orderItemDto);
-            throw new RuntimeException("order does not exist or order not CREATED");
+            throw new OrderExceptionNotSupport("order does not exist or order not CREATED");
         }
     }
 
@@ -156,7 +159,7 @@ public class OrderServiceImp implements OrderService {
             return orderRepository.save(order.get());
         } else {
             log.error("\n update Status Paid false" + "\n Time : " + LocalDate.now() + "\n orderId : " + id);
-            throw new RuntimeException("order does not exist or order not CREATED");
+            throw new OrderExceptionNotSupport("order does not exist or order not CREATED");
         }
     }
 
@@ -169,7 +172,7 @@ public class OrderServiceImp implements OrderService {
             return orderRepository.save(order.get());
         } else {
             log.error("\n update status cancel false" + "\n Time : " + LocalDate.now() + "\n OrderId : " + id);
-            throw new RuntimeException("order does not exist or order not CREATED");
+            throw new OrderExceptionNotSupport("order does not exist or order not CREATED");
         }
     }
 }

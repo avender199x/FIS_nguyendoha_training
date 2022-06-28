@@ -1,5 +1,7 @@
 package com.nguyendoha.Test_final_fis.service.Imp;
 
+import com.nguyendoha.Test_final_fis.controller.ExceptionHandler.CustomerExceptionError;
+import com.nguyendoha.Test_final_fis.controller.ExceptionHandler.CustomerNotFoundException;
 import com.nguyendoha.Test_final_fis.model.Customer;
 import com.nguyendoha.Test_final_fis.repository.CustomerRepository;
 import com.nguyendoha.Test_final_fis.service.CustomerService;
@@ -31,7 +33,7 @@ public class CustomerServiceImp implements CustomerService {
             return customerRepository.findAll();
         } else {
             log.error("\n Save false : " + "\n Time : " + LocalDate.now() + "\ncustomer : " + customer);
-            throw new RuntimeException("error create customer , please re-enter");
+            throw new CustomerExceptionError("error create customer , please re-enter");
         }
     }
 
@@ -65,7 +67,7 @@ public class CustomerServiceImp implements CustomerService {
             return customerRepository.save(update.get());
         } else {
             log.error("\n update false" + "\n Time : " + LocalDate.now() + "\n Customer : " + customer);
-            throw new RuntimeException("customer does not exist or you entered wrong");
+            throw new CustomerNotFoundException("customer does not exist or you entered wrong");
         }
     }
 

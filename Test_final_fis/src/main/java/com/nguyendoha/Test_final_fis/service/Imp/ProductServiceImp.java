@@ -1,5 +1,6 @@
 package com.nguyendoha.Test_final_fis.service.Imp;
 
+import com.nguyendoha.Test_final_fis.controller.ExceptionHandler.ProductNotFoundException;
 import com.nguyendoha.Test_final_fis.model.Product;
 import com.nguyendoha.Test_final_fis.repository.ProductRepository;
 import com.nguyendoha.Test_final_fis.service.ProductService;
@@ -51,7 +52,7 @@ public class ProductServiceImp implements ProductService {
             return productRepository.save(update.get());
         } else {
             log.error("\n update false" + "\n Time : " + LocalDate.now() + "\n product : " + product);
-            throw new RuntimeException("product does not exist");
+            throw new ProductNotFoundException("product does not exist");
         }
     }
 
