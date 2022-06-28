@@ -99,7 +99,7 @@ public class OrderServiceImp implements OrderService {
         Optional<Order> order = orderRepository.findById(orderItemDto.getOrder());
         Optional<Product> product = productRepository.findById(orderItemDto.getProduct());
         if (order.isPresent() && product.isPresent() && order.get().getStatus().equals(OrderStatus.CREATED)) {
-            Product updateAvailable = productRepository.findById(orderItemDto.getOrder()).get();
+            Product updateAvailable = productRepository.findById(orderItemDto.getProduct()).get();
             updateAvailable.setAvailable(updateAvailable.getAvailable() - orderItemDto.getQuantity());
             productRepository.save(updateAvailable);
             OrderItem orderItem = new OrderItem();
