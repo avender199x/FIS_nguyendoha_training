@@ -11,6 +11,12 @@ import static com.fis.Sprint_4.constant.Constant.*;
 
 @ControllerAdvice
 public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler {
+    @ExceptionHandler(value = {Exception.class})
+    protected ResponseEntity<ErrorMessage> SERVER_ERROR(Exception exception) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(ErrorMessage.builder().message(SERVER_ERROR).code(exception.getMessage()).build());
+    }
+
     @ExceptionHandler(value = {PersonNotFoundException.class})
     protected ResponseEntity<ErrorMessage> PersonNotFoundException(Exception exception) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)

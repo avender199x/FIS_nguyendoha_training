@@ -1,6 +1,7 @@
 package com.fis.Sprint_4.constant;
 
 public class Constant {
+    public static final String SERVER_ERROR = "SERVER ERROR";
     public static final String PERSON_NOT_FOUND = "PERSON NOT FOUND";
     public static final String STORAGE_NOT_FOUND = "STORAGE NOT FOUND";
     public static final String TRACK_ENTRY_NOT_FOUND = "TRACK ENTRY NOT FOUND";
