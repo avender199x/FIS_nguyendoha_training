@@ -1,5 +1,6 @@
 package com.fis.Sprint_4.service.imp;
 
+import com.fis.Sprint_4.controller.ExceptionHandler.Exception.EvidenceErrorException;
 import com.fis.Sprint_4.controller.ExceptionHandler.Exception.EvidenceNotFoundException;
 import com.fis.Sprint_4.dto.EvidenceDto;
 import com.fis.Sprint_4.model.CriminalCase;
@@ -47,7 +48,7 @@ public class EvidenceServiceImp implements EvidenceService {
             return evidenceRepository.save(save);
         } else {
             log.error("Save false : \n" + "Time : " + LocalDateTime.now() + "\n EvidenceDto:" + evidenceDto);
-            throw new EvidenceNotFoundException("CriminalCase or Storage does not exist");
+            throw new EvidenceErrorException("CriminalCase or Storage does not exist");
         }
     }
 
@@ -70,7 +71,7 @@ public class EvidenceServiceImp implements EvidenceService {
         } else {
             log.error("update false :\n" + "Time : " + LocalDateTime.now() + "\n EvidenceId : "
                     + aLong + "\n EvidenceDto : " + evidenceDto);
-            throw new EvidenceNotFoundException("Evidence or CriminalCase,Storage does not exist");
+            throw new EvidenceErrorException("Evidence or CriminalCase,Storage does not exist");
         }
     }
 

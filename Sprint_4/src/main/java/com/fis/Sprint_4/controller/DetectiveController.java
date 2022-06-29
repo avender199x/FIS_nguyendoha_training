@@ -32,8 +32,7 @@ public class DetectiveController {
     }
 
     @PutMapping("/update/{id}")
-    public Detective updatePerson(@PathVariable(name = "id") Long id, @RequestBody DetectiveDto detective)
-            throws DetectiveErrorException {
+    public Detective updatePerson(@PathVariable(name = "id") Long id, @RequestBody DetectiveDto detective) {
         return service.update(id, detective);
     }
 

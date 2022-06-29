@@ -41,6 +41,12 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
                 .body(ErrorMessage.builder().message(EVIDENCE_NOT_FOUND).code(exception.getMessage()).build());
     }
 
+    @ExceptionHandler(value = {EvidenceErrorException.class})
+    protected ResponseEntity<ErrorMessage> EvidenceErrorException(Exception exception) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(ErrorMessage.builder().message(EVIDENCE_ERROR).code(exception.getMessage()).build());
+    }
+
     @ExceptionHandler(value = {DetectiveNotFoundException.class})
     protected ResponseEntity<ErrorMessage> DetectiveNotFoundException(Exception exception) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -51,6 +57,12 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
     protected ResponseEntity<ErrorMessage> CriminalCaseNotFoundException(Exception exception) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(ErrorMessage.builder().message(CRIMINAL_CASE_NOT_FOUND).code(exception.getMessage()).build());
+    }
+
+    @ExceptionHandler(value = {CriminalCaseErrorException.class})
+    protected ResponseEntity<ErrorMessage> CriminalCaseErrorException(Exception exception) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(ErrorMessage.builder().message(CRIMINAL_CASE_ERROR).code(exception.getMessage()).build());
     }
 
     @ExceptionHandler(value = {DetectiveErrorException.class})

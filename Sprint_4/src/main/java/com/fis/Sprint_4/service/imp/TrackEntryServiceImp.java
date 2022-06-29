@@ -32,7 +32,7 @@ public class TrackEntryServiceImp implements TrackEntryService {
 
     @Transactional
     @Override
-    public TrackEntry Save(TrackEntryDto trackEntryDto) throws TrackEntryErrorException {
+    public TrackEntry Save(TrackEntryDto trackEntryDto) {
         Optional<Detective> detective = detectiveRepository.findById(trackEntryDto.getDetective());
         Optional<Evidence> evidence = evidenceRepository.findById(trackEntryDto.getEvidence());
         if (detective.isPresent() && evidence.isPresent()) {
@@ -55,7 +55,7 @@ public class TrackEntryServiceImp implements TrackEntryService {
 
     @Transactional
     @Override
-    public TrackEntry update(Long aLong, TrackEntryDto trackEntryDto) throws TrackEntryErrorException {
+    public TrackEntry update(Long aLong, TrackEntryDto trackEntryDto) {
         Optional<TrackEntry> update = repository.findById(aLong);
         Optional<Detective> detective = detectiveRepository.findById(trackEntryDto.getDetective());
         Optional<Evidence> evidence = evidenceRepository.findById(trackEntryDto.getEvidence());

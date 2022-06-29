@@ -1,5 +1,7 @@
 package com.fis.Sprint_4.service.imp;
 
+import com.fis.Sprint_4.controller.ExceptionHandler.Exception.CriminalCaseErrorException;
+import com.fis.Sprint_4.controller.ExceptionHandler.Exception.CriminalCaseNotFoundException;
 import com.fis.Sprint_4.dto.CriminalCaseDto;
 import com.fis.Sprint_4.model.CriminalCase;
 import com.fis.Sprint_4.model.Detective;
@@ -50,7 +52,7 @@ public class CriminalCaseServiceImp implements CriminalCaseService {
             return criminalCaseRepository.save(save);
         } else {
             log.error("save false : \n" + "Time : " + LocalDateTime.now() + "\n CriminalCaseDto : " + criminalCaseDto);
-            throw new RuntimeException("Detective does not exist");
+            throw new CriminalCaseErrorException("Detective does not exist");
         }
     }
 
@@ -78,13 +80,16 @@ public class CriminalCaseServiceImp implements CriminalCaseService {
         } else {
             log.error("update false : \n" + "Time : " + LocalDateTime.now()
                     + "\n CriminalCaseId : " + aLong + "\n CriminalCaseDto : " + criminalCaseDto);
-            throw new RuntimeException("CriminalCase or Detective does not exist");
+            throw new CriminalCaseErrorException("CriminalCase or Detective does not exist");
         }
     }
 
     @Override
     public Optional<CriminalCase> findById(Long aLong) {
-        return criminalCaseRepository.findById(aLong);
+        return Optional.ofNullable(criminalCaseRepository.findById(aLong).orElseThrow(
+                () -> {
+                    throw new CriminalCaseNotFoundException("Criminal case does not exist");
+                }));
     }
 
     @Override

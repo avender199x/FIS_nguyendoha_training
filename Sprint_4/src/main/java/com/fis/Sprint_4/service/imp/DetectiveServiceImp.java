@@ -34,7 +34,7 @@ public class DetectiveServiceImp implements DetectiveService {
 
     @Transactional
     @Override
-    public Detective Save(DetectiveDto detectiveDto) throws DetectiveErrorException {
+    public Detective Save(DetectiveDto detectiveDto)  {
         Optional<Person> person = personRepository.findById(detectiveDto.getPerson());
         if (person.isPresent()) {
             Detective save = new Detective();
@@ -60,7 +60,7 @@ public class DetectiveServiceImp implements DetectiveService {
 
     @Transactional
     @Override
-    public Detective update(Long aLong, DetectiveDto detectiveDto) throws DetectiveErrorException {
+    public Detective update(Long aLong, DetectiveDto detectiveDto) {
         Optional<Detective> update = detectiveRepository.findById(aLong);
         Optional<Person> person = personRepository.findById(detectiveDto.getPerson());
         if (update.isPresent() && person.isPresent()) {
