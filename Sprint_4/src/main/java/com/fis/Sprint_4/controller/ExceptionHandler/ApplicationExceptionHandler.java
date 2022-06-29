@@ -29,6 +29,12 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
                 .body(ErrorMessage.builder().message(TRACK_ENTRY_NOT_FOUND).code(exception.getMessage()).build());
     }
 
+    @ExceptionHandler(value = {TrackEntryErrorException.class})
+    protected ResponseEntity<ErrorMessage> TrackEntryErrorException(Exception exception) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(ErrorMessage.builder().message(TRACK_ENTRY_ERROR).code(exception.getMessage()).build());
+    }
+
     @ExceptionHandler(value = {EvidenceNotFoundException.class})
     protected ResponseEntity<ErrorMessage> EvidenceNotFoundException(Exception exception) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)

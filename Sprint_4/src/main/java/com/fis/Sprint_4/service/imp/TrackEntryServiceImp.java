@@ -1,5 +1,6 @@
 package com.fis.Sprint_4.service.imp;
 
+import com.fis.Sprint_4.controller.ExceptionHandler.Exception.TrackEntryErrorException;
 import com.fis.Sprint_4.controller.ExceptionHandler.Exception.TrackEntryNotFoundException;
 import com.fis.Sprint_4.dto.TrackEntryDto;
 import com.fis.Sprint_4.model.Detective;
@@ -31,7 +32,7 @@ public class TrackEntryServiceImp implements TrackEntryService {
 
     @Transactional
     @Override
-    public TrackEntry Save(TrackEntryDto trackEntryDto) {
+    public TrackEntry Save(TrackEntryDto trackEntryDto) throws TrackEntryErrorException {
         Optional<Detective> detective = detectiveRepository.findById(trackEntryDto.getDetective());
         Optional<Evidence> evidence = evidenceRepository.findById(trackEntryDto.getEvidence());
         if (detective.isPresent() && evidence.isPresent()) {
@@ -47,14 +48,14 @@ public class TrackEntryServiceImp implements TrackEntryService {
             return repository.save(save);
         } else {
             log.error("Save false :\n Time : " + LocalDateTime.now() + ", \nTrackEntryDto : " + trackEntryDto);
-            throw new RuntimeException("detective or evidence does not exist");
+            throw new TrackEntryErrorException("detective or evidence does not exist");
         }
 
     }
 
     @Transactional
     @Override
-    public TrackEntry update(Long aLong, TrackEntryDto trackEntryDto) {
+    public TrackEntry update(Long aLong, TrackEntryDto trackEntryDto) throws TrackEntryErrorException {
         Optional<TrackEntry> update = repository.findById(aLong);
         Optional<Detective> detective = detectiveRepository.findById(trackEntryDto.getDetective());
         Optional<Evidence> evidence = evidenceRepository.findById(trackEntryDto.getEvidence());
@@ -71,7 +72,7 @@ public class TrackEntryServiceImp implements TrackEntryService {
         } else {
             log.error("Update false :\n Time : " + LocalDateTime.now() + ", \nTrackEntryDto : "
                     + trackEntryDto + "\nTrackEntry Id : " + aLong);
-            throw new RuntimeException("TrackEntry or detective,TrackEntry does not exist");
+            throw new TrackEntryErrorException("TrackEntry or detective,TrackEntry does not exist");
         }
     }
 
