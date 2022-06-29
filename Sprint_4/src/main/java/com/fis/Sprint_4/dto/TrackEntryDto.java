@@ -11,9 +11,7 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 @Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
+
 public class TrackEntryDto extends AbstractEntityDto {
     protected LocalDateTime date;
     private Long evidence;

@@ -14,9 +14,6 @@ import java.time.LocalDateTime;
 
 @MappedSuperclass
 @Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 public abstract class AbstractEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

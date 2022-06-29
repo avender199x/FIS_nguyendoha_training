@@ -15,9 +15,6 @@ import java.util.Set;
 
 
 @Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 public class CriminalCaseDto extends AbstractEntityDto {
     private String number;
     @Enumerated(EnumType.STRING)

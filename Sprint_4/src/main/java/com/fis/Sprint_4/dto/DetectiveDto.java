@@ -14,9 +14,6 @@ import java.util.List;
 import java.util.Set;
 
 @Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 public class DetectiveDto extends AbstractEntityDto {
     private Long person;
     private String badgeNumber;
