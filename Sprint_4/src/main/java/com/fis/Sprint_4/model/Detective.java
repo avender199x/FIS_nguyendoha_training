@@ -6,9 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fis.Sprint_4.core.EmploymentStatus;
 import com.fis.Sprint_4.core.Rank;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -18,6 +16,9 @@ import java.util.Set;
 
 @Entity
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "Detective")
 public class Detective extends AbstractEntity {
     @OneToOne

@@ -1,5 +1,6 @@
 package com.fis.Sprint_4.service.imp;
 
+import com.fis.Sprint_4.controller.ExceptionHandler.Exception.TrackEntryNotFoundException;
 import com.fis.Sprint_4.dto.TrackEntryDto;
 import com.fis.Sprint_4.model.Detective;
 import com.fis.Sprint_4.model.Evidence;
@@ -76,7 +77,12 @@ public class TrackEntryServiceImp implements TrackEntryService {
 
     @Override
     public Optional<TrackEntry> findById(Long aLong) {
-        return repository.findById(aLong);
+
+        return Optional.ofNullable(repository.findById(aLong).orElseThrow(
+                () -> {
+                    throw new TrackEntryNotFoundException("TrackEntry does not exist");
+                }
+        ));
     }
 
     @Override

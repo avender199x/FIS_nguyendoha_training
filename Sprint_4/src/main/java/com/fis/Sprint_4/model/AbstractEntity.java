@@ -1,6 +1,9 @@
 package com.fis.Sprint_4.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,6 +14,9 @@ import java.time.LocalDateTime;
 
 @MappedSuperclass
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public abstract class AbstractEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

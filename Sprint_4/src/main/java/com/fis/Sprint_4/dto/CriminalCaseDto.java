@@ -3,7 +3,10 @@ package com.fis.Sprint_4.dto;
 import com.fis.Sprint_4.core.CaseStatus;
 import com.fis.Sprint_4.core.CaseType;
 import com.fis.Sprint_4.model.Detective;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -12,6 +15,9 @@ import java.util.Set;
 
 
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class CriminalCaseDto extends AbstractEntityDto {
     private String number;
     @Enumerated(EnumType.STRING)

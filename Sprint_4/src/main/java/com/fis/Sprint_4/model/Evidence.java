@@ -2,7 +2,10 @@ package com.fis.Sprint_4.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 import javax.persistence.*;
@@ -11,6 +14,9 @@ import java.util.Set;
 
 @Entity
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "Evidence")
 public class Evidence extends AbstractEntity {
     @ManyToOne

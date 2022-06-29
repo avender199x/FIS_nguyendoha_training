@@ -1,5 +1,6 @@
 package com.fis.Sprint_4.service.imp;
 
+import com.fis.Sprint_4.controller.ExceptionHandler.Exception.StorageNotFoundException;
 import com.fis.Sprint_4.dto.StorageDto;
 import com.fis.Sprint_4.model.Storage;
 import com.fis.Sprint_4.repository.StorageRepository;
@@ -43,13 +44,18 @@ public class StorageServiceImp implements StorageService {
             return repository.save(update.get());
         } else {
             log.error("update false : \n" + "Time : " + LocalDateTime.now() + " \n storageId : " + aLong);
-            throw new RuntimeException("storage does not exist");
+            throw new StorageNotFoundException("storage does not exist");
         }
     }
 
     @Override
     public Optional<Storage> findById(Long aLong) {
-        return repository.findById(aLong);
+
+        return Optional.ofNullable(repository.findById(aLong).orElseThrow(
+                () -> {
+                    throw new StorageNotFoundException("storage does not exist");
+                }
+        ));
     }
 
     @Override

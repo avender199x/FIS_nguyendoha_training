@@ -1,5 +1,6 @@
 package com.fis.Sprint_4.controller;
 
+import com.fis.Sprint_4.controller.ExceptionHandler.Exception.DetectiveErrorException;
 import com.fis.Sprint_4.dto.DetectiveDto;
 import com.fis.Sprint_4.model.Detective;
 import com.fis.Sprint_4.service.DetectiveService;
@@ -26,12 +27,13 @@ public class DetectiveController {
     }
 
     @PostMapping("/add")
-    public Detective addPerson(@RequestBody DetectiveDto detective) {
+    public Detective addPerson(@RequestBody DetectiveDto detective) throws DetectiveErrorException {
         return service.Save(detective);
     }
 
     @PutMapping("/update/{id}")
-    public Detective updatePerson(@PathVariable(name = "id") Long id, @RequestBody DetectiveDto detective) {
+    public Detective updatePerson(@PathVariable(name = "id") Long id, @RequestBody DetectiveDto detective)
+            throws DetectiveErrorException {
         return service.update(id, detective);
     }
 

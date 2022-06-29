@@ -1,5 +1,6 @@
 package com.fis.Sprint_4.service.imp;
 
+import com.fis.Sprint_4.controller.ExceptionHandler.Exception.PersonNotFoundException;
 import com.fis.Sprint_4.dto.PersonDto;
 import com.fis.Sprint_4.model.Person;
 import com.fis.Sprint_4.repository.PersonRepository;
@@ -50,13 +51,16 @@ public class PersonServiceImp implements PersonService {
             return repository.save(update);
         } else {
             log.error("update false :\n" + "Time : " + LocalDateTime.now() + "\nPersonId : " + aLong);
-            throw new RuntimeException("person does not exist");
+            throw new PersonNotFoundException("person does not exist");
         }
     }
 
     @Override
     public Optional<Person> findById(Long aLong) {
-        return repository.findById(aLong);
+        return Optional.ofNullable(repository.findById(aLong).orElseThrow(
+                () -> {
+                    throw new PersonNotFoundException("person does not exist");
+                }));
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.fis.Sprint_4.service.imp;
 
+import com.fis.Sprint_4.controller.ExceptionHandler.Exception.DetectiveErrorException;
+import com.fis.Sprint_4.controller.ExceptionHandler.Exception.DetectiveNotFoundException;
 import com.fis.Sprint_4.dto.DetectiveDto;
 import com.fis.Sprint_4.model.CriminalCase;
 import com.fis.Sprint_4.model.Detective;
@@ -32,7 +34,7 @@ public class DetectiveServiceImp implements DetectiveService {
 
     @Transactional
     @Override
-    public Detective Save(DetectiveDto detectiveDto) {
+    public Detective Save(DetectiveDto detectiveDto) throws DetectiveErrorException {
         Optional<Person> person = personRepository.findById(detectiveDto.getPerson());
         if (person.isPresent()) {
             Detective save = new Detective();
@@ -52,13 +54,13 @@ public class DetectiveServiceImp implements DetectiveService {
             return save;
         } else {
             log.error("Save false :\n" + "Time : " + LocalDateTime.now() + "\n DetectiveDto : " + detectiveDto);
-            throw new RuntimeException("Person does not exist");
+            throw new DetectiveErrorException("Person does not exist");
         }
     }
 
     @Transactional
     @Override
-    public Detective update(Long aLong, DetectiveDto detectiveDto) {
+    public Detective update(Long aLong, DetectiveDto detectiveDto) throws DetectiveErrorException {
         Optional<Detective> update = detectiveRepository.findById(aLong);
         Optional<Person> person = personRepository.findById(detectiveDto.getPerson());
         if (update.isPresent() && person.isPresent()) {
@@ -77,13 +79,17 @@ public class DetectiveServiceImp implements DetectiveService {
         } else {
             log.error("update false :\n" + "Time : " + LocalDateTime.now()
                     + "\n DetectiveId : " + aLong + "\n DetectiveDto : " + detectiveDto);
-            throw new RuntimeException("Detective or Person does not exist");
+            throw new DetectiveErrorException("Detective or Person does not exist");
         }
     }
 
     @Override
     public Optional<Detective> findById(Long aLong) {
-        return detectiveRepository.findById(aLong);
+        return Optional.ofNullable(detectiveRepository.findById(aLong).orElseThrow(
+                () -> {
+                    throw new DetectiveNotFoundException("Detective does not exist");
+                }
+        ));
     }
 
     @Override
