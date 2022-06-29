@@ -43,10 +43,11 @@ public class CriminalCaseServiceImp implements CriminalCaseService {
             save.setLeadInvestigator(detective.get());
             save.setShortDescription(criminalCaseDto.getShortDescription());
             save.setDetailedDescription(criminalCaseDto.getDetailedDescription());
-            Set<Detective> detectives = criminalCaseDto
-                    .getAssigned()
-                    .stream().map(detectiveRepository::findById)
-                    .map(Optional::get).collect(Collectors.toSet());
+            Set<Detective> detectives = new HashSet<>();
+            for (Long c : criminalCaseDto.getAssigned()) {
+                Detective d = detectiveRepository.findById(c).get();
+                detectives.add(d);
+            }
             save.setAssigned(detectives);
             save.setVersion(criminalCaseDto.getVersion());
             return criminalCaseRepository.save(save);
@@ -71,10 +72,11 @@ public class CriminalCaseServiceImp implements CriminalCaseService {
             update.get().setLeadInvestigator(detective.get());
             update.get().setShortDescription(criminalCaseDto.getShortDescription());
             update.get().setDetailedDescription(criminalCaseDto.getDetailedDescription());
-            Set<Detective> detectives = criminalCaseDto
-                    .getAssigned()
-                    .stream().map(detectiveRepository::findById)
-                    .map(Optional::get).collect(Collectors.toSet());
+            Set<Detective> detectives = new HashSet<>();
+            for (Long c : criminalCaseDto.getAssigned()) {
+                Detective d = detectiveRepository.findById(c).get();
+                detectives.add(d);
+            }
             update.get().setAssigned(detectives);
             return criminalCaseRepository.save(update.get());
         } else {
