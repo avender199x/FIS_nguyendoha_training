@@ -37,7 +37,7 @@ public class ProductServiceImp implements ProductService {
     public Optional<Product> findById(Long id) {
         return Optional.ofNullable(productRepository.findById(id).orElseThrow(
                 () -> {
-                    throw new ProductNotFoundException(String.format("Not found Customer with id %s", id));
+                    throw new ProductNotFoundException(String.format("Not found Product with id %s", id));
                 }));
     }
 

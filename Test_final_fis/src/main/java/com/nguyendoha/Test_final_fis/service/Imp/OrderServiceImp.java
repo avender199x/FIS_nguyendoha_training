@@ -69,7 +69,7 @@ public class OrderServiceImp implements OrderService {
             orders.setOrderItems(orderItems);
             return orderRepository.save(orders);
         } else {
-            log.error("\n save false" + "\n Time : " + LocalDate.now() + "\n Customer : " + orderDto);
+            log.error("\n save false" + "\n Time : " + LocalDate.now() + "\n orderDto : " + orderDto);
             throw new CustomerNotFoundException("Customer does not exist");
         }
     }
@@ -85,7 +85,7 @@ public class OrderServiceImp implements OrderService {
     public Optional<Order> findById(Long id) {
         return Optional.ofNullable(orderRepository.findById(id).orElseThrow(
                 () -> {
-                    throw new CustomerNotFoundException(String.format("Not found Customer with id %s", id));
+                    throw new CustomerNotFoundException(String.format("Not found Order with id %s", id));
                 }));
     }
 
@@ -125,7 +125,7 @@ public class OrderServiceImp implements OrderService {
                     + orderItem.getAmount());
             return orderRepository.save(order.get());
         } else {
-            log.error("\n add OrderItem false" + "\n Time : " + LocalDate.now() + "\n Customer : " + orderItemDto);
+            log.error("\n add OrderItem false" + "\n Time : " + LocalDate.now() + "\n OrderItem : " + orderItemDto);
             throw new OrderExceptionNotSupport("order or product does not exist or order not CREATED");
         }
     }
@@ -145,7 +145,7 @@ public class OrderServiceImp implements OrderService {
             productRepository.save(product.get());
             return orderRepository.save(order.get());
         } else {
-            log.error("\n remove OrderItem false" + "\n Time : " + LocalDate.now() + "\n Customer : " + orderItemDto);
+            log.error("\n remove OrderItem false" + "\n Time : " + LocalDate.now() + "\n OrderItem : " + orderItemDto);
             throw new OrderExceptionNotSupport("order does not exist or order not CREATED");
         }
     }
