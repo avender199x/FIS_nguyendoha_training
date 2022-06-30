@@ -31,6 +31,7 @@ public class CustomerServiceImp implements CustomerService {
                 && customer.getAddress().length() > 10
                 && Pattern.compile("^\\d{10}$").matcher(customer.getMobile()).matches()) {
             customerRepository.save(customer);
+            // in ra list customer kem customer moi them
             return customerRepository.findAll();
         } else {
             log.error("\n Save false : " + "\n Time : " + LocalDate.now() + "\ncustomer : " + customer);
