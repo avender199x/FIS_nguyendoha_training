@@ -30,6 +30,7 @@ public class CustomerServiceImp implements CustomerService {
                 && customer.getMobile().length() == 10
                 && customer.getAddress().length() > 10
                 && Pattern.compile("^\\d{10}$").matcher(customer.getMobile()).matches()) {
+            customerRepository.save(customer);
             return customerRepository.findAll();
         } else {
             log.error("\n Save false : " + "\n Time : " + LocalDate.now() + "\ncustomer : " + customer);
