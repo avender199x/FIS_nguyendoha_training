@@ -46,10 +46,10 @@ public class DetectiveServiceImp implements DetectiveService {
             save.setBadgeNumber(detectiveDto.getBadgeNumber());
             save.setArmed(detectiveDto.getArmed());
             Set<CriminalCase> criminalCases = new HashSet<>();
-            for (Long d : detectiveDto.getCriminalCases()) {
-                CriminalCase c = criminalCaseRepository.findById(d).get();
+            detectiveDto.getCriminalCases().stream().forEach(id -> {
+                CriminalCase c = criminalCaseRepository.findById(id).get();
                 criminalCases.add(c);
-            }
+            });
             save.setCriminalCases(criminalCases);
             detectiveRepository.save(save);
             return save;
@@ -72,10 +72,10 @@ public class DetectiveServiceImp implements DetectiveService {
             update.get().setBadgeNumber(detectiveDto.getBadgeNumber());
             update.get().setArmed(detectiveDto.getArmed());
             Set<CriminalCase> criminalCases = new HashSet<>();
-            for (Long d : detectiveDto.getCriminalCases()) {
-                CriminalCase c = criminalCaseRepository.findById(d).get();
+            detectiveDto.getCriminalCases().stream().forEach(id -> {
+                CriminalCase c = criminalCaseRepository.findById(id).get();
                 criminalCases.add(c);
-            }
+            });
             update.get().setCriminalCases(criminalCases);
             return detectiveRepository.save(update.get());
         } else {
