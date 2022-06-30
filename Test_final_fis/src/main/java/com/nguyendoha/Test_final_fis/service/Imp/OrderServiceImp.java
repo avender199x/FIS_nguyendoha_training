@@ -39,7 +39,7 @@ public class OrderServiceImp implements OrderService {
     @Transactional
     @Override
     public Order Create(OrderDto orderDto) {
-        // thêm order kèm 1 list order item
+        // thêm order kèm 1 list orderitem cua order hien tai
         Optional<Customer> customer = customerRepository.findById(orderDto.getCustomer());
         if (customer.isPresent()) {
             Order order = Order.builder()
