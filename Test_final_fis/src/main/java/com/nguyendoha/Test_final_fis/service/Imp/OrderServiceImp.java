@@ -49,23 +49,23 @@ public class OrderServiceImp implements OrderService {
                     .build();
             Order orders = orderRepository.save(order);
             List<OrderItem> orderItems = new ArrayList<>();
-            for (OrderItemDto o : orderDto.getOrderItems()) {
+            orderDto.getOrderItems().stream().forEach(orderItemDto -> {
                 OrderItem item = OrderItem.builder()
-                        .order(orderRepository.findById(orders.getId()).get())
-                        .amount(productRepository.findById(o.getProduct()).get().getPrice() * o.getQuantity())
-                        .product(productRepository.findById(o.getProduct()).get())
-                        .quantity(o.getQuantity())
+                        .order(orders)
+                        .amount(productRepository.findById(orderItemDto.getProduct()).get().getPrice() * orderItemDto.getQuantity())
+                        .product(productRepository.findById(orderItemDto.getProduct()).get())
+                        .quantity(orderItemDto.getQuantity())
                         .build();
                 orders.setTotalAmount(order.getTotalAmount() + item.getAmount());
                 orderItems.add(item);
-                Product product = productRepository.findById(o.getProduct()).get();
-                if (product.getAvailable() == 0 || product.getAvailable() < o.getQuantity()) {
+                Product product = productRepository.findById(orderItemDto.getProduct()).get();
+                if (product.getAvailable() == 0 || product.getAvailable() < orderItemDto.getQuantity()) {
                     log.info("\n product it out of stock " + "\n Time : " + LocalDateTime.now());
                     throw new ProductOutStockException("The product is out of stock");
                 }
-                product.setAvailable(product.getAvailable() - o.getQuantity());
+                product.setAvailable(product.getAvailable() - orderItemDto.getQuantity());
                 productRepository.save(product);
-            }
+            });
             orders.setOrderItems(orderItems);
             return orderRepository.save(orders);
         } else {
