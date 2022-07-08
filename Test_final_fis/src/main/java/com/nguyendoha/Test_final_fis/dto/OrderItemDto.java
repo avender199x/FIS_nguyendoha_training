@@ -1,7 +1,5 @@
 package com.nguyendoha.Test_final_fis.dto;
 
-import com.nguyendoha.Test_final_fis.model.Order;
-import com.nguyendoha.Test_final_fis.model.Product;
 import lombok.Builder;
 import lombok.Data;
 
