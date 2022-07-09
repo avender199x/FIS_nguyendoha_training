@@ -18,7 +18,7 @@ public class GroupDto {
     private LocalDateTime modifiedAt;
     private String groupName;
     private List<UserInfoDto> user;
-    private List<PostsDto> posts;
+    private List<PostsInfoDto> posts;
 
     public static GroupDto fromEntity(Group group) {
         return GroupDto.builder()
@@ -27,7 +27,7 @@ public class GroupDto {
                 .modifiedAt(group.getModifiedAt())
                 .groupName(group.getGroupName())
                 .user(group.getUsers().stream().map(UserInfoDto::fromEntity).collect(Collectors.toList()))
-                .posts(group.getPosts().stream().map(PostsDto::fromEntity).collect(Collectors.toList()))
+                .posts(group.getPosts().stream().map(PostsInfoDto::fromEntity).collect(Collectors.toList()))
                 .build();
     }
 
