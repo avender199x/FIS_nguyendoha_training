@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
@@ -42,19 +43,19 @@ public class PostsServiceImp implements PostsService {
         this.commentRepository = commentRepository;
         this.groupRepository = groupRepository;
     }
-
+    @Transactional(readOnly = true)
     @Override
     public Page<PostsInfoDto> findAll(Pageable pageable) {
         return postsRepository.findAll(pageable).map(PostsInfoDto::fromEntity);
     }
-
+    @Transactional(readOnly = true)
     @Override
     public PostsInfoDto findById(Long id) {
         return postsRepository.findById(id).map(PostsInfoDto::fromEntity).orElseThrow(() -> {
             throw new PostsNotFoundException("Posts not found");
         });
     }
-
+    @Transactional
     @Override
     public PostsInfoDto save(PostsDtoReq posts) {
         User user = userRepository.findById(posts.getUser()).orElseThrow(() -> {
@@ -79,7 +80,7 @@ public class PostsServiceImp implements PostsService {
             throw new PostsError("Save Posts False , check again");
         }
     }
-
+    @Transactional
     @Override
     public PostsInfoDto update(Long id, PostsDtoReq posts) {
         Posts update = postsRepository.findById(id).orElseThrow(() -> {
@@ -105,7 +106,7 @@ public class PostsServiceImp implements PostsService {
             throw new PostsError("update Posts false ,check again");
         }
     }
-
+    @Transactional
     @Override
     public void delete(Long id) {
         postsRepository.findById(id).orElseThrow(() -> {
@@ -114,62 +115,5 @@ public class PostsServiceImp implements PostsService {
         postsRepository.deleteById(id);
     }
 
-    public PostsInfoDto addComment(CommentDtoReq commentDtoReq) {
-        Posts posts = postsRepository.findById(commentDtoReq.getPosts()).orElseThrow(() -> {
-            throw new CommentError("posts not found");
-        });
-        User user = userRepository.findById(commentDtoReq.getUser()).orElseThrow(() -> {
-            throw new CommentError("user not found");
-        });
-        if (CheckComment.check(commentDtoReq)) {
-            Comment comment = Comment.builder()
-                    .id(commentDtoReq.getId())
-                    .posts(posts)
-                    .createdAt(LocalDateTime.now())
-                    .modifiedAt(commentDtoReq.getModifiedAt())
-                    .user(user)
-                    .comment(commentDtoReq.getComment())
-                    .build();
-            commentRepository.save(comment);
-            return PostsInfoDto.fromEntity(posts);
-        } else {
-            log.error("\n-- Save Comment False --" + "\nTime : "
-                    + LocalDateTime.now() + "\nComment : " + commentDtoReq);
-            throw new CommentError("Save Comment false , check again");
-        }
-    }
-
-    public PostsInfoDto updateComment(Long CommentId, CommentDtoReq commentDtoReq) {
-        Comment update = commentRepository.findById(CommentId).orElseThrow(() -> {
-            throw new CommentNotFound("comment not found");
-        });
-        User user = userRepository.findById(commentDtoReq.getUser()).orElseThrow(() -> {
-            throw new CommentError("user not found");
-        });
-        Posts posts = postsRepository.findById(commentDtoReq.getPosts()).orElseThrow(() -> {
-            throw new CommentError("posts not found");
-        });
-        if (CheckComment.check(commentDtoReq)) {
-            update.setComment(commentDtoReq.getComment());
-            update.setPosts(posts);
-            update.setModifiedAt(LocalDateTime.now());
-            update.setCreatedAt(commentDtoReq.getCreatedAt());
-            update.setUser(user);
-            commentRepository.save(update);
-            return PostsInfoDto.fromEntity(posts);
-        } else {
-            log.error("\n-- Update Comment False --" + "\nTime : "
-                    + LocalDateTime.now() + "\nCommentId : " + CommentId + "\nComment : " + commentDtoReq);
-            throw new CommentError("Update comment false , check again");
-        }
-    }
-
-    public PostsInfoDto removeComment(Long id) {
-        Comment comment = commentRepository.findById(id).orElseThrow(() -> {
-            throw new CommentNotFound("comment not found");
-        });
-        commentRepository.delete(comment);
-        return PostsInfoDto.fromEntity(comment.getPosts());
-    }
 
 }

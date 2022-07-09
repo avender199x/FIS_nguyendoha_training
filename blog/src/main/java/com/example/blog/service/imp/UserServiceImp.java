@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -26,11 +27,13 @@ public class UserServiceImp implements UserService {
         this.userRepository = repository;
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Page<UserDto> findAll(Pageable pageable) {
         return userRepository.findAll(pageable).map(UserDto::fromEntity);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public UserDto findById(Long id) {
         return userRepository.findById(id).map(UserDto::fromEntity).orElseThrow(
@@ -40,6 +43,7 @@ public class UserServiceImp implements UserService {
         );
     }
 
+    @Transactional
     @Override
     public UserDto save(User user) {
         if (CheckUser.check(user) &&
@@ -51,6 +55,7 @@ public class UserServiceImp implements UserService {
         }
     }
 
+    @Transactional
     @Override
     public UserDto update(Long id, User user) {
         Optional<User> update = userRepository.findById(id);
@@ -68,6 +73,7 @@ public class UserServiceImp implements UserService {
         }
     }
 
+    @Transactional
     @Override
     public void delete(Long id) {
         userRepository.findById(id).orElseThrow(() -> {
