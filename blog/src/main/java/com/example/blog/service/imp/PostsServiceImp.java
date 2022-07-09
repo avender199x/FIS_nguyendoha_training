@@ -1,7 +1,7 @@
 package com.example.blog.service.imp;
 
 
-import com.example.blog.dto.PostsInfoDto;
+import com.example.blog.dto.Res.PostsInfoDto;
 import com.example.blog.entity.Posts;
 import com.example.blog.exception.PostsError;
 import com.example.blog.exception.PostsNotFoundException;
@@ -73,5 +73,9 @@ public class PostsServiceImp implements PostsService {
             throw new PostsNotFoundException("posts not found");
         });
         postsRepository.deleteById(id);
+    }
+
+    public PostsInfoDto addComment() {
+        return null;
     }
 }

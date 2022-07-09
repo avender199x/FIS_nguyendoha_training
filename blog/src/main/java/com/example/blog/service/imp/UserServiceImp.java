@@ -1,9 +1,6 @@
 package com.example.blog.service.imp;
 
-import com.example.blog.dto.PostsInfoDto;
-import com.example.blog.dto.UserDto;
-import com.example.blog.entity.Comment;
-import com.example.blog.entity.Posts;
+import com.example.blog.dto.Res.UserDto;
 import com.example.blog.entity.User;
 import com.example.blog.exception.UserError;
 import com.example.blog.exception.UserNotFoundException;

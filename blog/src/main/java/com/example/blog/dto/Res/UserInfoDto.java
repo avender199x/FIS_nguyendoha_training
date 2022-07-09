@@ -1,4 +1,4 @@
-package com.example.blog.dto;
+package com.example.blog.dto.Res;
 
 import com.example.blog.entity.Ennum.UserStatus;
 import com.example.blog.entity.User;

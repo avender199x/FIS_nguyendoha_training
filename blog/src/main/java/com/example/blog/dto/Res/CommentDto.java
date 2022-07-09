@@ -1,7 +1,6 @@
-package com.example.blog.dto;
+package com.example.blog.dto.Res;
 
 import com.example.blog.entity.Comment;
-import com.example.blog.entity.User;
 import lombok.Builder;
 import lombok.Data;
 
