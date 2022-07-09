@@ -1,17 +1,21 @@
 package com.example.blog.service.imp;
 
 
+import com.example.blog.dto.Req.CommentDtoReq;
 import com.example.blog.dto.Req.PostsDtoReq;
 import com.example.blog.dto.Res.PostsDto;
 import com.example.blog.dto.Res.PostsInfoDto;
+import com.example.blog.entity.Comment;
 import com.example.blog.entity.Posts;
 import com.example.blog.entity.User;
+import com.example.blog.exception.CommentError;
 import com.example.blog.exception.PostsError;
 import com.example.blog.exception.PostsNotFoundException;
 import com.example.blog.exception.UserNotFoundException;
 import com.example.blog.repository.PostsRepository;
 import com.example.blog.repository.UserRepository;
 import com.example.blog.service.PostsService;
+import com.example.blog.until.CheckComment;
 import com.example.blog.until.CheckPosts;
 import lombok.extern.slf4j.Slf4j;
 
@@ -98,7 +102,26 @@ public class PostsServiceImp implements PostsService {
         postsRepository.deleteById(id);
     }
 
-    public PostsInfoDto addComment() {
-        return null;
+    public PostsInfoDto addComment(Long id, CommentDtoReq commentDtoReq) {
+        Posts posts = postsRepository.findById(id).orElseThrow(() -> {
+            throw new CommentError("posts not found");
+        });
+        User user = userRepository.findById(commentDtoReq.getUser()).orElseThrow(() -> {
+            throw new CommentError("user not found");
+        });
+        if (CheckComment.check(commentDtoReq)) {
+            Comment comment = Comment.builder()
+                    .id(commentDtoReq.getId())
+                    .posts(posts)
+                    .createdAt(LocalDateTime.now())
+                    .modifiedAt(commentDtoReq.getModifiedAt())
+                    .user(user)
+                    .comment(commentDtoReq.getComment())
+                    .build();
+            posts.getComments().add(comment);
+            return PostsInfoDto.fromEntity(postsRepository.save(posts));
+        } else {
+            throw new CommentError("Save Comment false , check again");
+        }
     }
 }
