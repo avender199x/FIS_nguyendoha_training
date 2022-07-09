@@ -27,6 +27,6 @@ public class Group {
     private String groupName;
     @ManyToMany(mappedBy = "groups")
     private List<User> users;
-    @OneToMany(mappedBy = "group")
+    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
     private List<Posts> posts;
 }

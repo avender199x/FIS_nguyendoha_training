@@ -36,9 +36,9 @@ public class User {
     @OneToOne
     @JoinColumn(name = "role_id")
     private Role role;
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Posts> posts;
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Comment> comments;
     @ManyToMany
     @JoinTable(name = "user_group",

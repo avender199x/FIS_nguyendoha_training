@@ -30,7 +30,7 @@ public class Posts {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-    @OneToMany(mappedBy = "posts")
+    @OneToMany(mappedBy = "posts", cascade = CascadeType.ALL)
     List<Comment> comments;
     @ManyToOne
     @JoinColumn(name = "group_id")
