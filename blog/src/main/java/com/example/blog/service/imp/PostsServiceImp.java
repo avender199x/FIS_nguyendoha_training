@@ -8,10 +8,8 @@ import com.example.blog.dto.Res.PostsInfoDto;
 import com.example.blog.entity.Comment;
 import com.example.blog.entity.Posts;
 import com.example.blog.entity.User;
-import com.example.blog.exception.CommentError;
-import com.example.blog.exception.PostsError;
-import com.example.blog.exception.PostsNotFoundException;
-import com.example.blog.exception.UserNotFoundException;
+import com.example.blog.exception.*;
+import com.example.blog.repository.CommentRepository;
 import com.example.blog.repository.PostsRepository;
 import com.example.blog.repository.UserRepository;
 import com.example.blog.service.PostsService;
@@ -31,13 +29,14 @@ import java.time.LocalDateTime;
 public class PostsServiceImp implements PostsService {
     private PostsRepository postsRepository;
     private UserRepository userRepository;
+    private CommentRepository commentRepository;
 
     @Autowired
-    public PostsServiceImp(PostsRepository postsRepository, UserRepository userRepository) {
+    public PostsServiceImp(PostsRepository postsRepository, UserRepository userRepository, CommentRepository commentRepository) {
         this.postsRepository = postsRepository;
         this.userRepository = userRepository;
+        this.commentRepository = commentRepository;
     }
-
 
     @Override
     public Page<PostsInfoDto> findAll(Pageable pageable) {
@@ -124,4 +123,13 @@ public class PostsServiceImp implements PostsService {
             throw new CommentError("Save Comment false , check again");
         }
     }
+
+    public PostsInfoDto removeComment(Long id) {
+        Comment comment = commentRepository.findById(id).orElseThrow(() -> {
+            throw new CommentNotFound("comment not found");
+        });
+        commentRepository.delete(comment);
+        return PostsInfoDto.fromEntity(comment.getPosts());
+    }
+
 }
