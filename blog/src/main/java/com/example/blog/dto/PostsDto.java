@@ -1,6 +1,7 @@
 package com.example.blog.dto;
 
 
+import com.example.blog.entity.Group;
 import com.example.blog.entity.Posts;
 import lombok.Builder;
 import lombok.Data;

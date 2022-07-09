@@ -19,21 +19,21 @@ import java.util.Optional;
 @Slf4j
 @Service
 public class UserServiceImp implements UserService {
-    private UserRepository repository;
+    private UserRepository userRepository;
 
     @Autowired
     public UserServiceImp(UserRepository repository) {
-        this.repository = repository;
+        this.userRepository = repository;
     }
 
     @Override
     public Page<UserDto> findAll(Pageable pageable) {
-        return repository.findAll(pageable).map(UserDto::fromEntity);
+        return userRepository.findAll(pageable).map(UserDto::fromEntity);
     }
 
     @Override
     public UserDto findById(Long id) {
-        return repository.findById(id).map(UserDto::fromEntity).orElseThrow(
+        return userRepository.findById(id).map(UserDto::fromEntity).orElseThrow(
                 () -> {
                     throw new UserNotFoundException("User not found");
                 }
@@ -42,8 +42,9 @@ public class UserServiceImp implements UserService {
 
     @Override
     public UserDto save(User user) {
-        if (CheckUser.check(user)) {
-            return UserDto.fromEntity(repository.save(user));
+        if (CheckUser.check(user) &&
+                userRepository.findByPhone(user.getPhone()).isEmpty()) {
+            return UserDto.fromEntity(userRepository.save(user));
         } else {
             log.error("\n -- Save false -- " + "\nTime : " + LocalDateTime.now() + "\n User : " + user);
             throw new UserError("Error save");
@@ -52,14 +53,14 @@ public class UserServiceImp implements UserService {
 
     @Override
     public UserDto update(Long id, User user) {
-        Optional<User> update = repository.findById(id);
+        Optional<User> update = userRepository.findById(id);
         if (update.isPresent() && CheckUser.check(user)) {
             update.get().setName(user.getName());
             update.get().setModifiedAt(LocalDateTime.now());
             update.get().setPassword(user.getPassword());
             update.get().setPhone(user.getPhone());
             update.get().setStatus(update.get().getStatus());
-            return UserDto.fromEntity(repository.save(update.get()));
+            return UserDto.fromEntity(userRepository.save(update.get()));
         } else {
             log.error("\n -- update false -- " + "\nTime : "
                     + LocalDateTime.now() + "\nUserId : " + id + "\nUser : " + user);
@@ -69,6 +70,6 @@ public class UserServiceImp implements UserService {
 
     @Override
     public void delete(Long id) {
-        repository.deleteById(id);
+        userRepository.deleteById(id);
     }
 }
