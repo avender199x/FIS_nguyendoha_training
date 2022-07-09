@@ -34,6 +34,7 @@ public class CommentServiceImp implements CommentService {
         this.postsRepository = postsRepository;
         this.commentRepository = commentRepository;
     }
+
     @Transactional
     @Override
     public PostsInfoDto save(CommentDtoReq commentDtoReq) {
@@ -58,6 +59,7 @@ public class CommentServiceImp implements CommentService {
             throw new PostsError("save comment false , check again");
         }
     }
+
     @Transactional
     @Override
     public PostsInfoDto update(Long id, CommentDtoReq commentDtoReq) {
@@ -79,6 +81,8 @@ public class CommentServiceImp implements CommentService {
             commentRepository.save(update);
             return PostsInfoDto.fromEntity(posts);
         } else {
+            log.error("\n -- update comment false -- " + "\n Time : "
+                    + LocalDateTime.now() + "CommentId : " + id + "\nComment : " + commentDtoReq);
             throw new CommentError("update comment false , check again");
         }
     }
