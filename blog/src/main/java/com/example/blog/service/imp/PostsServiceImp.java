@@ -32,22 +32,21 @@ import java.time.LocalDateTime;
 public class PostsServiceImp implements PostsService {
     private PostsRepository postsRepository;
     private UserRepository userRepository;
-    private CommentRepository commentRepository;
     private GroupRepository groupRepository;
 
     @Autowired
-    public PostsServiceImp(PostsRepository postsRepository, UserRepository userRepository,
-                           CommentRepository commentRepository, GroupRepository groupRepository) {
+    public PostsServiceImp(PostsRepository postsRepository, UserRepository userRepository, GroupRepository groupRepository) {
         this.postsRepository = postsRepository;
         this.userRepository = userRepository;
-        this.commentRepository = commentRepository;
         this.groupRepository = groupRepository;
     }
+
     @Transactional(readOnly = true)
     @Override
     public Page<PostsInfoDto> findAll(Pageable pageable) {
         return postsRepository.findAll(pageable).map(PostsInfoDto::fromEntity);
     }
+
     @Transactional(readOnly = true)
     @Override
     public PostsInfoDto findById(Long id) {
@@ -55,6 +54,7 @@ public class PostsServiceImp implements PostsService {
             throw new PostsNotFoundException("Posts not found");
         });
     }
+
     @Transactional
     @Override
     public PostsInfoDto save(PostsDtoReq posts) {
@@ -80,6 +80,7 @@ public class PostsServiceImp implements PostsService {
             throw new PostsError("Save Posts False , check again");
         }
     }
+
     @Transactional
     @Override
     public PostsInfoDto update(Long id, PostsDtoReq posts) {
@@ -106,6 +107,7 @@ public class PostsServiceImp implements PostsService {
             throw new PostsError("update Posts false ,check again");
         }
     }
+
     @Transactional
     @Override
     public void delete(Long id) {
