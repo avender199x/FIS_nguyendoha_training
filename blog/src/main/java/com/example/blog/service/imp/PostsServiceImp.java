@@ -31,15 +31,12 @@ import java.time.LocalDateTime;
 public class PostsServiceImp implements PostsService {
     private PostsRepository postsRepository;
     private UserRepository userRepository;
-    private CommentRepository commentRepository;
     private GroupRepository groupRepository;
 
     @Autowired
-    public PostsServiceImp(PostsRepository postsRepository, UserRepository userRepository,
-                           CommentRepository commentRepository, GroupRepository groupRepository) {
+    public PostsServiceImp(PostsRepository postsRepository, UserRepository userRepository, GroupRepository groupRepository) {
         this.postsRepository = postsRepository;
         this.userRepository = userRepository;
-        this.commentRepository = commentRepository;
         this.groupRepository = groupRepository;
     }
 
@@ -113,6 +110,4 @@ public class PostsServiceImp implements PostsService {
         });
         postsRepository.deleteById(id);
     }
-    
-
 }
