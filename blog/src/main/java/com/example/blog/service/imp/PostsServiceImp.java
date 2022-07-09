@@ -31,12 +31,15 @@ import java.time.LocalDateTime;
 public class PostsServiceImp implements PostsService {
     private PostsRepository postsRepository;
     private UserRepository userRepository;
+    private CommentRepository commentRepository;
     private GroupRepository groupRepository;
 
     @Autowired
-    public PostsServiceImp(PostsRepository postsRepository, UserRepository userRepository, GroupRepository groupRepository) {
+    public PostsServiceImp(PostsRepository postsRepository, UserRepository userRepository,
+                           CommentRepository commentRepository, GroupRepository groupRepository) {
         this.postsRepository = postsRepository;
         this.userRepository = userRepository;
+        this.commentRepository = commentRepository;
         this.groupRepository = groupRepository;
     }
 
@@ -110,4 +113,48 @@ public class PostsServiceImp implements PostsService {
         });
         postsRepository.deleteById(id);
     }
+
+    public PostsInfoDto addComment(Long PostsId, CommentDtoReq commentDtoReq) {
+        Posts posts = postsRepository.findById(PostsId).orElseThrow(() -> {
+            throw new CommentError("posts not found");
+        });
+        User user = userRepository.findById(commentDtoReq.getUser()).orElseThrow(() -> {
+            throw new CommentError("user not found");
+        });
+        if (CheckComment.check(commentDtoReq)) {
+            Comment comment = Comment.builder()
+                    .id(commentDtoReq.getId())
+                    .posts(posts)
+                    .createdAt(LocalDateTime.now())
+                    .modifiedAt(commentDtoReq.getModifiedAt())
+                    .user(user)
+                    .comment(commentDtoReq.getComment())
+                    .build();
+            posts.getComments().add(comment);
+            return PostsInfoDto.fromEntity(postsRepository.save(posts));
+        } else {
+            throw new CommentError("Save Comment false , check again");
+        }
+    }
+
+    public PostsInfoDto updateComment(Long CommentId, CommentDtoReq commentDtoReq) {
+        Comment update = commentRepository.findById(CommentId).orElseThrow(() -> {
+            throw new CommentNotFound("comment not found");
+        });
+        User user = userRepository.findById(commentDtoReq.getUser()).orElseThrow(() -> {
+            throw new CommentError("user not found");
+        });
+        Posts posts = postsRepository.findById(commentDtoReq.getPosts()).orElseThrow(() -> {
+            throw new CommentError("posts not found");
+        });
+    }
+
+    public PostsInfoDto removeComment(Long id) {
+        Comment comment = commentRepository.findById(id).orElseThrow(() -> {
+            throw new CommentNotFound("comment not found");
+        });
+        commentRepository.delete(comment);
+        return PostsInfoDto.fromEntity(comment.getPosts());
+    }
+
 }

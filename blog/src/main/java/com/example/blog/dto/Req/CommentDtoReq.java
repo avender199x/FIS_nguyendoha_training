@@ -14,4 +14,5 @@ public class CommentDtoReq {
     private LocalDateTime modifiedAt;
     private String comment;
     private Long user;
+    private Long posts;
 }
