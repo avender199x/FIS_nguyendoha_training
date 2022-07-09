@@ -1,6 +1,9 @@
 package com.example.blog.service.imp;
 
+import com.example.blog.dto.PostsInfoDto;
 import com.example.blog.dto.UserDto;
+import com.example.blog.entity.Comment;
+import com.example.blog.entity.Posts;
 import com.example.blog.entity.User;
 import com.example.blog.exception.UserError;
 import com.example.blog.exception.UserNotFoundException;
@@ -46,8 +49,8 @@ public class UserServiceImp implements UserService {
                 userRepository.findByPhone(user.getPhone()).isEmpty()) {
             return UserDto.fromEntity(userRepository.save(user));
         } else {
-            log.error("\n -- Save false -- " + "\nTime : " + LocalDateTime.now() + "\n User : " + user);
-            throw new UserError("Error save");
+            log.error("\n -- Save User false -- " + "\nTime : " + LocalDateTime.now() + "\n User : " + user);
+            throw new UserError("Save User false , check again");
         }
     }
 
@@ -62,9 +65,9 @@ public class UserServiceImp implements UserService {
             update.get().setStatus(update.get().getStatus());
             return UserDto.fromEntity(userRepository.save(update.get()));
         } else {
-            log.error("\n -- update false -- " + "\nTime : "
+            log.error("\n -- update User false -- " + "\nTime : "
                     + LocalDateTime.now() + "\nUserId : " + id + "\nUser : " + user);
-            throw new UserError("Error update");
+            throw new UserError("Update User false , check again");
         }
     }
 
@@ -72,4 +75,5 @@ public class UserServiceImp implements UserService {
     public void delete(Long id) {
         userRepository.deleteById(id);
     }
+
 }
