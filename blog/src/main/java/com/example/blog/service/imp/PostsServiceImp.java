@@ -51,11 +51,27 @@ public class PostsServiceImp implements PostsService {
 
     @Override
     public PostsInfoDto update(Long id, Posts posts) {
-        return null;
+        Posts update = postsRepository.findById(id).orElseThrow(() -> {
+            throw new PostsNotFoundException("Posts not found");
+        });
+        if (CheckPosts.check(posts)) {
+            update.setPosts(posts.getPosts());
+            update.setModifiedAt(LocalDateTime.now());
+            update.setTitle(posts.getTitle());
+            update.setModifiedAt(posts.getCreatedAt());
+            return PostsInfoDto.fromEntity(postsRepository.save(update));
+        } else {
+            log.error("\n-- Update Posts False --" + "\nTime : "
+                    + LocalDateTime.now() + "\nPostsId : " + id + "\nPosts : " + posts);
+            throw new PostsError("update Posts false ,check again");
+        }
     }
 
     @Override
     public void delete(Long id) {
-
+        postsRepository.findById(id).orElseThrow(() -> {
+            throw new PostsNotFoundException("posts not found");
+        });
+        postsRepository.deleteById(id);
     }
 }
