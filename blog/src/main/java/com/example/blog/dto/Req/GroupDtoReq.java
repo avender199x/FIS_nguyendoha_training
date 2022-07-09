@@ -1,6 +1,7 @@
 package com.example.blog.dto.Req;
 
-import com.example.blog.dto.Res.CommentDto;
+import com.example.blog.entity.Posts;
+import com.example.blog.entity.User;
 import lombok.Builder;
 import lombok.Data;
 
@@ -9,13 +10,11 @@ import java.util.List;
 
 @Data
 @Builder
-public class PostsDtoReq {
+public class GroupDtoReq {
     private Long id;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
-    private String title;
-    private String posts;
-    private Long user;
-    private List<CommentDtoReq> comments;
-    private Long Group;
+    private String groupName;
+    private List<User> users;
+    private List<Posts> posts;
 }
