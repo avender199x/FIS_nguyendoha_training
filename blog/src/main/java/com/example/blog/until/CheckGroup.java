@@ -5,7 +5,7 @@ import com.example.blog.exception.GroupNameException;
 
 public final class CheckGroup {
     public static void check(GroupDtoReq groupDtoReq) {
-        Boolean checkGroupName = groupDtoReq.getGroupName().length() > 5 && groupDtoReq.getGroupName().length() < 60;
+        boolean checkGroupName = groupDtoReq.getGroupName().length() > 5 && groupDtoReq.getGroupName().length() < 60;
         if (!checkGroupName) {
             throw new GroupNameException("group name > 5 characters and group name < 60 characters");
         }
