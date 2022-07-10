@@ -24,7 +24,7 @@ public class User {
     private LocalDateTime createdAt;
     @Column(name = "modified_at")
     private LocalDateTime modifiedAt;
-    @Column(name = "name", nullable = false, length = 40)
+    @Column(name = "name", nullable = false, length = 60)
     private String name;
     @Column(name = "phone", nullable = false, length = 10)
     private String phone;

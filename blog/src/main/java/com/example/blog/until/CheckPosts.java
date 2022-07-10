@@ -16,6 +16,6 @@ public final class CheckPosts {
         if (!checkPosts) {
             throw new PostsCharactersException("posts > 15 characters");
         }
-        return checkTitle && checkPosts;
+        return true;
     }
 }
