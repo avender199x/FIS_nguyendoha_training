@@ -89,4 +89,74 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
                         .message(e.getMessage())
                         .build());
     }
+
+    @ExceptionHandler(value = {GroupNotFoundException.class})
+    public ResponseEntity<Message> GroupNotFoundException(Exception e) {
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(Message.builder()
+                        .code(Constant.GROUP_NOT_FOUND)
+                        .message(e.getMessage())
+                        .build());
+    }
+
+    @ExceptionHandler(value = {GroupNameException.class})
+    public ResponseEntity<Message> GroupNameException(Exception e) {
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(Message.builder()
+                        .code(Constant.GROUP_NAME_EXCEPTION)
+                        .message(e.getMessage())
+                        .build());
+    }
+
+    @ExceptionHandler(value = {GroupError.class})
+    public ResponseEntity<Message> GroupError(Exception e) {
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(Message.builder()
+                        .code(Constant.GROUP_ERROR)
+                        .message(e.getMessage())
+                        .build());
+    }
+
+    @ExceptionHandler(value = {CommentNotFound.class})
+    public ResponseEntity<Message> CommentNotFound(Exception e) {
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(Message.builder()
+                        .code(Constant.COMMENT_NOT_FOUND)
+                        .message(e.getMessage())
+                        .build());
+    }
+
+    @ExceptionHandler(value = {CommentError.class})
+    public ResponseEntity<Message> CommentError(Exception e) {
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(Message.builder()
+                        .code(Constant.COMMENT_ERROR)
+                        .message(e.getMessage())
+                        .build());
+    }
+
+    @ExceptionHandler(value = {CommentCharactersException.class})
+    public ResponseEntity<Message> CommentCharactersException(Exception e) {
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(Message.builder()
+                        .code(Constant.COMMENT_CHARACTERS_EXCEPTION)
+                        .message(e.getMessage())
+                        .build());
+    }
+
+    @ExceptionHandler(value = {Exception.class})
+    public ResponseEntity<Message> InternalServerError(Exception e) {
+        return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(Message.builder()
+                        .code(Constant.INTERNAL_SERVER_ERROR)
+                        .message(e.getMessage())
+                        .build());
+    }
 }
