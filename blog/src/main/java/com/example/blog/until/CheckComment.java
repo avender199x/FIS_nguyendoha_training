@@ -9,6 +9,6 @@ public final class CheckComment {
         if (!checkComment) {
             throw new CommentCharactersException("comment > 5 characters and comment < 100 characters");
         }
-        
+
     }
 }
