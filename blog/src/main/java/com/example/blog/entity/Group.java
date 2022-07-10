@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -25,6 +27,7 @@ public class Group {
     private LocalDateTime modifiedAt;
     @Column(name = "group_name", nullable = false, length = 60)
     private String groupName;
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @ManyToMany(mappedBy = "groups")
     private List<User> users;
     @OneToMany(mappedBy = "group", cascade = CascadeType.ALL)

@@ -81,6 +81,7 @@ public class GroupServiceImp implements GroupService {
         groupRepository.deleteById(id);
     }
 
+    @Transactional
     public GroupDto addUser(Long id) {
         return null;
     }
