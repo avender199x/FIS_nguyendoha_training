@@ -57,20 +57,16 @@ public class UserServiceImp implements UserService {
     @Transactional
     @Override
     public UserDto update(Long id, User user) {
-        Optional<User> update = userRepository.findById(id);
+        User update = userRepository.findById(id).orElseThrow(() -> {
+            throw new UserNotFoundException("user not found");
+        });
         CheckUser.check(user);
-        if (update.isPresent()) {
-            update.get().setName(user.getName());
-            update.get().setModifiedAt(LocalDateTime.now());
-            update.get().setPassword(user.getPassword());
-            update.get().setPhone(user.getPhone());
-            update.get().setStatus(update.get().getStatus());
-            return UserDto.fromEntity(userRepository.save(update.get()));
-        } else {
-            log.error("\n -- update User false -- " + "\nTime : "
-                    + LocalDateTime.now() + "\nUserId : " + id + "\nUser : " + user);
-            throw new UserError("Update User false , check again");
-        }
+        update.setName(user.getName());
+        update.setModifiedAt(LocalDateTime.now());
+        update.setPassword(user.getPassword());
+        update.setPhone(user.getPhone());
+        update.setStatus(user.getStatus());
+        return UserDto.fromEntity(userRepository.save(update));
     }
 
     @Transactional
