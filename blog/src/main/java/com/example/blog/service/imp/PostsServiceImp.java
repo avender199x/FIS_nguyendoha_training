@@ -66,7 +66,6 @@ public class PostsServiceImp implements PostsService {
         });
         if (CheckPosts.check(posts)) {
             Posts save = Posts.builder()
-                    .id(posts.getId())
                     .posts(posts.getPosts())
                     .createdAt(LocalDateTime.now())
                     .modifiedAt(posts.getModifiedAt())
