@@ -76,6 +76,9 @@ public class GroupServiceImp implements GroupService {
     @Transactional
     @Override
     public void delete(Long id) {
-
+        groupRepository.findById(id).orElseThrow(() -> {
+            throw new GroupNotFoundException("group not found");
+        });
+        groupRepository.deleteById(id);
     }
 }
