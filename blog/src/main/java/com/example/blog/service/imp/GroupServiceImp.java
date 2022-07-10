@@ -84,6 +84,7 @@ public class GroupServiceImp implements GroupService {
     }
 
     @Transactional
+    @Override
     public GroupDto addUser(Long groupId, GroupDtoReq groupDtoReq) {
         Group group = groupRepository.findById(groupId).orElseThrow(() -> {
             throw new GroupNotFoundException("group not found");
@@ -100,6 +101,7 @@ public class GroupServiceImp implements GroupService {
     }
 
     @Transactional
+    @Override
     public GroupDto removeUserInGroup(Long groupId, GroupDtoReq groupDtoReq) {
         Group group = groupRepository.findById(groupId).orElseThrow(() -> {
             throw new GroupNotFoundException("group not found");
