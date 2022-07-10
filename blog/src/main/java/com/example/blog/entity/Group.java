@@ -23,7 +23,7 @@ public class Group {
     private LocalDateTime createdAt;
     @Column(name = "modified_at")
     private LocalDateTime modifiedAt;
-    @Column(name = "group_name", nullable = false, length = 50)
+    @Column(name = "group_name", nullable = false, length = 60)
     private String groupName;
     @ManyToMany(mappedBy = "groups")
     private List<User> users;

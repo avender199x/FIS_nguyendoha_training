@@ -8,9 +8,9 @@ public interface MethodBasic<DtoReq, DtoRes, ID> {
 
     public DtoRes findById(Long id);
 
-    public DtoRes save(DtoReq t);
+    public DtoRes save(DtoReq dtoReq);
 
-    public DtoRes update(Long id, DtoReq t);
+    public DtoRes update(Long id, DtoReq dtoReq);
 
     public void delete(Long id);
 }

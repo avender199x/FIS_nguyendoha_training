@@ -28,6 +28,7 @@ public class GroupServiceImp implements GroupService {
         this.postsRepository = postsRepository;
     }
 
+
     @Override
     public Page<GroupDto> findAll(Pageable pageable) {
         return groupRepository.findAll(pageable).map(GroupDto::fromEntity);
@@ -35,18 +36,19 @@ public class GroupServiceImp implements GroupService {
 
     @Override
     public GroupDto findById(Long id) {
-        return groupRepository.findById(id).map(GroupDto::fromEntity).orElseThrow(() -> {
+        return groupRepository.findById(id).map(GroupDto::fromEntity).orElseThrow(()->{
             throw new GroupNotFoundException("group not found");
         });
     }
 
     @Override
-    public GroupDto save(GroupDtoReq t) {
+    public GroupDto save(GroupDtoReq groupDtoReq) {
+        
         return null;
     }
 
     @Override
-    public GroupDto update(Long id, GroupDtoReq t) {
+    public GroupDto update(Long id, GroupDtoReq groupDtoReq) {
         return null;
     }
 
