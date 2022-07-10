@@ -93,6 +93,9 @@ public class CommentServiceImp implements CommentService {
                 .comment(commentDtoReq.getComment())
                 .posts(posts)
                 .build();
-        commentRepository.delete(comment);
+        Comment delete = commentRepository.findByComment(comment).orElseThrow(() -> {
+            throw new CommentNotFound("comment not found");
+        });
+        commentRepository.delete(delete);
     }
 }
