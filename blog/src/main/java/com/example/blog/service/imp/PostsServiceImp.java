@@ -1,22 +1,17 @@
 package com.example.blog.service.imp;
 
 
-import com.example.blog.dto.Req.CommentDtoReq;
 import com.example.blog.dto.Req.PostsDtoReq;
-import com.example.blog.dto.Res.PostsDto;
 import com.example.blog.dto.Res.PostsInfoDto;
-import com.example.blog.entity.Comment;
 import com.example.blog.entity.Group;
 import com.example.blog.entity.Posts;
 import com.example.blog.entity.User;
 import com.example.blog.exception.*;
-import com.example.blog.repository.CommentRepository;
 import com.example.blog.repository.GroupRepository;
 import com.example.blog.repository.PostsRepository;
 import com.example.blog.repository.UserRepository;
 import com.example.blog.service.PostsService;
-import com.example.blog.until.CheckComment;
-import com.example.blog.until.CheckPosts;
+import com.example.blog.utils.CheckPosts;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;

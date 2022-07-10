@@ -1,10 +1,8 @@
-package com.example.blog.until;
+package com.example.blog.utils;
 
 import com.example.blog.dto.Req.PostsDtoReq;
 import com.example.blog.exception.PostsCharactersException;
 import com.example.blog.exception.PostsTitleException;
-import com.example.blog.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 
 public final class CheckPosts {
     public static void check(PostsDtoReq posts) {

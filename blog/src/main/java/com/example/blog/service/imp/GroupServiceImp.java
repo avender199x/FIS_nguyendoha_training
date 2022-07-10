@@ -7,15 +7,13 @@ import com.example.blog.entity.User;
 import com.example.blog.exception.GroupError;
 import com.example.blog.exception.GroupNotFoundException;
 import com.example.blog.repository.GroupRepository;
-import com.example.blog.repository.PostsRepository;
 import com.example.blog.repository.UserRepository;
 import com.example.blog.service.GroupService;
-import com.example.blog.until.CheckGroup;
+import com.example.blog.utils.CheckGroup;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

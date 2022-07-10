@@ -11,7 +11,7 @@ import com.example.blog.repository.CommentRepository;
 import com.example.blog.repository.PostsRepository;
 import com.example.blog.repository.UserRepository;
 import com.example.blog.service.CommentService;
-import com.example.blog.until.CheckComment;
+import com.example.blog.utils.CheckComment;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

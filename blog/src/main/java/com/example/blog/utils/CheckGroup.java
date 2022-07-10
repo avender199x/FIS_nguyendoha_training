@@ -1,4 +1,4 @@
-package com.example.blog.until;
+package com.example.blog.utils;
 
 import com.example.blog.dto.Req.GroupDtoReq;
 import com.example.blog.exception.GroupNameException;
