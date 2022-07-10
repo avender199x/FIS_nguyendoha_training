@@ -36,11 +36,11 @@ public class CommentServiceImp implements CommentService {
 
     @Transactional
     @Override
-    public PostsInfoDto save(CommentDtoReq commentDtoReq) {
+    public PostsInfoDto save(Long PostsId, CommentDtoReq commentDtoReq) {
         User user = userRepository.findById(commentDtoReq.getUser()).orElseThrow(() -> {
             throw new CommentError("user not found");
         });
-        Posts posts = postsRepository.findById(commentDtoReq.getPosts()).orElseThrow(() -> {
+        Posts posts = postsRepository.findById(PostsId).orElseThrow(() -> {
             throw new CommentError("posts not found");
         });
         CheckComment.check(commentDtoReq);
@@ -57,8 +57,8 @@ public class CommentServiceImp implements CommentService {
 
     @Transactional
     @Override
-    public PostsInfoDto update(Long id, CommentDtoReq commentDtoReq) {
-        Comment update = commentRepository.findById(id).orElseThrow(() -> {
+    public PostsInfoDto update(Long CommentId, CommentDtoReq commentDtoReq) {
+        Comment update = commentRepository.findById(CommentId).orElseThrow(() -> {
             throw new CommentNotFound("comment not found");
         });
         User user = userRepository.findById(commentDtoReq.getUser()).orElseThrow(() -> {
@@ -75,7 +75,6 @@ public class CommentServiceImp implements CommentService {
         update.setCreatedAt(commentDtoReq.getCreatedAt());
         commentRepository.save(update);
         return PostsInfoDto.fromEntity(posts);
-
     }
 
     @Transactional

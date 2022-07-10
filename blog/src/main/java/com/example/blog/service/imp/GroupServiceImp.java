@@ -80,4 +80,8 @@ public class GroupServiceImp implements GroupService {
         });
         groupRepository.deleteById(id);
     }
+
+    public GroupDto addUser(Long id) {
+        return null;
+    }
 }
