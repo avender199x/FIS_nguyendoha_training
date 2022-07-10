@@ -3,7 +3,6 @@ package com.example.blog.service.imp;
 import com.example.blog.dto.Req.GroupDtoReq;
 import com.example.blog.dto.Res.GroupDto;
 import com.example.blog.entity.Group;
-import com.example.blog.exception.GroupError;
 import com.example.blog.exception.GroupNotFoundException;
 import com.example.blog.repository.GroupRepository;
 import com.example.blog.repository.PostsRepository;
