@@ -26,8 +26,8 @@ import java.util.List;
 @Service
 @Slf4j
 public class GroupServiceImp implements GroupService {
-    private GroupRepository groupRepository;
-    private UserRepository userRepository;
+    private final GroupRepository groupRepository;
+    private final UserRepository userRepository;
 
     @Autowired
     public GroupServiceImp(GroupRepository groupRepository, UserRepository userRepository) {
@@ -89,7 +89,7 @@ public class GroupServiceImp implements GroupService {
             throw new GroupNotFoundException("group not found");
         });
         List<User> users = new ArrayList<>();
-        groupDtoReq.getUsers().stream().forEach(aLong -> {
+        groupDtoReq.getUsers().forEach(aLong -> {
             User user = userRepository.findById(aLong).orElseThrow(() -> {
                 throw new GroupError("user not found");
             });

@@ -30,9 +30,9 @@ import java.time.LocalDateTime;
 @Service
 @Slf4j
 public class PostsServiceImp implements PostsService {
-    private PostsRepository postsRepository;
-    private UserRepository userRepository;
-    private GroupRepository groupRepository;
+    private final PostsRepository postsRepository;
+    private final UserRepository userRepository;
+    private final GroupRepository groupRepository;
 
     @Autowired
     public PostsServiceImp(PostsRepository postsRepository, UserRepository userRepository, GroupRepository groupRepository) {

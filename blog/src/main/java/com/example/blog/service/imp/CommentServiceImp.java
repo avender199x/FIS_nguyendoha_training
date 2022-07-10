@@ -22,9 +22,9 @@ import java.time.LocalDateTime;
 @Service
 @Slf4j
 public class CommentServiceImp implements CommentService {
-    private UserRepository userRepository;
-    private PostsRepository postsRepository;
-    private CommentRepository commentRepository;
+    private final UserRepository userRepository;
+    private final PostsRepository postsRepository;
+    private final CommentRepository commentRepository;
 
     @Autowired
     public CommentServiceImp(UserRepository userRepository, PostsRepository postsRepository

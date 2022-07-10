@@ -20,7 +20,7 @@ import java.util.Optional;
 @Slf4j
 @Service
 public class UserServiceImp implements UserService {
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Autowired
     public UserServiceImp(UserRepository repository) {
