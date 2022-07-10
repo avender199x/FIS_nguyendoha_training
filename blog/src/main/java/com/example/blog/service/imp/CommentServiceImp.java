@@ -79,10 +79,20 @@ public class CommentServiceImp implements CommentService {
 
     @Transactional
     @Override
-    public void delete(Long id) {
-        commentRepository.findById(id).orElseThrow(() -> {
-            throw new CommentNotFound("comment not found");
+    public void delete(CommentDtoReq commentDtoReq) {
+        User user = userRepository.findById(commentDtoReq.getUser()).orElseThrow(() -> {
+            throw new CommentError("user not found");
         });
-        commentRepository.deleteById(id);
+        Posts posts = postsRepository.findById(commentDtoReq.getPosts()).orElseThrow(() -> {
+            throw new CommentError("posts not found");
+        });
+        Comment comment = Comment.builder()
+                .modifiedAt(commentDtoReq.getModifiedAt())
+                .createdAt(commentDtoReq.getCreatedAt())
+                .user(user)
+                .comment(commentDtoReq.getComment())
+                .posts(posts)
+                .build();
+        commentRepository.delete(comment);
     }
 }

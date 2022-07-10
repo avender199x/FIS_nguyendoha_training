@@ -9,5 +9,5 @@ public interface CommentService {
 
     public PostsInfoDto update(Long id, CommentDtoReq commentDtoReq);
 
-    public void delete(Long id);
+    public void delete(CommentDtoReq commentDtoReq);
 }
