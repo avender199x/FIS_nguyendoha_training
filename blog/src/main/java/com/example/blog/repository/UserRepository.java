@@ -12,5 +12,5 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long> {
     public Optional<User> findByPhone(String phone);
 
-    public Optional<User> findByGroups(List<Group> groups);
+    public List<User> findByGroups(List<Group> groups);
 }

@@ -104,6 +104,15 @@ public class GroupServiceImp implements GroupService {
         Group group = groupRepository.findById(groupId).orElseThrow(() -> {
             throw new GroupNotFoundException("group not found");
         });
-        return null;
+        List<Group> groups = new ArrayList<>();
+        groups.add(group);
+        group.setUsers(userRepository.findByGroups(groups));
+        groupDtoReq.getUsers().forEach(aLong -> {
+            User user = userRepository.findById(aLong).orElseThrow(() -> {
+                throw new GroupError("user not found");
+            });
+            group.getUsers().remove(user);
+        });
+        return GroupDto.fromEntity(groupRepository.save(group));
     }
 }
