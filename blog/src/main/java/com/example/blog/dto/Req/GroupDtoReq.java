@@ -15,6 +15,5 @@ public class GroupDtoReq {
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
     private String groupName;
-    private List<User> users;
-    private List<Posts> posts;
+    private List<Long> users;
 }

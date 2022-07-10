@@ -16,6 +16,5 @@ public class PostsDtoReq {
     private String title;
     private String posts;
     private Long user;
-    private List<CommentDtoReq> comments;
     private Long Group;
 }
