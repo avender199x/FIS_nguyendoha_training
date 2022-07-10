@@ -4,5 +4,5 @@ import com.example.blog.dto.Req.PostsDtoReq;
 import com.example.blog.dto.Res.PostsInfoDto;
 
 public interface PostsService extends MethodBasic<PostsDtoReq, PostsInfoDto, Long> {
-    public void deleteByEntity(PostsInfoDto postsInfoDto);
+
 }

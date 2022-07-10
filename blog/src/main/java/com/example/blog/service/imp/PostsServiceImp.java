@@ -107,13 +107,5 @@ public class PostsServiceImp implements PostsService {
         });
         postsRepository.deleteById(id);
     }
-
-    @Transactional
-    @Override
-    public void deleteByEntity(PostsInfoDto postsInfoDto) {
-        Posts posts = postsRepository.findById(postsInfoDto.getId()).orElseThrow(() -> {
-            throw new PostsNotFoundException("posts not found");
-        });
-        postsRepository.deleteById(postsInfoDto.getId());
-    }
+    
 }
