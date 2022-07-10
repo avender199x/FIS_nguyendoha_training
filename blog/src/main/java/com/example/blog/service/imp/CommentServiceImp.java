@@ -7,7 +7,6 @@ import com.example.blog.entity.Posts;
 import com.example.blog.entity.User;
 import com.example.blog.exception.CommentError;
 import com.example.blog.exception.CommentNotFound;
-import com.example.blog.exception.PostsError;
 import com.example.blog.repository.CommentRepository;
 import com.example.blog.repository.PostsRepository;
 import com.example.blog.repository.UserRepository;
