@@ -98,4 +98,12 @@ public class CommentServiceImp implements CommentService {
         });
         commentRepository.delete(delete);
     }
+
+    @Override
+    public void deleteById(Long id) {
+        commentRepository.findById(id).orElseThrow(() -> {
+            throw new CommentError("posts not found");
+        });
+        commentRepository.deleteById(id);
+    }
 }
