@@ -44,20 +44,16 @@ public class CommentServiceImp implements CommentService {
         Posts posts = postsRepository.findById(commentDtoReq.getPosts()).orElseThrow(() -> {
             throw new CommentError("posts not found");
         });
-        if (CheckComment.check(commentDtoReq)) {
-            Comment save = Comment.builder()
-                    .posts(posts)
-                    .comment(commentDtoReq.getComment())
-                    .user(user)
-                    .createdAt(LocalDateTime.now())
-                    .modifiedAt(commentDtoReq.getModifiedAt())
-                    .build();
-            commentRepository.save(save);
-            return PostsInfoDto.fromEntity(posts);
-        } else {
-            log.error("\n-- save Comment false --" + "\nTime : " + LocalDateTime.now() + "\nComment : " + commentDtoReq);
-            throw new PostsError("save comment false , check again");
-        }
+        CheckComment.check(commentDtoReq);
+        Comment save = Comment.builder()
+                .posts(posts)
+                .comment(commentDtoReq.getComment())
+                .user(user)
+                .createdAt(LocalDateTime.now())
+                .modifiedAt(commentDtoReq.getModifiedAt())
+                .build();
+        commentRepository.save(save);
+        return PostsInfoDto.fromEntity(posts);
     }
 
     @Transactional
@@ -72,19 +68,15 @@ public class CommentServiceImp implements CommentService {
         Posts posts = postsRepository.findById(commentDtoReq.getPosts()).orElseThrow(() -> {
             throw new CommentError("posts not found");
         });
-        if (CheckComment.check(commentDtoReq)) {
-            update.setComment(commentDtoReq.getComment());
-            update.setModifiedAt(LocalDateTime.now());
-            update.setUser(user);
-            update.setPosts(posts);
-            update.setCreatedAt(commentDtoReq.getCreatedAt());
-            commentRepository.save(update);
-            return PostsInfoDto.fromEntity(posts);
-        } else {
-            log.error("\n -- update comment false -- " + "\n Time : "
-                    + LocalDateTime.now() + "CommentId : " + id + "\nComment : " + commentDtoReq);
-            throw new CommentError("update comment false , check again");
-        }
+        CheckComment.check(commentDtoReq);
+        update.setComment(commentDtoReq.getComment());
+        update.setModifiedAt(LocalDateTime.now());
+        update.setUser(user);
+        update.setPosts(posts);
+        update.setCreatedAt(commentDtoReq.getCreatedAt());
+        commentRepository.save(update);
+        return PostsInfoDto.fromEntity(posts);
+
     }
 
     @Transactional

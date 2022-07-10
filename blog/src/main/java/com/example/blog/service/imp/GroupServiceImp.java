@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
@@ -33,12 +34,13 @@ public class GroupServiceImp implements GroupService {
         this.postsRepository = postsRepository;
     }
 
-
+    @Transactional(readOnly = true)
     @Override
     public Page<GroupDto> findAll(Pageable pageable) {
         return groupRepository.findAll(pageable).map(GroupDto::fromEntity);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public GroupDto findById(Long id) {
         return groupRepository.findById(id).map(GroupDto::fromEntity).orElseThrow(() -> {
@@ -46,25 +48,32 @@ public class GroupServiceImp implements GroupService {
         });
     }
 
+    @Transactional
     @Override
-    public GroupDto save(GroupDtoReq groupDtoReq) {
-        if (CheckGroup.check(groupDtoReq)) {
-            Group group = Group.builder()
-                    .createdAt(LocalDateTime.now())
-                    .modifiedAt(groupDtoReq.getModifiedAt())
-                    .groupName(groupDtoReq.getGroupName())
-                    .build();
-            return GroupDto.fromEntity(groupRepository.save(group));
-        } else {
-            throw new GroupError("Save Group false , check again");
-        }
+    public GroupDto save(GroupDtoReq groupDtoReq) throws Error {
+        CheckGroup.check(groupDtoReq);
+        Group group = Group.builder()
+                .createdAt(LocalDateTime.now())
+                .modifiedAt(groupDtoReq.getModifiedAt())
+                .groupName(groupDtoReq.getGroupName())
+                .build();
+        return GroupDto.fromEntity(groupRepository.save(group));
     }
 
+    @Transactional
     @Override
     public GroupDto update(Long id, GroupDtoReq groupDtoReq) {
-        return null;
+        Group update = groupRepository.findById(id).orElseThrow(() -> {
+            throw new GroupNotFoundException("group not found");
+        });
+        CheckGroup.check(groupDtoReq);
+        update.setGroupName(groupDtoReq.getGroupName());
+        update.setCreatedAt(groupDtoReq.getCreatedAt());
+        update.setModifiedAt(LocalDateTime.now());
+        return GroupDto.fromEntity(groupRepository.save(update));
     }
 
+    @Transactional
     @Override
     public void delete(Long id) {
 

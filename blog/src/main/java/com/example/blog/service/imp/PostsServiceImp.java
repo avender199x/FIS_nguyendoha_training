@@ -64,20 +64,16 @@ public class PostsServiceImp implements PostsService {
         Group group = groupRepository.findById(posts.getGroup()).orElseThrow(() -> {
             throw new PostsError("group not found");
         });
-        if (CheckPosts.check(posts)) {
-            Posts save = Posts.builder()
-                    .posts(posts.getPosts())
-                    .createdAt(LocalDateTime.now())
-                    .modifiedAt(posts.getModifiedAt())
-                    .user(user)
-                    .group(group)
-                    .title(posts.getTitle())
-                    .build();
-            return PostsInfoDto.fromEntity(postsRepository.save(save));
-        } else {
-            log.error("\n-- Save Posts False --" + "\nTime : " + LocalDateTime.now() + "\nPosts : " + posts);
-            throw new PostsError("Save Posts False , check again");
-        }
+        CheckPosts.check(posts);
+        Posts save = Posts.builder()
+                .posts(posts.getPosts())
+                .createdAt(LocalDateTime.now())
+                .modifiedAt(posts.getModifiedAt())
+                .user(user)
+                .group(group)
+                .title(posts.getTitle())
+                .build();
+        return PostsInfoDto.fromEntity(postsRepository.save(save));
     }
 
     @Transactional
@@ -92,19 +88,15 @@ public class PostsServiceImp implements PostsService {
         Group group = groupRepository.findById(posts.getGroup()).orElseThrow(() -> {
             throw new PostsError("group not found");
         });
-        if (CheckPosts.check(posts)) {
-            update.setPosts(posts.getPosts());
-            update.setModifiedAt(LocalDateTime.now());
-            update.setTitle(posts.getTitle());
-            update.setUser(user);
-            update.setGroup(group);
-            update.setModifiedAt(posts.getCreatedAt());
-            return PostsInfoDto.fromEntity(postsRepository.save(update));
-        } else {
-            log.error("\n-- Update Posts False --" + "\nTime : "
-                    + LocalDateTime.now() + "\nPostsId : " + id + "\nPosts : " + posts);
-            throw new PostsError("update Posts false ,check again");
-        }
+        CheckPosts.check(posts);
+        update.setPosts(posts.getPosts());
+        update.setModifiedAt(LocalDateTime.now());
+        update.setTitle(posts.getTitle());
+        update.setUser(user);
+        update.setGroup(group);
+        update.setModifiedAt(posts.getCreatedAt());
+        return PostsInfoDto.fromEntity(postsRepository.save(update));
+
     }
 
     @Transactional

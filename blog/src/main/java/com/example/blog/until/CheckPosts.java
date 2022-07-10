@@ -7,7 +7,7 @@ import com.example.blog.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public final class CheckPosts {
-    public static Boolean check(PostsDtoReq posts) {
+    public static void check(PostsDtoReq posts) {
         Boolean checkTitle = posts.getTitle().length() > 10 && posts.getTitle().length() < 60;
         if (!checkTitle) {
             throw new PostsTitleException("posts > 10 characters and posts < 100 characters");
@@ -16,6 +16,5 @@ public final class CheckPosts {
         if (!checkPosts) {
             throw new PostsCharactersException("posts > 15 characters");
         }
-        return true;
     }
 }

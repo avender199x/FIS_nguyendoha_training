@@ -46,12 +46,11 @@ public class UserServiceImp implements UserService {
     @Transactional
     @Override
     public UserDto save(User user) {
-        if (CheckUser.check(user) &&
-                userRepository.findByPhone(user.getPhone()).isEmpty()) {
+        CheckUser.check(user);
+        if (userRepository.findByPhone(user.getPhone()).isEmpty()) {
             return UserDto.fromEntity(userRepository.save(user));
         } else {
-            log.error("\n -- Save User false -- " + "\nTime : " + LocalDateTime.now() + "\n User : " + user);
-            throw new UserError("Save User false , check again");
+            throw new UserError("Save User false , User already exists");
         }
     }
 
@@ -59,7 +58,8 @@ public class UserServiceImp implements UserService {
     @Override
     public UserDto update(Long id, User user) {
         Optional<User> update = userRepository.findById(id);
-        if (update.isPresent() && CheckUser.check(user)) {
+        CheckUser.check(user);
+        if (update.isPresent()) {
             update.get().setName(user.getName());
             update.get().setModifiedAt(LocalDateTime.now());
             update.get().setPassword(user.getPassword());
